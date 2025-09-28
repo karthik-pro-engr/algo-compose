@@ -57,10 +57,10 @@ firebaseAppDistribution {
     appId = "1:849900262025:android:28ecafcd6f792fa14cec58"
 
     // 🔍 Debug print to confirm resolved path
-    println("Resolved Firebase credentials path: ${project.rootDir}/app/firebase-service-account.json")
+    println("Resolved Firebase credentials path: ${file("app/firebase-service-account.json").absolutePath}")
 
     // service account json path (the workflow writes file to repo root)
-    serviceCredentialsFile = "${project.rootDir}/app/firebase-service-account.json"
+    serviceCredentialsFile = file("app/firebase-service-account.json").absolutePath
 
     // who to notify. Either group(s) defined in Firebase console:
     groups = "family" // example group name(s), comma-separated if multiple
