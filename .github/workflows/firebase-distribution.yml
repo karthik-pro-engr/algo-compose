@@ -58,10 +58,15 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease -PversionName=$VERSION_NAME
 
-     # Generate SHA256 checksum
+      # Listing the files
+      - name: Check APK exists
+        run: ls -lh app/build/outputs/apk/release/
+
+      # Generate SHA256 checksum
       - name: Generate SHA256 checksum
         run: |
-              sha256sum app/build/outputs/apk/release/app-release.apk > app/build/outputs/apk/release/app-release.apk.sha256
+          APK=$(find app/build/outputs/apk/release/ -name "*.apk")
+          sha256sum "$APK" > "$APK.sha256"
 
       # Upload signed APK to Firebase App Distribution
       - name: Upload to Firebase
