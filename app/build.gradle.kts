@@ -81,7 +81,6 @@ tasks.register("prepareFirebaseCredentials") {
     }
 }
 
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)

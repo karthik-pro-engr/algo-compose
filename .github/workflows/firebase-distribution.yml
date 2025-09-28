@@ -90,7 +90,7 @@ jobs:
       - name: Prepare Firebase credentials
         run: ./gradlew prepareFirebaseCredentials
         env:
-        FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
 
       # Upload signed APK to Firebase App Distribution
       - name: Upload to Firebase
