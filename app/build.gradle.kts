@@ -57,7 +57,7 @@ firebaseAppDistribution {
     appId = "1:849900262025:android:28ecafcd6f792fa14cec58"
 
     // service account json path (the workflow writes file to repo root)
-    serviceCredentialsFile = "firebase-service-account.json"
+    serviceCredentialsFile = "app/firebase-service-account.json"
 
     // who to notify. Either group(s) defined in Firebase console:
     groups = "family" // example group name(s), comma-separated if multiple
