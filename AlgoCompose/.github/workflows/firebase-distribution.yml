@@ -1,0 +1,77 @@
+name: Firebase App Distribution
+
+# Trigger workflow only on version tags like v1.0.0, v1.0.1
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-distribute:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up JDK (required for Gradle & Android builds)
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      # Decode Firebase service account from secret
+      - name: Decode Firebase service account
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > firebase-service-account.json
+
+      # Decode Base64 release keystore from secret
+      - name: Decode release keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
+
+      # Set Gradle signing environment variables
+      - name: Set signing properties
+        run: |
+          echo "RELEASE_STORE_FILE=release.jks" >> $GITHUB_ENV
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+
+      # Extract versionName from Git tag
+      - name: Set versionName from Git tag
+        run: |
+          echo "VERSION_NAME=${GITHUB_REF_NAME#refs/tags/}" >> $GITHUB_ENV
+          echo "Git tag ${GITHUB_REF_NAME#refs/tags/} applied as versionName"
+
+      # Enable Gradle caching for speed
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/
+          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      # Build release-signed APK
+      - name: Build Release APK
+        run: ./gradlew assembleRelease -PversionName=$VERSION_NAME
+
+     # Generate SHA256 checksum
+      - name: Generate SHA256 checksum
+        run: |
+              sha256sum app/build/outputs/apk/release/app-release.apk > app/build/outputs/apk/release/app-release.apk.sha256
+
+      # Upload signed APK to Firebase App Distribution
+      - name: Upload to Firebase
+        run: ./gradlew appDistributionUploadRelease
+
+      # Slack notification (optional)
+      - name: Notify Slack
+        if: success()
+        run: |
+              curl -X POST -H 'Content-type: application/json' \
+              --data "{\"text\":\"Release $VERSION_NAME uploaded to Firebase successfully!\"}" \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
+
