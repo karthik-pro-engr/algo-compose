@@ -87,6 +87,11 @@ jobs:
       - name: Fail if service account file missing
         run: test -f app/firebase-service-account.json || (echo "Missing service account file!" && exit 1)
 
+      - name: Prepare Firebase credentials
+        run: ./gradlew prepareFirebaseCredentials
+        env:
+        FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
       # Upload signed APK to Firebase App Distribution
       - name: Upload to Firebase
         run: ./gradlew appDistributionUploadRelease
