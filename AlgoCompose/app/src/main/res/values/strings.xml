@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AlgoCompose</string>
+    <string name="placeholder_input">Producer or Consumer</string>
+    <string name="label_house_type">Enter House Type</string>
+    <string name="button_add_house_type">Add House type</string>
+    <string name="text_no_house_types_added">No House Types Added</string>
+    <string name="button_find_longest_stretch">Find Longest Stretch</string>
+    <string name="button_reset">Reset</string>
 </resources>
