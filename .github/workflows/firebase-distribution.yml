@@ -76,9 +76,21 @@ jobs:
           APK=$(find app/build/outputs/apk/release/ -name "*.apk")
           sha256sum "$APK" > "$APK.sha256"
 
+      - name: Debug service account file
+        run: |
+          echo "Listing contents of app/"
+          ls -l app/
+          echo "Previewing service account file:"
+          head -n 2 app/firebase-service-account.json
+
+        # ✅ Confirm file exists before upload
+      - name: Fail if service account file missing
+        run: test -f app/firebase-service-account.json || (echo "Missing service account file!" && exit 1)
+
       # Upload signed APK to Firebase App Distribution
       - name: Upload to Firebase
         run: ./gradlew appDistributionUploadRelease
+
 
       # Slack notification (optional)
       - name: Notify Slack
