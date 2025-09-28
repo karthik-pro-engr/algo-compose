@@ -29,10 +29,10 @@ jobs:
       # Debug file is existing or not
       - name: Verify Firebase service account file
         run: |
-            echo "Checking if firebase-service-account.json exists:"
-            ls -l firebase-service-account.json
+            echo "Checking if firebase-service-account.json exists in app/"
+            ls -l app/firebase-service-account.json
             echo "File contents (first 2 lines for safety check):"
-            head -n 2 firebase-service-account.json
+            head -n 2 app/firebase-service-account.json
 
       # Decode Base64 release keystore from secret
       - name: Decode release keystore
