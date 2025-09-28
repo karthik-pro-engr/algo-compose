@@ -24,7 +24,7 @@ jobs:
 
       # Decode Firebase service account from secret
       - name: Decode Firebase service account
-        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > firebase-service-account.json
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > app/firebase-service-account.json
 
       # Debug file is existing or not
       - name: Verify Firebase service account file
