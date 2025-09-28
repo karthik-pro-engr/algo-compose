@@ -75,7 +75,7 @@ firebaseAppDistribution {
 tasks.register("prepareFirebaseCredentials") {
     doFirst {
         val credentials = System.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
-        val file = File("firebase-service-account.json")
+        val file = File("${project.projectDir}/firebase-service-account.json")
         file.writeText(credentials ?: error("Missing FIREBASE_SERVICE_ACCOUNT_JSON"))
         println("✅ Firebase credentials written to ${file.absolutePath}")
     }
