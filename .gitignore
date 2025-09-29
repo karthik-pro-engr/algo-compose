@@ -2,7 +2,7 @@
 .gradle/
 build/
 
-*.iml
+
 .gradle
 /local.properties
 /.idea/caches
@@ -47,3 +47,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Firebase and secrets
+firebase-service-account.json

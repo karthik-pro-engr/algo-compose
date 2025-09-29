@@ -59,7 +59,8 @@ firebaseAppDistribution {
     appId = "1:849900262025:android:28ecafcd6f792fa14cec58"
 
     // 🔍 Debug print to confirm resolved path
-    println("Resolved Firebase credentials path: ${file("firebase-service-account.json").absolutePath}")
+    println("Resolved Firebase credentials path:" +
+            " ${file("firebase-service-account.json").absolutePath}")
 
     // service account json path (the workflow writes file to repo root)
     serviceCredentialsFile = file("firebase-service-account.json").absolutePath

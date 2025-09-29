@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AlgoCompose"
+rootProject.name = "algo-compose"
 include(":app")

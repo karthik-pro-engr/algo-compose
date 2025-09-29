@@ -96,7 +96,8 @@ fun BalancedEnergyScreen(
                 Text(text = stringResource(R.string.button_find_longest_stretch))
             }
             balancedEnergyViewmodel.stretchResult?.let {
-                Text("The Longest Stretch Houses Starts from ${it.startIndex + 1} to ${it.endIndex + 1}")
+                Text("The Longest Stretch Houses Starts from" +
+                        " ${it.startIndex + 1} to ${it.endIndex + 1}")
             }
         }
 
