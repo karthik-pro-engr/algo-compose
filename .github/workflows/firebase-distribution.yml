@@ -104,10 +104,10 @@ jobs:
 
 
       # Slack notification (optional)
-      - name: Notify Slack
-        if: success()
-        run: |
-              curl -X POST -H 'Content-type: application/json' \
-              --data "{\"text\":\"Release $VERSION_NAME uploaded to Firebase successfully!\"}" \
-              ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Notify Slack
+      #  if: success()
+      #  run: |
+      #        curl -X POST -H 'Content-type: application/json' \
+      #       --data "{\"text\":\"Release $VERSION_NAME uploaded to Firebase successfully!\"}" \
+       #       ${{ secrets.SLACK_WEBHOOK_URL }}
 
