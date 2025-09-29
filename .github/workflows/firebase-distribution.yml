@@ -42,7 +42,6 @@ jobs:
       # Set Gradle signing environment variables
       - name: Set signing properties
         run: |
-          echo "RELEASE_STORE_FILE=release.jks" >> $GITHUB_ENV
           echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
           echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
           echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
@@ -61,6 +60,13 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper/
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      # Enable Gradle caching for speed
+      - name: Prepare release keystore
+        run: ./gradlew :app:prepareReleaseKeystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+
 
       # Build release-signed APK
       - name: Build Release APK

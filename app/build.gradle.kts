@@ -1,4 +1,5 @@
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+import java.util.Base64
 
 plugins {
     alias(libs.plugins.android.application)
@@ -23,7 +24,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(System.getenv("RELEASE_STORE_FILE") ?: "release.jks")
+            storeFile = file( "release.jks")
             storePassword = System.getenv("RELEASE_STORE_PASSWORD")
             keyAlias = System.getenv("RELEASE_KEY_ALIAS")
             keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
@@ -79,6 +80,25 @@ tasks.register("prepareFirebaseCredentials") {
         val file = File("${project.projectDir}/firebase-service-account.json")
         file.writeText(credentials ?: error("Missing FIREBASE_SERVICE_ACCOUNT_JSON"))
         println("✅ Firebase credentials written to ${file.absolutePath}")
+    }
+}
+
+tasks.register("prepareReleaseKeystore") {
+    doFirst {
+        val base64Keystore = System.getenv("KEYSTORE_BASE64")
+        val file = File("${project.projectDir}/release.jks")
+
+        println("🔍 Preparing release.jks for signing...")
+        println("🔍 Target path: ${file.absolutePath}")
+
+        if (base64Keystore.isNullOrBlank()) {
+            error("❌ KEYSTORE_BASE64 is missing or empty")
+        }
+
+        val decoded = Base64.getDecoder().decode(base64Keystore)
+        file.writeBytes(decoded)
+
+        println("✅ release.jks written successfully")
     }
 }
 
