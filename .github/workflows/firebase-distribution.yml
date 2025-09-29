@@ -42,9 +42,9 @@ jobs:
       # Set Gradle signing environment variables
       - name: Set signing properties
         run: |
-          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
-          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
-          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.RELEASE_STORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}" >> $GITHUB_ENV
 
       # Extract versionName from Git tag
       - name: Set versionName from Git tag
@@ -61,7 +61,7 @@ jobs:
             ~/.gradle/wrapper/
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      # Enable Gradle caching for speed
+      # Prepare release Keystore
       - name: Prepare release keystore
         run: ./gradlew :app:prepareReleaseKeystore
         env:
