@@ -1,5 +1,9 @@
 package com.karthik.pro.engr.algocompose.ui.screens
 
+/***
+ * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
+ * You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).
+ */
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
