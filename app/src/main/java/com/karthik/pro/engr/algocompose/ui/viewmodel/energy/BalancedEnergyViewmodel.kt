@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.viewmodel
+package com.karthik.pro.engr.algocompose.ui.viewmodel.energy
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
