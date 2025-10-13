@@ -4,6 +4,8 @@ package com.karthik.pro.engr.algocompose.ui.screens.energy
  * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
  * You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).
  */
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,8 +36,13 @@ import com.karthik.pro.engr.devtools.AllVariantsPreview
 @Composable
 fun BalancedEnergyScreen(
     modifier: Modifier = Modifier,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel()
+    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel(),
+    onBack: () -> Unit
 ) {
+    BackHandler {
+        Log.d("BalanceScreen", "BalancedEnergyScreen: BackHandler")
+        onBack()
+    }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
@@ -100,8 +107,10 @@ fun BalancedEnergyScreen(
                 Text(text = stringResource(R.string.button_find_longest_stretch))
             }
             balancedEnergyViewmodel.stretchResult?.let {
-                Text("The Longest Stretch Houses Starts from" +
-                        " ${it.startIndex + 1} to ${it.endIndex + 1}")
+                Text(
+                    "The Longest Stretch Houses Starts from" +
+                            " ${it.startIndex + 1} to ${it.endIndex + 1}"
+                )
             }
         }
 
@@ -136,5 +145,5 @@ fun InputTextField(
 @AllVariantsPreview
 @Composable
 private fun BalancedEnergyScreenPreview() {
-    BalancedEnergyScreen()
+    BalancedEnergyScreen(onBack = {})
 }
