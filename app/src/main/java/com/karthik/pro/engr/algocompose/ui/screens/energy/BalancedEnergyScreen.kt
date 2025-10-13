@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.screens
+package com.karthik.pro.engr.algocompose.ui.screens.energy
 
 /***
  * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.viewmodel.BalancedEnergyViewmodel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.energy.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
