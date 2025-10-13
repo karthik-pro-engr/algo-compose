@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.karthik.pro.engr.algocompose.ui.screens.energy.BalancedEnergyScreen
+import com.karthik.pro.engr.algocompose.ui.screens.app.AppHostScreen
 import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AlgoComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    BalancedEnergyScreen(
+                    AppHostScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

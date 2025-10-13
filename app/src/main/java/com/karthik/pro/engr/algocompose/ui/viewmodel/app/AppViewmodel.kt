@@ -1,0 +1,29 @@
+package com.karthik.pro.engr.algocompose.ui.viewmodel.app
+
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+
+class AppViewmodel : ViewModel() {
+    private var _appUiState = MutableStateFlow(AppUiState())
+    val appUiState: StateFlow<AppUiState> = _appUiState
+
+
+    fun onEvent(event: AppEvent) {
+
+        when (event) {
+            is AppEvent.SelectedScreen ->
+                _appUiState.update {
+                    it.copy(selectedScreenId = event.id)
+                }
+
+            AppEvent.OnBack -> {
+                _appUiState.update {
+                    it.copy(selectedScreenId = null)
+                }
+            }
+        }
+    }
+
+}

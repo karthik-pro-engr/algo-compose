@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.firebase.appdistribution)
-    id("karthik.pro.engr.android.application") version "1.0.0"
+    id("karthik.pro.engr.android.application") version "1.2.3"
 }
 
 android {
