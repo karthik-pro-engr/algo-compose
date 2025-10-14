@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-distribute:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # expose token to gradle
+      GITHUB_ACTOR: ${{ github.actor }}           # username for auth (usually the actor)
 
     steps:
       # Checkout repo
