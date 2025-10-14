@@ -9,8 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.ui.screens.energy.BalancedEnergyScreen
+import com.karthik.pro.engr.algocompose.ui.screens.stay.BudgetStayScreen
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppViewmodel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.BudgetStayViewModel
 
 @Composable
 fun AppHostScreen(
@@ -35,6 +37,14 @@ fun AppHostScreen(
             0 -> BalancedEnergyScreen(
                 modifier = modifier,
                 onBack = { vm.onEvent(AppEvent.OnBack) })
+
+            1 -> {
+                val budgetStayViewModel: BudgetStayViewModel = viewModel()
+                BudgetStayScreen(
+                    modifier = modifier,
+                    vm = budgetStayViewModel,
+                    onBack = { vm.onEvent(AppEvent.OnBack) })
+            }
 
             else -> vm.onEvent(AppEvent.OnBack)
 

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.ui.components.molecules.HotelCostStatus
 import com.karthik.pro.engr.algocompose.ui.viewmodel.energy.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
@@ -82,25 +83,17 @@ fun BalancedEnergyScreen(
             }
         }
 
-        if (balancedEnergyViewmodel.errorMessage.isEmpty()) {
-            Text(
-                text = when {
-                    houseTypes.isNotEmpty() -> {
-                        "[ ${houseTypes.joinToString(", ")} ]"
-                    }
-
-                    else -> stringResource(
-                        R.string.text_no_house_types_added
-                    )
+        HotelCostStatus(
+            errorMessage = balancedEnergyViewmodel.errorMessage,
+            inputMessage = when {
+                houseTypes.isNotEmpty() -> {
+                    "[ ${houseTypes.joinToString(", ")} ]"
                 }
-            )
-        } else {
-            Text(
-                text = balancedEnergyViewmodel.errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
+                else -> stringResource(
+                    R.string.text_no_house_types_added
+                )
+            }
+        )
 
         if (houseTypes.size > 1) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -140,7 +133,10 @@ private fun Modifier.debugOverlay(color: Color, tag: String, show: Boolean): Mod
             .onGloballyPositioned { coordinates ->
                 val size = coordinates.size
                 // Log size & position; check Logcat under "LayoutDebug"
-                Log.d("LayoutDebug", "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}")
+                Log.d(
+                    "LayoutDebug",
+                    "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}"
+                )
             }
     }
 }

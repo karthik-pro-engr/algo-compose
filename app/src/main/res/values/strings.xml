@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">AlgoCompose</string>
-    <string name="placeholder_input">Producer or Consumer</string>
+    <string name="placeholder_input">P or C</string>
     <string name="label_house_type">Enter House Type</string>
     <string name="button_add_house_type">Add House type</string>
     <string name="text_no_house_types_added">No House Types Added</string>
     <string name="button_find_longest_stretch">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
+<!--    Budget Stay-->
+    <string name="label_stay">Hotel Stay Cost</string>
+    <string name="placeholder_stay_input">10000</string>
+    <string name="button_add_cost">Add Hotel Cost</string>
+    <string name="text_no_hotel_cost_added">No Hotel Cost Added</string>
+    <string name="button_add_budget">Add Budget</string>
+    <string name="label_budget">Add Budget</string>
 </resources>
