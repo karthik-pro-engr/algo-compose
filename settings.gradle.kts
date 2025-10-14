@@ -8,7 +8,7 @@ pluginManagement {
             }
         }
         maven {
-            url = uri("https://maven.pkg.github.com/karthik-pro-engr/architecting-state")
+            url = uri("https://maven.pkg.github.com/karthik-pro-engr/build-logic")
             credentials {
                 username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
                 password = providers.gradleProperty("gpr.token").orNull ?: System.getenv("GITHUB_TOKEN")
@@ -21,10 +21,10 @@ pluginManagement {
         eachPlugin {
             // Map plugin id -> exact published Maven coordinates (force the module Gradle should download)
             if (requested.id.id == "karthik.pro.engr.android.application") {
-                useModule("karthik.pro.engr:android.application.gradle.plugin:${requested.version}")
+                useModule("karthik.pro.engr:android-application-plugin:${requested.version}")
             }
             if (requested.id.id == "karthik.pro.engr.android.library") {
-                useModule("karthik.pro.engr:android.library.gradle.plugin:${requested.version}")
+                useModule("karthik.pro.engr:android-library-plugin:${requested.version}")
             }
         }
     }

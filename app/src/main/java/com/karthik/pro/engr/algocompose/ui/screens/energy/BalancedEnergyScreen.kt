@@ -4,6 +4,8 @@ package com.karthik.pro.engr.algocompose.ui.screens.energy
  * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
  * You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).
  */
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +25,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -34,8 +41,12 @@ import com.karthik.pro.engr.devtools.AllVariantsPreview
 @Composable
 fun BalancedEnergyScreen(
     modifier: Modifier = Modifier,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel()
+    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel(),
+    onBack: () -> Unit
 ) {
+    BackHandler {
+        onBack()
+    }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
@@ -52,7 +63,7 @@ fun BalancedEnergyScreen(
 
         ) {
             InputTextField(
-                modifier
+                Modifier
                     .weight(1f)
                     .padding(end = 10.dp),
                 input,
@@ -100,8 +111,10 @@ fun BalancedEnergyScreen(
                 Text(text = stringResource(R.string.button_find_longest_stretch))
             }
             balancedEnergyViewmodel.stretchResult?.let {
-                Text("The Longest Stretch Houses Starts from" +
-                        " ${it.startIndex + 1} to ${it.endIndex + 1}")
+                Text(
+                    "The Longest Stretch Houses Starts from" +
+                            " ${it.startIndex + 1} to ${it.endIndex + 1}"
+                )
             }
         }
 
@@ -112,6 +125,23 @@ fun BalancedEnergyScreen(
         }) {
             Text(stringResource(R.string.button_reset))
         }
+    }
+}
+
+private fun Modifier.debugOverlay(color: Color, tag: String, show: Boolean): Modifier {
+    return if (!show) this else {
+        this
+            .drawBehind {
+                // draw translucent rectangle filling the composable bounds
+                drawRect(color = color)
+                // optional cross hair to see origin
+                drawCircle(color = Color.White, radius = 2f, center = Offset(2f, 2f))
+            }
+            .onGloballyPositioned { coordinates ->
+                val size = coordinates.size
+                // Log size & position; check Logcat under "LayoutDebug"
+                Log.d("LayoutDebug", "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}")
+            }
     }
 }
 
@@ -136,5 +166,5 @@ fun InputTextField(
 @AllVariantsPreview
 @Composable
 private fun BalancedEnergyScreenPreview() {
-    BalancedEnergyScreen()
+    BalancedEnergyScreen(onBack = {})
 }
