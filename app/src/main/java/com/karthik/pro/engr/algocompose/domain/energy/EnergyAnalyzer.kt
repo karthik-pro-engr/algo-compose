@@ -9,9 +9,9 @@ object EnergyAnalyzer {
         var maxLen = 0
         houseTypes.forEachIndexed { index, element ->
             prefixSum += when (element.lowercase()) {
-                "producer" -> 1
+                "p" -> 1
 
-                "consumer" -> -1
+                "c" -> -1
 
                 else -> 0
             }
@@ -34,7 +34,6 @@ object EnergyAnalyzer {
                 } result-> ${result.joinToString(", ")}")
         }
 
-//        "The Longest Stretch Houses Starts from ${result[0] + 1} to ${result[1] + 1}"
         return StretchResult(result[0] + 1, result[1], maxLen)
     }
 }
