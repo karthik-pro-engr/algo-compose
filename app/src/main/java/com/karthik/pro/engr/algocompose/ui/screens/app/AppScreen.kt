@@ -36,10 +36,6 @@ fun AppHostScreen(
                 modifier = modifier,
                 onBack = { vm.onEvent(AppEvent.OnBack) })
 
-            1 -> BalancedEnergyScreen(
-                modifier = modifier,
-                onBack = { vm.onEvent(AppEvent.OnBack) })
-
             else -> vm.onEvent(AppEvent.OnBack)
 
 
