@@ -22,8 +22,8 @@ class BalancedEnergyViewmodel : ViewModel() {
         val trimmed = type.trim()
         when {
             trimmed.isEmpty() -> errorMessage = "Input cannot be empty"
-            trimmed.lowercase() !in listOf("producer", "consumer") -> errorMessage =
-                "Input must be either 'producer' or 'consumer'"
+            trimmed.lowercase() !in listOf("p", "c") -> errorMessage =
+                "Input must be either 'p' or 'c'"
 
             else -> {
                 _houseTypes.add(type)
