@@ -25,6 +25,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -40,7 +45,6 @@ fun BalancedEnergyScreen(
     onBack: () -> Unit
 ) {
     BackHandler {
-        Log.d("BalanceScreen", "BalancedEnergyScreen: BackHandler")
         onBack()
     }
     var input by rememberSaveable { mutableStateOf("") }
@@ -59,7 +63,7 @@ fun BalancedEnergyScreen(
 
         ) {
             InputTextField(
-                modifier
+                Modifier
                     .weight(1f)
                     .padding(end = 10.dp),
                 input,
@@ -121,6 +125,23 @@ fun BalancedEnergyScreen(
         }) {
             Text(stringResource(R.string.button_reset))
         }
+    }
+}
+
+private fun Modifier.debugOverlay(color: Color, tag: String, show: Boolean): Modifier {
+    return if (!show) this else {
+        this
+            .drawBehind {
+                // draw translucent rectangle filling the composable bounds
+                drawRect(color = color)
+                // optional cross hair to see origin
+                drawCircle(color = Color.White, radius = 2f, center = Offset(2f, 2f))
+            }
+            .onGloballyPositioned { coordinates ->
+                val size = coordinates.size
+                // Log size & position; check Logcat under "LayoutDebug"
+                Log.d("LayoutDebug", "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}")
+            }
     }
 }
 

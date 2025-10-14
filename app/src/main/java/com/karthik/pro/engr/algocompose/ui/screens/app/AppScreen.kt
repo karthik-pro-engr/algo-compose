@@ -1,7 +1,5 @@
 package com.karthik.pro.engr.algocompose.ui.screens.app
 
-import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,7 +20,7 @@ fun AppHostScreen(
     val collectAsState by vm.appUiState.collectAsState()
 
     if (collectAsState.selectedScreenId == null) {
-        Column {
+        Column(modifier = modifier) {
             LazyColumn(
             ) {
                 items(items = vm.appUiState.value.list) {
@@ -34,8 +32,14 @@ fun AppHostScreen(
         }
     } else {
         when (collectAsState.selectedScreenId) {
-            0 -> BalancedEnergyScreen(onBack = {vm.onEvent(AppEvent.OnBack)})
-            1 -> BalancedEnergyScreen(onBack = {vm.onEvent(AppEvent.OnBack)})
+            0 -> BalancedEnergyScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
+
+            1 -> BalancedEnergyScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
+
             else -> vm.onEvent(AppEvent.OnBack)
 
 
