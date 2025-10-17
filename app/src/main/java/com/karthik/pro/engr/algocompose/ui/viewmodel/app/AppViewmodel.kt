@@ -1,5 +1,6 @@
 package com.karthik.pro.engr.algocompose.ui.viewmodel.app
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.appdistribution.FirebaseAppDistribution
@@ -10,14 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.widget.Toast
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+
 class AppViewmodel : ViewModel() {
     private var _appUiState = MutableStateFlow(AppUiState())
     val appUiState: StateFlow<AppUiState> = _appUiState
@@ -63,18 +57,12 @@ class AppViewmodel : ViewModel() {
                 FirebaseAppDistribution.getInstance().startFeedback(R.string.feedback_prompt)
                 _uiEffects.emit(UiEffect.ShowToast("Opened feedback UI"))
             }catch (t: Throwable) {
-                t.message
+                Log.w("AppViewModel", "sendFeedBack: ${t.message}" )
                 _uiEffects.emit(UiEffect.OpenEmailIntent)
             }finally {
                 setSubmitting("Hello testers — tap FAB to send feedback")
             }
         }
-    }
-
-    private fun getPackageNameSafe(): String = try {
-        "app"
-    } catch (t: Throwable) {
-        "app"
     }
 
 }

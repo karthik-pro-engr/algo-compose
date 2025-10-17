@@ -1,10 +1,12 @@
 package com.karthik.pro.engr.algocompose
 
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -37,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.FirebaseApp
 import com.karthik.pro.engr.algocompose.ui.screens.app.AppHostScreen
 import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
@@ -167,12 +170,8 @@ fun launchFeedbackEmail(context: Context, to: String = "karthik.pro.engr@gmail.c
     val (versionName, versionCode) = try {
         val pi = pm.getPackageInfo(pkg, 0)
         val vName = pi.versionName ?: "unknown"
-        val vCode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        val vCode =
             pi.longVersionCode.toString()
-        } else {
-            @Suppress("DEPRECATION")
-            pi.versionCode.toString()
-        }
         vName to vCode
     } catch (t: Throwable) {
         "unknown" to "unknown"
@@ -202,23 +201,36 @@ fun launchFeedbackEmail(context: Context, to: String = "karthik.pro.engr@gmail.c
         Actual:
     """.trimIndent()
 
-    // Create email intent (ACTION_SENDTO + mailto: ensures email apps only)
-    val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-        data = "mailto:".toUri() // only email apps should handle this
+    // 1) Preferred: ACTION_SENDTO with mailto (only email apps)
+    val sendToIntent = Intent(Intent.ACTION_SENDTO).apply {
+        data = "mailto:".toUri() // no direct recipients here
         putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
         putExtra(Intent.EXTRA_SUBJECT, subject)
         putExtra(Intent.EXTRA_TEXT, body)
     }
 
-    // Safely start chooser
-    val chooser = Intent.createChooser(emailIntent, "Send feedback using")
-    if (emailIntent.resolveActivity(pm) != null) {
-        // If you call this from an Activity, this will open chooser directly.
-        // If using application context (rare), add FLAG_ACTIVITY_NEW_TASK.
+    // 2) Fallback: ACTION_SEND with rfc822 (broad but widely supported)
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "message/rfc822"
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, body)
+    }
+
+    // Use chooser and resolve handlers
+    val chooser: Intent? = when {
+        sendToIntent.resolveActivity(pm) != null -> Intent.createChooser(sendToIntent, "Send feedback using")
+        sendIntent.resolveActivity(pm) != null -> Intent.createChooser(sendIntent, "Send feedback using")
+        else -> null
+    }
+
+    if (chooser != null) {
+        // If context isn't an Activity, ensure we can start the chooser.
+        if (context !is Activity) chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooser)
     } else {
-        Toast.makeText(context, "No email app installed to send feedback", Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, "No email app installed to send feedback", Toast.LENGTH_SHORT).show()
+        Log.w("Feedback", "No activity found to handle email intent")
     }
 }
 

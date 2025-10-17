@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.firebase.appdistribution)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     id("karthik.pro.engr.android.application") version "1.2.3"
 }
 
@@ -140,5 +142,8 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
 
     betaImplementation(libs.firebase.appdistribution)
+
+    implementation(libs.google.firebase.crashlytics)
+
 
 }
