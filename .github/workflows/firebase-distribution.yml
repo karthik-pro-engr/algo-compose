@@ -18,7 +18,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up JDK (required for Gradle & Android builds)
+      - name: Write google-services.json (if secret present)
+        if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name }}
+        run: |
+          if [ -z "$GOOGLE_SERVICES_JSON" ]; then
+            echo "GOOGLE_SERVICES_JSON secret is empty — skipping write. Build may fail if file is required."
+            exit 0
+          fi
+          mkdir -p "$GITHUB_WORKSPACE/app"
+          printf '%s' "$GOOGLE_SERVICES_JSON" > "$GITHUB_WORKSPACE/app/google-services.json"
+          chmod 600 "$GITHUB_WORKSPACE/app/google-services.json"
+          echo "Wrote app/google-services.json (size: $(wc -c < $GITHUB_WORKSPACE/app/google-services.json) bytes)"
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+
+          # Set up JDK (required for Gradle & Android builds)
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -70,20 +85,59 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Write google-services.json
+        run: |
+          echo "$GOOGLE_SERVICES_JSON" > $GITHUB_WORKSPACE/app/google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      # Build release-signed APK
-      - name: Build Release APK
-        run: ./gradlew assembleRelease -PversionName=$VERSION_NAME
+      - name: Build Beta APK
+        run: ./gradlew assembleBeta -PversionName=$VERSION_NAME
+
 
       # Listing the files
-      - name: Check APK exists
-        run: ls -lh app/build/outputs/apk/release/
+      - name: Find APK
+        id: find_apk
+        run: |
+          echo "Searching for apk under app/..."
+          APK=$(find app -type f -name "*.apk" | egrep -i "beta|release|debug" | head -n1)
+          if [ -z "$APK" ]; then echo "No APK found" && exit 1; fi
+          echo "Found: $APK"
+          echo "apk_path=$APK" >> $GITHUB_OUTPUT
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-apk
+          path: ${{ steps.find_apk.outputs.apk_path }}
 
       # Generate SHA256 checksum
-      - name: Generate SHA256 checksum
+      - name: Generate SHA256 checksum for beta APK
         run: |
-          APK=$(find app/build/outputs/apk/release/ -name "*.apk")
-          sha256sum "$APK" > "$APK.sha256"
+          set -euo pipefail
+          
+          # 1) Try to find an APK that has "beta" in the filename (case-insensitive),
+          #    prefer the most-recent one.
+          APK=$(find app/build/outputs/apk -type f -iname "*beta*.apk" -print0 \
+                | xargs -0 --no-run-if-empty ls -t 2>/dev/null \
+                | head -n1 || true)
+          
+          # 2) Fallback: if none found, pick the newest .apk under outputs/apk
+          if [ -z "$APK" ]; then
+            APK=$(find app/build/outputs/apk -type f -name "*.apk" -print0 \
+                  | xargs -0 --no-run-if-empty ls -t 2>/dev/null \
+                  | head -n1 || true)
+          fi
+          
+          # 3) Fail if still nothing
+          if [ -z "$APK" ]; then
+            echo "ERROR: No APK found under app/build/outputs/apk" >&2
+            exit 1
+          fi
+          
+          echo "Using APK: $APK"
+          sha256sum "$APK" > "${APK}.sha256"
+          echo "Created checksum: ${APK}.sha256"
 
       - name: Debug service account file
         run: |
@@ -103,7 +157,7 @@ jobs:
 
       # Upload signed APK to Firebase App Distribution
       - name: Upload to Firebase
-        run: ./gradlew appDistributionUploadRelease
+        run: ./gradlew appDistributionUploadBeta
 
 
       # Slack notification (optional)

@@ -13,4 +13,5 @@
     <string name="text_no_hotel_cost_added">No Hotel Cost Added</string>
     <string name="button_add_budget">Add Budget</string>
     <string name="label_budget">Add Budget</string>
+    <string name="feedback_prompt">Please describe the issue and steps to reproduce or share your common feedback</string>
 </resources>
