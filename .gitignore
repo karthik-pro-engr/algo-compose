@@ -50,3 +50,5 @@ google-services.json
 
 # Firebase and secrets
 firebase-service-account.json
+
+*.dm
