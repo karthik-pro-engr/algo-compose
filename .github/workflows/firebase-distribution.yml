@@ -76,7 +76,7 @@ jobs:
 
       # Listing the files
       - name: Check APK exists
-        run: ls -lh app/build/outputs/apk/beta/
+        run: ls -lh app/beta/
 
       # Generate SHA256 checksum
       - name: Generate SHA256 checksum
