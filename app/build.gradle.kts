@@ -21,7 +21,7 @@ android {
         minSdk = 28
         targetSdk = 36
         versionCode = 1
-        versionName = "1.2.0"
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "false")
@@ -51,11 +51,11 @@ android {
         }
         create("beta") {
             // Start from release so beta is signed the same and uses release-like settings
-            initWith(getByName("debug"))
+            initWith(getByName("release"))
             buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "true")
 
             // ensure beta is signed with release keystore so it's valid for App Distribution
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
 
             // if you want fast iteration, you can disable minify for beta:
             isMinifyEnabled = false
