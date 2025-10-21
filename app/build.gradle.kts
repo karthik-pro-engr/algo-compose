@@ -51,11 +51,11 @@ android {
         }
         create("beta") {
             // Start from release so beta is signed the same and uses release-like settings
-            initWith(getByName("release"))
+            initWith(getByName("debug"))
             buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "true")
 
             // ensure beta is signed with release keystore so it's valid for App Distribution
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
 
             // if you want fast iteration, you can disable minify for beta:
             isMinifyEnabled = false
