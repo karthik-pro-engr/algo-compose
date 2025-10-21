@@ -1,4 +1,5 @@
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+import org.gradle.kotlin.dsl.implementation
 import java.util.Base64
 
 plugins {
@@ -138,12 +139,11 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.appdistribution.api.ktx)
     implementation(libs.androidx.material.icons.extended)
-
-    betaImplementation(libs.firebase.appdistribution)
 
     implementation(libs.google.firebase.crashlytics)
 
+    implementation(libs.firebase.feedback.api)
+    betaImplementation(libs.karthik.pro.engr.firebase.feedback.impl)
 
 }

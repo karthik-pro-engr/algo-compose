@@ -2,6 +2,8 @@
 agp = "8.11.2"
 firebaseAppdistributionApi = "16.0.0-beta17"
 firebaseAppdistributionApiKtx = "16.0.0-beta15"
+firebaseFeedbackApi = "1.0.0-beta"
+firebaseFeedbackImpl = "1.0.0-beta"
 kotlin = "2.2.20"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -41,6 +43,8 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 all-variants-preview = { group = "io.github.karthik-pro-engr", name = "preview", version.ref = "allVariantsPreview" }
+firebase-feedback-api = { module = "io.github.karthik-pro-engr:firebase-feedback-api", version.ref = "firebaseFeedbackApi" }
+karthik-pro-engr-firebase-feedback-impl = { module = "io.github.karthik-pro-engr:firebase-feedback-impl", version.ref = "firebaseFeedbackImpl" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

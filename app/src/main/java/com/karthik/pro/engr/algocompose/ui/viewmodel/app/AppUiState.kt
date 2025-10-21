@@ -9,7 +9,5 @@ data class AppUiState(
         AppScreenModel(1, "Budget Stay")
     ),
     var selectedScreenId: Int? = null,
-    var isAppDistributingEnabled: Boolean = BuildConfig.ENABLE_APP_DISTRIBUTION,
-    var isSubmittingFeedback: Boolean = false,
-    var feedBackState: String = "Hello testers — tap FAB to send feedback"
+    var isAppDistributingEnabled: Boolean = BuildConfig.ENABLE_APP_DISTRIBUTION
 )
