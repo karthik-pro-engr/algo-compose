@@ -65,6 +65,9 @@ jobs:
       - name: Build (assembleDebug)
         run: ./gradlew assembleDebug --no-daemon --info --stacktrace
 
+      - name: Build (assembleBeta)
+        run: ./gradlew assembleBeta --no-daemon --info --stacktrace
+
       - name: Run unit tests
         run: ./gradlew test --no-daemon
 

@@ -1,4 +1,5 @@
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+import org.gradle.kotlin.dsl.implementation
 import java.util.Base64
 
 plugins {
@@ -20,7 +21,7 @@ android {
         minSdk = 28
         targetSdk = 36
         versionCode = 1
-        versionName = "1.1.0"
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "false")
@@ -50,11 +51,11 @@ android {
         }
         create("beta") {
             // Start from release so beta is signed the same and uses release-like settings
-            initWith(getByName("release"))
+            initWith(getByName("debug"))
             buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "true")
 
             // ensure beta is signed with release keystore so it's valid for App Distribution
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
 
             // if you want fast iteration, you can disable minify for beta:
             isMinifyEnabled = false
@@ -138,12 +139,11 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.appdistribution.api.ktx)
     implementation(libs.androidx.material.icons.extended)
-
-    betaImplementation(libs.firebase.appdistribution)
 
     implementation(libs.google.firebase.crashlytics)
 
+    implementation(libs.firebase.feedback.api)
+    betaImplementation(libs.karthik.pro.engr.firebase.feedback.impl)
 
 }
