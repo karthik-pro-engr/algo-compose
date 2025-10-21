@@ -2,5 +2,10 @@ package com.karthik.pro.engr.algocompose.feedback
 
 import androidx.activity.ComponentActivity
 
-fun provideAppFeedbackController(activity: ComponentActivity): AppFeedbackController =
-    NoOpAppFeedbackController()
+
+object FeedbackBinder {
+    var provideAppFeedbackController: (ComponentActivity) -> AppFeedbackController =
+        { _ ->
+            NoOpAppFeedbackController()
+        }
+}
