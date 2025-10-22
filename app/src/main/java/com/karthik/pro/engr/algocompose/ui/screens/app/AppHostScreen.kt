@@ -41,6 +41,17 @@ fun AppHostScreen(
                 onBack = { vm.onEvent(AppEvent.OnBack) })
 
             ScreenId.BUDGET_STAY -> {
+                /*
+                * Budget Stay
+                * ______________
+
+                * Family Vacation – Hotel Bookings
+                * You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location.
+                * You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.
+                *
+                * ___________________________________
+                *
+                */
                 val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
                 VariableSlidingWindowScreen(
                     modifier = modifier,
@@ -61,6 +72,13 @@ fun AppHostScreen(
             }
 
             ScreenId.VIDEO_PLAY_REQUESTS -> {
+              /* Internet Data Flow
+                * -------------------
+                * A server is handling incoming video play requests per second (some light, some heavy).
+                * Find the maximum number of consecutive seconds where the total requests stay within the allowed server capacity.
+                *
+                *
+                * */
                 val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
                 VariableSlidingWindowScreen(
                     modifier = modifier,
