@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.components.molecules.HotelCostStatus
+import com.karthik.pro.engr.algocompose.ui.components.molecules.StatusText
 import com.karthik.pro.engr.algocompose.ui.viewmodel.energy.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
@@ -83,7 +82,7 @@ fun BalancedEnergyScreen(
             }
         }
 
-        HotelCostStatus(
+        StatusText(
             errorMessage = balancedEnergyViewmodel.errorMessage,
             inputMessage = when {
                 houseTypes.isNotEmpty() -> {

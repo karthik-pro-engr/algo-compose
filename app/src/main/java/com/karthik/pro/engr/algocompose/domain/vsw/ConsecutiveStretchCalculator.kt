@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.domain.stay
+package com.karthik.pro.engr.algocompose.domain.vsw
 
 object ConsecutiveStretchCalculator {
     fun computeResult(maxCapacity: Int, inputList: List<Int>): ConsecutiveSubArrayAndSize {

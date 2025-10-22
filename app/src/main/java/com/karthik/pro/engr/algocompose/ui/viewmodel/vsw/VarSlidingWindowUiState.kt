@@ -1,6 +1,6 @@
-package com.karthik.pro.engr.algocompose.ui.viewmodel.stay
+package com.karthik.pro.engr.algocompose.ui.viewmodel.vsw
 
-import com.karthik.pro.engr.algocompose.domain.stay.ConsecutiveSubArrayAndSize
+import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveSubArrayAndSize
 
 data class VarSlidingWindowUiState(
     val list: List<Int> = emptyList(),

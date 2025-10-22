@@ -10,11 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.screens.energy.BalancedEnergyScreen
-import com.karthik.pro.engr.algocompose.ui.screens.stay.VariableSlidingWindowScreen
+import com.karthik.pro.engr.algocompose.ui.screens.vsw.VariableSlidingWindowScreen
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppViewmodel
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.ScreenId
-import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.vsw.VarSlidingWindowViewModel
 
 @Composable
 fun AppHostScreen(
