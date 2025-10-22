@@ -7,11 +7,35 @@
     <string name="button_find_longest_stretch">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
 <!--    Budget Stay-->
-    <string name="label_stay">Hotel Stay Cost</string>
-    <string name="placeholder_stay_input">10000</string>
-    <string name="button_add_cost">Add Hotel Cost</string>
-    <string name="text_no_hotel_cost_added">No Hotel Cost Added</string>
-    <string name="button_add_budget">Add Budget</string>
     <string name="label_budget">Add Budget</string>
+    <string name="placeholder_budget">Add Budget</string>
+    <string name="button_add_budget">Add Budget</string>
+    <string name="label_stay_input">Hotel Stay Cost</string>
+    <string name="placeholder_stay_input">10000</string>
+    <string name="button_add_hotel_cost">Add Hotel Cost</string>
+    <string name="text_no_hotel_cost_added">No Hotel Cost Added</string>
+    <string name="button_find_longest_nights">Find Longest Night Stay</string>
+    <string name="text_added_budget">The Budget is %1$d</string>
+    <string name="text_stay_result">The Longest Stretch Hotel Starts from %1$d to %2$d and total nights are %3$s </string>
+    <plurals name="nights">
+        <item quantity="one">%d night</item>
+        <item quantity="other">%d nights</item>
+    </plurals>
+    <!--    Internet Data Flow-->
+    <string name="label_add_request_capacity">Add Requests Capacity</string>
+    <string name="placeholder_request_capacity">10000</string>
+    <string name="button_add_requests_capacity">Add Requests Capacity</string>
+    <string name="label_data_request">Requests per second</string>
+    <string name="placeholder_input_request">10000</string>
+    <string name="text_no_request_added">No Data Request Added</string>
+    <string name="button_add_requests">Add Data Request</string>
+    <string name="button_find_longest_seconds">Find Longest Seconds</string>
+    <string name="text_added_max_requests">The Max Capacity Requests are %1$d</string>
+    <string name="text_request_result">The Longest Consecutive Requests Starts from %1$d to %2$d and total seconds are %3$s </string>
+    <plurals name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+<!--    Feedback-->
     <string name="feedback_prompt">Please describe the issue and steps to reproduce or share your common feedback</string>
 </resources>
