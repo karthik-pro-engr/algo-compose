@@ -2,50 +2,50 @@ package com.karthik.pro.engr.algocompose.ui.viewmodel.stay
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karthik.pro.engr.algocompose.domain.stay.BudgetStayCalculator
+import com.karthik.pro.engr.algocompose.domain.stay.ConsecutiveStretchCalculator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class BudgetStayViewModel : ViewModel() {
-    private var _uiState = MutableStateFlow(BudgetStayUiState())
+class VarSlidingWindowViewModel : ViewModel() {
+    private var _uiState = MutableStateFlow(VarSlidingWindowUiState())
     val uiState = _uiState
 
-    fun onEvent(event: BudgetStayEvent) {
+    fun onEvent(event: VarSlidingWindowEvent) {
 
         when (event) {
-            is BudgetStayEvent.AddBudget -> {
+            is VarSlidingWindowEvent.AddRange -> {
                 viewModelScope.launch {
                     _uiState.update {
-                        var budget = 0
-                        var showBudgetInput = true
-                        var showCostInput = false
+                        var rangeOrMaxCapacity = 0
+                        var showRangeInput = true
+                        var showArrayItemInput = false
                         val error = when {
-                            event.budget.isEmpty() -> {
-                                "Budget cannot be empty"
+                            event.rangeOrMaxCapacity.isEmpty() -> {
+                                "Range or MaxCapacity cannot be empty"
                             }
 
-                            event.budget.toInt() == 0 -> {
-                                "Budget should be above zero"
+                            event.rangeOrMaxCapacity.toInt() == 0 -> {
+                                "Range or MaxCapacity  should be above zero"
                             }
 
                             else -> {
-                                budget = event.budget.toInt()
-                                showBudgetInput = false
-                                showCostInput = true
+                                rangeOrMaxCapacity = event.rangeOrMaxCapacity.toInt()
+                                showRangeInput = false
+                                showArrayItemInput = true
                                 ""
                             }
                         }
                         it.copy(
-                            budget = budget, budgetErrorMessage = error,
-                            showBudgetInput = showBudgetInput,
-                            showCostInput = showCostInput
+                            rangeOrMaxCapacity = rangeOrMaxCapacity, rangeErrorMessage = error,
+                            showRangeInput = showRangeInput,
+                            showArrayItemInput = showArrayItemInput
                         )
                     }
                 }
             }
 
-            is BudgetStayEvent.AddHotelPrice -> {
+            is VarSlidingWindowEvent.AddInputForArray -> {
                 viewModelScope.launch {
                     _uiState.update {
                         when {
@@ -67,12 +67,12 @@ class BudgetStayViewModel : ViewModel() {
                 }
             }
 
-            BudgetStayEvent.ComputeBudgetStay -> {
+            VarSlidingWindowEvent.ComputeVarSlidingWindow -> {
                 viewModelScope.launch {
                     _uiState.update {
                         it.copy(
-                            result = BudgetStayCalculator.computeBudgetStay(
-                                _uiState.value.budget,
+                            result = ConsecutiveStretchCalculator.computeResult(
+                                _uiState.value.rangeOrMaxCapacity,
                                 _uiState.value.list
                             )
                         )
@@ -80,10 +80,10 @@ class BudgetStayViewModel : ViewModel() {
                 }
             }
 
-            BudgetStayEvent.Reset -> {
+            VarSlidingWindowEvent.Reset -> {
                 viewModelScope.launch {
                     _uiState.update {
-                        BudgetStayUiState()
+                        VarSlidingWindowUiState()
                     }
                 }
 

@@ -33,6 +33,7 @@ import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppUiState
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppViewmodel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.app.ScreenId
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackFab
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackStateText
 import com.karthik.pro.engr.feedback.api.ui.viewmodel.FeedbackEvent
@@ -155,7 +156,7 @@ fun SetContent(
 }
 
 
-private fun getTitleForScreenId(selectedId: Int, uiState: AppUiState): String {
+private fun getTitleForScreenId(selectedId: ScreenId, uiState: AppUiState): String {
     val model = uiState.list.find { it.id == selectedId }
     return model?.buttonName ?: "Details"
 }

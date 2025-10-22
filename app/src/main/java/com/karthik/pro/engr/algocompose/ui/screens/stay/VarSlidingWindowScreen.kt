@@ -1,6 +1,8 @@
 package com.karthik.pro.engr.algocompose.ui.screens.stay
 
 import androidx.activity.compose.BackHandler
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,50 +13,57 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.molecules.HotelCostStatus
-import com.karthik.pro.engr.algocompose.ui.screens.energy.InputTextField
-import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.BudgetStayEvent
-import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.BudgetStayViewModel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.VarSlidingWindowEvent
+import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.VarSlidingWindowViewModel
 
 @Composable
-fun BudgetStayScreen(
+fun VariableSlidingWindowScreen(
     modifier: Modifier = Modifier,
-    vm: BudgetStayViewModel,
-    onBack: () -> Unit
+    vm: VarSlidingWindowViewModel,
+    @StringRes lblRangeOrMaxCapacity: Int,
+    @StringRes phRangeOrMaxCapacity: Int,
+    @StringRes btnRangeOrMaxCapacity: Int,
+    @StringRes lblInputForArr: Int,
+    @StringRes phInputForArr: Int,
+    @StringRes btnInputForArr: Int,
+    @StringRes txtInputArrInfo: Int,
+    @StringRes btnComputeResult: Int,
+    @PluralsRes strPlural: Int,
+    @StringRes txtResult: Int,
+    @StringRes txtMaxCapacity: Int,
+    onBack: () -> Unit,
 ) {
     BackHandler {
         onBack()
     }
-    var budget by rememberSaveable { mutableStateOf("") }
+    var rangeOrMaxCapacityInput by rememberSaveable { mutableStateOf("") }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
 
     val uiState by vm.uiState.collectAsState()
-    println("UiState-> $uiState")
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        if (uiState.showBudgetInput) {
+        if (uiState.showRangeInput) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -62,36 +71,36 @@ fun BudgetStayScreen(
 
             ) {
                 OutlinedTextField(
-                    value = budget,
+                    value = rangeOrMaxCapacityInput,
                     onValueChange = { newValue ->
                         if (newValue.all { it.isDigit() }) {
-                            budget = newValue
+                            rangeOrMaxCapacityInput = newValue
                         }
                     },
-                    label = { Text(stringResource(R.string.label_budget)) },
-                    placeholder = { Text(stringResource(R.string.placeholder_stay_input)) },
+                    label = { Text(stringResource(lblRangeOrMaxCapacity)) },
+                    placeholder = { Text(stringResource(phRangeOrMaxCapacity)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    isError = uiState.budgetErrorMessage.isNotEmpty(),
+                    isError = uiState.rangeErrorMessage.isNotEmpty(),
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = {
-                        vm.onEvent(BudgetStayEvent.AddBudget(budget))
-                        budget = ""
+                        vm.onEvent(VarSlidingWindowEvent.AddRange(rangeOrMaxCapacityInput))
+                        rangeOrMaxCapacityInput = ""
                     },
                     enabled = enableAddButton
                 ) {
-                    Text(stringResource(R.string.button_add_budget))
+                    Text(stringResource(btnRangeOrMaxCapacity))
                 }
             }
         } else {
             Text(
-                "The Budget is ${uiState.budget}"
+                stringResource(txtMaxCapacity, uiState.rangeOrMaxCapacity)
             )
 
         }
-        if (uiState.showCostInput) {
+        if (uiState.showArrayItemInput) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -105,8 +114,8 @@ fun BudgetStayScreen(
                             input = newValue
                         }
                     },
-                    label = { Text(stringResource(R.string.label_stay)) },
-                    placeholder = { Text(stringResource(R.string.placeholder_stay_input)) },
+                    label = { Text(stringResource(lblInputForArr)) },
+                    placeholder = { Text(stringResource(phInputForArr)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = uiState.errorMessage.isNotEmpty(),
                     modifier = Modifier.weight(1f)
@@ -114,12 +123,12 @@ fun BudgetStayScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = {
-                        vm.onEvent(BudgetStayEvent.AddHotelPrice(input))
+                        vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
                         input = ""
                     },
                     enabled = enableAddButton
                 ) {
-                    Text(stringResource(R.string.button_add_cost))
+                    Text(stringResource(btnInputForArr))
                 }
             }
         }
@@ -129,9 +138,11 @@ fun BudgetStayScreen(
                 uiState.list.isNotEmpty() -> {
                     "[ ${uiState.list.joinToString(", ")} ]"
                 }
-                uiState.showCostInput -> stringResource(
-                    R.string.text_no_hotel_cost_added
+
+                uiState.showArrayItemInput -> stringResource(
+                    txtInputArrInfo
                 )
+
                 else -> ""
             }
         )
@@ -140,21 +151,21 @@ fun BudgetStayScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = {
                 enableAddButton = false
-                vm.onEvent(BudgetStayEvent.ComputeBudgetStay)
+                vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
             }, enabled = enableAddButton) {
-                Text(text = stringResource(R.string.button_find_longest_stretch))
+                Text(text = stringResource(btnComputeResult))
             }
             uiState.result?.let {
+                val longestStretch = pluralStringResource(strPlural, it.maxStretch, it.maxStretch)
                 Text(
-                    "The Longest Stretch Hotel Starts from" +
-                            " ${it.startIndex + 1} to ${it.endIndex + 1} and total nights are ${it.maxNights}"
+                    stringResource(txtResult, it.startIndex+1, it.endIndex+1, longestStretch)
                 )
             }
         }
         Spacer(modifier = Modifier.height(80.dp))
         Button(onClick = {
             enableAddButton = true
-            vm.onEvent(BudgetStayEvent.Reset)
+            vm.onEvent(VarSlidingWindowEvent.Reset)
         }) {
             Text(stringResource(R.string.button_reset))
         }

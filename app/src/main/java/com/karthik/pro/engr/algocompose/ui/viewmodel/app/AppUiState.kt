@@ -5,9 +5,17 @@ import com.karthik.pro.engr.algocompose.model.AppScreenModel
 
 data class AppUiState(
     val list: List<AppScreenModel> = listOf(
-        AppScreenModel(0, "Balanced Energy"),
-        AppScreenModel(1, "Budget Stay")
+        AppScreenModel(ScreenId.BALANCED_ENERGY, "Balanced Energy"),
+        AppScreenModel(ScreenId.BUDGET_STAY, "Budget Stay"),
+        AppScreenModel(ScreenId.VIDEO_PLAY_REQUESTS, "Video Play Request")
     ),
-    var selectedScreenId: Int? = null,
+    var selectedScreenId: ScreenId? = null,
     var isAppDistributingEnabled: Boolean = BuildConfig.ENABLE_APP_DISTRIBUTION
 )
+
+enum class ScreenId {
+    DEFAULT,
+    BALANCED_ENERGY,
+    BUDGET_STAY,
+    VIDEO_PLAY_REQUESTS
+}
