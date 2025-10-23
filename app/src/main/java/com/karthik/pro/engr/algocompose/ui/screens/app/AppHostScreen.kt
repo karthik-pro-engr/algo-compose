@@ -11,10 +11,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.screens.energy.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.ui.screens.vsw.VariableSlidingWindowScreen
+import com.karthik.pro.engr.algocompose.ui.screens.warehouse.BoxNestingScreen
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppViewmodel
 import com.karthik.pro.engr.algocompose.ui.viewmodel.app.ScreenId
 import com.karthik.pro.engr.algocompose.ui.viewmodel.vsw.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingViewModel
 
 @Composable
 fun AppHostScreen(
@@ -72,13 +74,13 @@ fun AppHostScreen(
             }
 
             ScreenId.VIDEO_PLAY_REQUESTS -> {
-              /* Internet Data Flow
-                * -------------------
-                * A server is handling incoming video play requests per second (some light, some heavy).
-                * Find the maximum number of consecutive seconds where the total requests stay within the allowed server capacity.
-                *
-                *
-                * */
+                /* Internet Data Flow
+                  * -------------------
+                  * A server is handling incoming video play requests per second (some light, some heavy).
+                  * Find the maximum number of consecutive seconds where the total requests stay within the allowed server capacity.
+                  *
+                  *
+                  * */
                 val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
                 VariableSlidingWindowScreen(
                     modifier = modifier,
@@ -96,6 +98,19 @@ fun AppHostScreen(
                     txtResult = R.string.text_request_result,
                     onBack = { vm.onEvent(AppEvent.OnBack) }
                 )
+            }
+            /**
+             * A regional fulfillment warehouse receives mixed batches of empty shipping cartons on a conveyor belt.
+             * To reduce pallet height, protect fragile items, and speed up downstream packing,
+             * staff want to automatically identify opportunities to nest smaller cartons into the next larger carton that appears later on the conveyor.
+             * This matching is used by the packing robot and operators to decide whether to nest, hold for a different shipment, or mark for repack.
+             * */
+
+            ScreenId.BOX_NESTING -> {
+                BoxNestingScreen(
+                    modifier = modifier,
+                    boxNestingViewModel = viewModel<BoxNestingViewModel>(),
+                    onBack = { vm.onEvent(AppEvent.OnBack) })
             }
 
 

@@ -6,7 +6,7 @@
     <string name="text_no_house_types_added">No House Types Added</string>
     <string name="button_find_longest_stretch">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
-<!--    Budget Stay-->
+    <!--    Budget Stay-->
     <string name="label_budget">Add Budget</string>
     <string name="placeholder_budget">Add Budget</string>
     <string name="button_add_budget">Add Budget</string>
@@ -36,6 +36,17 @@
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
-<!--    Feedback-->
+
+    <!--    Box Nesting-->
+    <string name="placeholder_box_size_volume">1800 CC is adds automatically</string>
+    <string name="label_box_size_input">Enter Size(CC) in numeric </string>
+    <string name="button_add_delivery_box_size">Add Box Size</string>
+    <string name="text_no_delivery_boxes_added">No Box Sizes Added</string>
+    <string name="button_find_auto_nest_boxes">Auto-Nest Boxes</string>
+    <string name="box_nesting_title">Find the next larger box for each box in the incoming conveyor (Warehouse Delivery Boxes)</string>
+    <string name="box_nesting_problem_statement">A regional fulfillment warehouse receives mixed batches of empty shipping cartons on a conveyor belt. To reduce pallet height, protect fragile items, and speed up downstream packing, staff want to automatically identify opportunities to nest smaller cartons into the next larger carton that appears later on the conveyor. This matching is used by the packing robot and operators to decide whether to nest, hold for a different shipment, or mark for repack.</string>
+
+
+    <!--    Feedback-->
     <string name="feedback_prompt">Please describe the issue and steps to reproduce or share your common feedback</string>
 </resources>

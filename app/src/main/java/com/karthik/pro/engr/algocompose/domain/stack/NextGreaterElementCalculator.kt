@@ -1,9 +1,9 @@
 package com.karthik.pro.engr.algocompose.domain.stack
 
 object NextGreaterElementCalculator {
-    fun computeNextGreaterElement(inputList: List<Int>): IntArray {
+    fun computeNextGreaterElement(inputList: List<Int>): BoxNestingOrder {
         val size = inputList.size
-        val output = IntArray(size) { -1 }
+        val output: MutableList<Int> = MutableList(size) { -1 }
         val stack = ArrayDeque<Int>(size)
 
         for (i in size - 1 downTo 0) {
@@ -16,28 +16,8 @@ object NextGreaterElementCalculator {
             }
             stack.addFirst(i)
         }
-        return output
+        return BoxNestingOrder(output)
     }
 }
 
-fun main() {
-    println(
-        NextGreaterElementCalculator.computeNextGreaterElement(listOf(20, 30, 10, 7, 3, 2, 25))
-            .joinToString(", ")
-    )
-    println(
-        NextGreaterElementCalculator.computeNextGreaterElement(
-            listOf(
-                20,
-                30,
-                10,
-                7,
-                3,
-                2,
-                2,
-                3,
-                25
-            )
-        ).joinToString(", ")
-    )
-}
+data class BoxNestingOrder(val boxNestingOrderList: List<Int> = emptyList())
