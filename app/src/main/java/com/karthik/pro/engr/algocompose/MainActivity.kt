@@ -28,12 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.feedback.AppFeedbackController
 import com.karthik.pro.engr.algocompose.feedback.FeedbackBinder.provideAppFeedbackController
-import com.karthik.pro.engr.algocompose.ui.screens.app.AppHostScreen
+import com.karthik.pro.engr.algocompose.app.presentation.ui.screens.AppHostScreen
 import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
-import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppEvent
-import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppUiState
-import com.karthik.pro.engr.algocompose.ui.viewmodel.app.AppViewmodel
-import com.karthik.pro.engr.algocompose.ui.viewmodel.app.ScreenId
+import com.karthik.pro.engr.algocompose.app.presentation.model.AppEvent
+import com.karthik.pro.engr.algocompose.app.presentation.model.AppUiState
+import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
+import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackFab
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackStateText
 import com.karthik.pro.engr.feedback.api.ui.viewmodel.FeedbackEvent
