@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.viewmodel.stay
+package com.karthik.pro.engr.algocompose.ui.viewmodel.vsw
 
 sealed class VarSlidingWindowEvent {
     data class AddRange(val rangeOrMaxCapacity: String) : VarSlidingWindowEvent()

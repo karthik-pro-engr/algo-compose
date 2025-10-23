@@ -1,8 +1,8 @@
-package com.karthik.pro.engr.algocompose.ui.viewmodel.stay
+package com.karthik.pro.engr.algocompose.ui.viewmodel.vsw
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karthik.pro.engr.algocompose.domain.stay.ConsecutiveStretchCalculator
+import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveStretchCalculator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

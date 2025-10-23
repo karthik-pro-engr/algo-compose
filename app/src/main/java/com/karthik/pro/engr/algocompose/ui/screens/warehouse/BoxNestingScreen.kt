@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.screens.energy
+package com.karthik.pro.engr.algocompose.ui.screens.warehouse
 
 /***
  * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
@@ -6,6 +6,7 @@ package com.karthik.pro.engr.algocompose.ui.screens.energy
  */
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,11 +14,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,18 +36,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.molecules.StatusText
-import com.karthik.pro.engr.algocompose.ui.viewmodel.energy.BalancedEnergyViewmodel
+import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingEvent
+import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingUiState
+import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingViewModel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
-fun BalancedEnergyScreen(
+fun BoxNestingScreen(
     modifier: Modifier = Modifier,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel(),
+    boxNestingViewModel: BoxNestingViewModel,
     onBack: () -> Unit
 ) {
     BackHandler {
@@ -49,13 +58,29 @@ fun BalancedEnergyScreen(
     }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val houseTypes = balancedEnergyViewmodel.houseTypes
+    val boxNestingUiState by boxNestingViewModel.boxNestingUiState.collectAsState()
+    val boxSizesList = boxNestingUiState.boxSizesList
+
+    val scrollState = rememberSaveable (saver = ScrollState.Saver){ ScrollState(0) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
     ) {
+        Text(
+            text = stringResource(R.string.box_nesting_title),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.box_nesting_problem_statement),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(18.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -67,53 +92,80 @@ fun BalancedEnergyScreen(
                     .weight(1f)
                     .padding(end = 10.dp),
                 input,
-                onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
-                balancedEnergyViewmodel
+                onValueChange = { value -> if (value.all { it.isDigit() }) input = value },
+                boxNestingUiState
             )
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    balancedEnergyViewmodel.addHouseType(input)
+                    boxNestingViewModel.onEvent(BoxNestingEvent.AddBoxSize(input))
                     input = ""
                 },
                 enabled = enableAddButton
             ) {
-                Text(stringResource(R.string.button_add_house_type))
+                Text(stringResource(R.string.button_add_delivery_box_size))
             }
         }
 
         StatusText(
-            errorMessage = balancedEnergyViewmodel.errorMessage,
+            errorMessage = boxNestingUiState.errorMessage,
             inputMessage = when {
-                houseTypes.isNotEmpty() -> {
-                    "[ ${houseTypes.joinToString(", ")} ]"
+                boxSizesList.isNotEmpty() -> {
+                    "[ ${boxSizesList.joinToString(", ") { "$it cc" }} ]"
                 }
+
                 else -> stringResource(
-                    R.string.text_no_house_types_added
+                    R.string.text_no_delivery_boxes_added
                 )
             }
         )
 
-        if (houseTypes.size > 1) {
+        if (boxSizesList.size > 1) {
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = {
                 enableAddButton = false
-                balancedEnergyViewmodel.calculateBalancedEnergy()
+                boxNestingViewModel.onEvent(BoxNestingEvent.ComputeBoxNesting)
             }, enabled = enableAddButton) {
-                Text(text = stringResource(R.string.button_find_longest_stretch))
+                Text(text = stringResource(R.string.button_find_auto_nest_boxes))
             }
-            balancedEnergyViewmodel.stretchResult?.let {
+            boxNestingUiState.boxNestingOrder?.let {
+
+                val maxOfDigits =
+                    boxSizesList.maxOfOrNull { boxSize -> boxSize.toString().length } ?: 0
+                val avgCharsPerLine = 24
+                val capacityEstimate = (boxSizesList.size * avgCharsPerLine).coerceAtLeast(64)
+
+                val buildString = buildString(capacityEstimate) {
+                    boxSizesList.forEachIndexed { idx, size ->
+                        if (idx > 0) append("\n")
+                        append("B").append(idx).append(" — ")
+
+                        append(size.toString().padStart(maxOfDigits, ' '))
+
+                        append(" cc -> Next: ")
+
+                        val nextIdx = it.boxNestingOrderList[idx]
+
+                        if (nextIdx == -1) {
+                            append("None")
+                        } else {
+                            val nextBoxSize = boxSizesList.getOrNull(nextIdx) ?: 0
+                            append("B").append(nextIdx)
+                                .append(" (").append(nextBoxSize).append(" cc) ")
+                        }
+
+                    }
+                }
                 Text(
-                    "The Longest Stretch Houses Starts from" +
-                            " ${it.startIndex + 1} to ${it.endIndex + 1}"
+                    buildString
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Button(onClick = {
             enableAddButton = true
-            balancedEnergyViewmodel.reset()
+            boxNestingViewModel.onEvent(BoxNestingEvent.Reset)
         }) {
             Text(stringResource(R.string.button_reset))
         }
@@ -145,15 +197,15 @@ fun InputTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel
+    boxNestingUiState: BoxNestingUiState
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.label_house_type)) },
-        placeholder = { Text(stringResource(R.string.placeholder_input)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        isError = balancedEnergyViewmodel.errorMessage.isNotEmpty(),
+        label = { Text(stringResource(R.string.label_box_size_input)) },
+        placeholder = { Text(stringResource(R.string.placeholder_box_size_volume)) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        isError = boxNestingUiState.errorMessage.isNotEmpty(),
         modifier = modifier
     )
 }
@@ -161,5 +213,5 @@ fun InputTextField(
 @AllVariantsPreview
 @Composable
 private fun BalancedEnergyScreenPreview() {
-    BalancedEnergyScreen(onBack = {})
+    BoxNestingScreen(boxNestingViewModel = viewModel<BoxNestingViewModel>(), onBack = {})
 }

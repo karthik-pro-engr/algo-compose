@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.screens.stay
+package com.karthik.pro.engr.algocompose.ui.screens.vsw
 
 import androidx.activity.compose.BackHandler
 import androidx.annotation.PluralsRes
@@ -28,9 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.components.molecules.HotelCostStatus
-import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.VarSlidingWindowEvent
-import com.karthik.pro.engr.algocompose.ui.viewmodel.stay.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.ui.components.molecules.StatusText
+import com.karthik.pro.engr.algocompose.ui.viewmodel.vsw.VarSlidingWindowEvent
+import com.karthik.pro.engr.algocompose.ui.viewmodel.vsw.VarSlidingWindowViewModel
 
 @Composable
 fun VariableSlidingWindowScreen(
@@ -133,7 +133,7 @@ fun VariableSlidingWindowScreen(
             }
         }
 
-        HotelCostStatus(
+        StatusText(
             errorMessage = uiState.errorMessage, inputMessage = when {
                 uiState.list.isNotEmpty() -> {
                     "[ ${uiState.list.joinToString(", ")} ]"
