@@ -58,6 +58,8 @@ fun AppHostScreen(
                 VariableSlidingWindowScreen(
                     modifier = modifier,
                     vm = varSlidingWindowViewModel,
+                    title = R.string.text_budget_stay_title,
+                    body = R.string.text_budget_stay_content,
                     lblRangeOrMaxCapacity = R.string.label_budget,
                     phRangeOrMaxCapacity = R.string.placeholder_budget,
                     btnRangeOrMaxCapacity = R.string.button_add_budget,
@@ -85,6 +87,8 @@ fun AppHostScreen(
                 VariableSlidingWindowScreen(
                     modifier = modifier,
                     vm = varSlidingWindowViewModel,
+                    title = R.string.text_video_play_requests_title,
+                    body = R.string.text_video_play_requests_content,
                     lblRangeOrMaxCapacity = R.string.label_add_request_capacity,
                     phRangeOrMaxCapacity = R.string.placeholder_request_capacity,
                     btnRangeOrMaxCapacity = R.string.button_add_requests_capacity,

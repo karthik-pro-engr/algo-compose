@@ -14,14 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,12 +33,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.components.molecules.StatusText
+import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
+import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingEvent
 import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingUiState
 import com.karthik.pro.engr.algocompose.ui.viewmodel.warehouse.BoxNestingViewModel
@@ -61,7 +58,7 @@ fun BoxNestingScreen(
     val boxNestingUiState by boxNestingViewModel.boxNestingUiState.collectAsState()
     val boxSizesList = boxNestingUiState.boxSizesList
 
-    val scrollState = rememberSaveable (saver = ScrollState.Saver){ ScrollState(0) }
+    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
     Column(
         modifier = modifier
@@ -69,18 +66,10 @@ fun BoxNestingScreen(
             .padding(16.dp)
             .verticalScroll(scrollState)
     ) {
-        Text(
-            text = stringResource(R.string.box_nesting_title),
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
+        ScreenHeader(
+            title = R.string.box_nesting_title,
+            body = R.string.box_nesting_problem_statement
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.box_nesting_problem_statement),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(18.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
