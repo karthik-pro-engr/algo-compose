@@ -6,6 +6,7 @@ package com.karthik.pro.engr.algocompose.ui.screens.energy
  */
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,7 +36,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.components.molecules.StatusText
+import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
+import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.ui.viewmodel.energy.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
@@ -50,12 +53,18 @@ fun BalancedEnergyScreen(
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
+    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
     ) {
+        ScreenHeader(
+            title = R.string.text_energy_screen_title,
+            body = R.string.text_energy_screen_content
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -88,6 +97,7 @@ fun BalancedEnergyScreen(
                 houseTypes.isNotEmpty() -> {
                     "[ ${houseTypes.joinToString(", ")} ]"
                 }
+
                 else -> stringResource(
                     R.string.text_no_house_types_added
                 )

@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.ui.components.molecules
+package com.karthik.pro.engr.algocompose.ui.components.atoms
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

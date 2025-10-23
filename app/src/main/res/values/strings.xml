@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">AlgoCompose</string>
+<!--    Energy Screen-->
+    <string name="text_energy_screen_title">Producer House and Consumer House</string>
+    <string name="text_energy_screen_content">In a town, each house either produces electricity (producer house) or consumes electricity (consumer house). You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).</string>
     <string name="placeholder_input">P or C</string>
     <string name="label_house_type">Enter House Type</string>
     <string name="button_add_house_type">Add House type</string>
@@ -7,6 +10,8 @@
     <string name="button_find_longest_stretch">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
     <!--    Budget Stay-->
+    <string name="text_budget_stay_title">Family Vacation – Hotel Bookings</string>
+    <string name="text_budget_stay_content">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>
     <string name="label_budget">Add Budget</string>
     <string name="placeholder_budget">Add Budget</string>
     <string name="button_add_budget">Add Budget</string>
@@ -22,6 +27,8 @@
         <item quantity="other">%d nights</item>
     </plurals>
     <!--    Internet Data Flow-->
+    <string name="text_video_play_requests_title">Video Play Requests to Server</string>
+    <string name="text_video_play_requests_content">A server is handling incoming video play requests per second (some light, some heavy). Find the maximum number of consecutive seconds where the total requests stay within the allowed server capacity.</string>
     <string name="label_add_request_capacity">Add Requests Capacity</string>
     <string name="placeholder_request_capacity">10000</string>
     <string name="button_add_requests_capacity">Add Requests Capacity</string>
