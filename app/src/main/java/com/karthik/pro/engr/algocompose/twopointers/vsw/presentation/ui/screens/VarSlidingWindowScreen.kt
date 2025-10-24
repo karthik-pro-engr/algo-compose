@@ -3,17 +3,11 @@ package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,21 +15,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VarSlidingWindowEvent
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.ComputeAndResultSection
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.InputWithButtonRes
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 
 @Composable
-fun VariableSlidingWindowScreen(
+fun VariableSlidingWindowScreenWrapper(
     modifier: Modifier = Modifier,
     vm: VarSlidingWindowViewModel,
     vswStrings: VswStrings,
@@ -44,7 +38,7 @@ fun VariableSlidingWindowScreen(
     BackHandler {
         onBack()
     }
-    var rangeOrMaxCapacityInput by rememberSaveable { mutableStateOf("") }
+    var capacityInput by rememberSaveable { mutableStateOf("") }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
 
@@ -62,75 +56,54 @@ fun VariableSlidingWindowScreen(
                 title = titleRes,
                 body = bodyRes
             )
-            if (uiState.showRangeInput) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
 
-                ) {
-                    OutlinedTextField(
-                        value = rangeOrMaxCapacityInput,
-                        onValueChange = { newValue ->
-                            if (newValue.all { it.isDigit() }) {
-                                rangeOrMaxCapacityInput = newValue
-                            }
-                        },
-                        label = { Text(stringResource(capacityLabelRes)) },
-                        placeholder = { Text(stringResource(capacityPlaceholderRes)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        isError = uiState.rangeErrorMessage.isNotEmpty(),
-                        modifier = Modifier.weight(1f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        onClick = {
-                            vm.onEvent(VarSlidingWindowEvent.AddRange(rangeOrMaxCapacityInput))
-                            rangeOrMaxCapacityInput = ""
-                        },
-                        enabled = enableAddButton
-                    ) {
-                        Text(stringResource(capacityButtonRes))
+            if (uiState.showRangeInput) {
+                InputWithButtonRes(
+                    value = capacityInput,
+                    labelRes = capacityLabelRes,
+                    placeholderRes = capacityPlaceholderRes,
+                    buttonRes = capacityButtonRes,
+                    enabled = enableAddButton,
+                    isError = uiState.rangeErrorMessage.isNotEmpty(),
+                    onValueChange = { newValue ->
+                        if (newValue.all { it.isDigit() }) {
+                            capacityInput = newValue
+                        }
+                    },
+                    onButtonClick = {
+                        vm.onEvent(VarSlidingWindowEvent.AddRange(capacityInput))
+                        capacityInput = ""
                     }
-                }
+                )
             } else {
                 Text(
                     stringResource(capacityAddedTextRes, uiState.rangeOrMaxCapacity)
                 )
-
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             if (uiState.showArrayItemInput) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-
-                ) {
-                    OutlinedTextField(
-                        value = input,
-                        onValueChange = { newValue ->
-                            if (newValue.all { it.isDigit() }) {
-                                input = newValue
-                            }
-                        },
-                        label = { Text(stringResource(itemLabelRes)) },
-                        placeholder = { Text(stringResource(itemPlaceholderRes)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        isError = uiState.errorMessage.isNotEmpty(),
-                        modifier = Modifier.weight(1f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        onClick = {
-                            vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
-                            input = ""
-                        },
-                        enabled = enableAddButton
-                    ) {
-                        Text(stringResource(itemButtonRes))
+                InputWithButtonRes(
+                    value = input,
+                    labelRes = itemLabelRes,
+                    placeholderRes = itemPlaceholderRes,
+                    buttonRes = itemButtonRes,
+                    enabled = enableAddButton,
+                    isError = uiState.rangeErrorMessage.isNotEmpty(),
+                    onValueChange = { newValue ->
+                        if (newValue.all { it.isDigit() }) {
+                            input = newValue
+                        }
+                    },
+                    onButtonClick = {
+                        vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
+                        input = ""
                     }
-                }
+                )
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             StatusText(
                 errorMessage = uiState.errorMessage, inputMessage = when {
@@ -146,34 +119,31 @@ fun VariableSlidingWindowScreen(
                 }
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             if (uiState.list.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = {
-                    enableAddButton = false
-                    vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
-                }, enabled = enableAddButton) {
-                    Text(text = stringResource(computeButtonRes))
-                }
-                uiState.result?.let {
-                    val longestStretch =
-                        pluralStringResource(unitPluralRes, it.maxStretch, it.maxStretch)
-                    Text(
-                        stringResource(
-                            resultTextRes,
-                            it.startIndex + 1,
-                            it.endIndex + 1,
-                            longestStretch
-                        )
-                    )
-                }
+                ComputeAndResultSection(
+                    buttonRes = computeButtonRes,
+                    unitPluralRes = unitPluralRes,
+                    resultRes = resultTextRes,
+                    enabled = enableAddButton,
+                    result = uiState.result,
+                    onButtonClicked = {
+                        enableAddButton = false
+                        vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
+                    }
+                )
             }
+
             Spacer(modifier = Modifier.height(80.dp))
-            Button(onClick = {
-                enableAddButton = true
-                vm.onEvent(VarSlidingWindowEvent.Reset)
-            }) {
-                Text(stringResource(R.string.button_reset))
-            }
+
+            ResetButton(
+                buttonRes = R.string.button_reset,
+                onButtonClick = {
+                    enableAddButton = true
+                    vm.onEvent(VarSlidingWindowEvent.Reset)
+                }
+            )
 
         }
     }
