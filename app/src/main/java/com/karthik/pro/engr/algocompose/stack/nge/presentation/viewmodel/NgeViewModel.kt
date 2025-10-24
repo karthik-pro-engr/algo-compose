@@ -7,6 +7,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -14,7 +15,7 @@ import kotlinx.coroutines.withContext
 class NgeViewModel(private val ngeCalculator: (List<Int>) -> NgeResult?) : ViewModel() {
 
     private var _ngeUiState = MutableStateFlow(NgeUiState())
-    val ngeUiState = _ngeUiState
+    val ngeUiState = _ngeUiState.asStateFlow()
 
 
     fun onEvent(event: NgeEvent) {
