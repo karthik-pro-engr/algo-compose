@@ -21,17 +21,17 @@ import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VarSlidingWindowEvent
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswEvent
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.ComputeAndResultSection
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.InputWithButtonRes
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VswViewModel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 
 @Composable
 fun VswScreenWrapper(
     modifier: Modifier = Modifier,
-    vm: VarSlidingWindowViewModel,
+    vm: VswViewModel,
     vswStrings: VswStrings,
     onBack: () -> Unit,
 ) {
@@ -71,13 +71,13 @@ fun VswScreenWrapper(
                         }
                     },
                     onButtonClick = {
-                        vm.onEvent(VarSlidingWindowEvent.AddRange(capacityInput))
+                        vm.onEvent(VswEvent.AddRange(capacityInput))
                         capacityInput = ""
                     }
                 )
             } else {
                 Text(
-                    stringResource(capacityAddedTextRes, uiState.rangeOrMaxCapacity)
+                    stringResource(capacityAddedTextRes, uiState.capacity)
                 )
             }
 
@@ -97,7 +97,7 @@ fun VswScreenWrapper(
                         }
                     },
                     onButtonClick = {
-                        vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
+                        vm.onEvent(VswEvent.AddInputForArray(input))
                         input = ""
                     }
                 )
@@ -130,7 +130,7 @@ fun VswScreenWrapper(
                     result = uiState.result,
                     onButtonClicked = {
                         enableAddButton = false
-                        vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
+                        vm.onEvent(VswEvent.ComputeVsw)
                     }
                 )
             }
@@ -141,7 +141,7 @@ fun VswScreenWrapper(
                 buttonRes = R.string.button_reset,
                 onButtonClick = {
                     enableAddButton = true
-                    vm.onEvent(VarSlidingWindowEvent.Reset)
+                    vm.onEvent(VswEvent.Reset)
                 }
             )
 

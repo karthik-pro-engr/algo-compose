@@ -1,16 +1,24 @@
 package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveStretchCalculator
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswEvent
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.VswScreenWrapper
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VswViewModel
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VswViewModelFactory
 
 @Composable
 fun VideoRequestsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
-    val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
+
+    val vswViewModelFactory = VswViewModelFactory(ConsecutiveStretchCalculator::computeResult)
+
+    val vswViewModel: VswViewModel =
+        viewModel(key = "VideoRequestsVswViewModel", factory = vswViewModelFactory)
 
     val vswStrings = VswStrings(
         titleRes = R.string.vsw_video_title,
@@ -30,8 +38,17 @@ fun VideoRequestsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     VswScreenWrapper(
         modifier = modifier,
-        vm = varSlidingWindowViewModel,
+        vm = vswViewModel,
         vswStrings = vswStrings,
-        onBack = onBack
+        onBack = {
+            vswViewModel.onEvent(VswEvent.Reset)
+            onBack()
+        }
     )
+
+    DisposableEffect(Unit) {
+        onDispose {
+            vswViewModel.onEvent(VswEvent.Reset)
+        }
+    }
 }
