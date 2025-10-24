@@ -1,7 +1,7 @@
 package com.karthik.pro.engr.algocompose.domain.stack
 
 object NextGreaterElementCalculator {
-    fun computeNextGreaterElement(inputList: List<Int>): BoxNestingOrder {
+    fun computeNextGreaterElement(inputList: List<Int>): NgeResult? {
         val size = inputList.size
         val output: MutableList<Int> = MutableList(size) { -1 }
         val stack = ArrayDeque<Int>(size)
@@ -16,8 +16,8 @@ object NextGreaterElementCalculator {
             }
             stack.addFirst(i)
         }
-        return BoxNestingOrder(output)
+        return NgeResult(output)
     }
 }
 
-data class BoxNestingOrder(val boxNestingOrderList: List<Int> = emptyList())
+data class NgeResult(val resultList: List<Int> = emptyList())

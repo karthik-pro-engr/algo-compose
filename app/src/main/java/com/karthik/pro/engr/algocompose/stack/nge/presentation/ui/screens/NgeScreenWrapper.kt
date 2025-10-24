@@ -39,15 +39,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.BoxNestingEvent
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.BoxNestingUiState
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.BoxNestingViewModel
+import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
+import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeUiState
+import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
-fun BoxNestingScreen(
+fun NgeScreenWrapper(
     modifier: Modifier = Modifier,
-    boxNestingViewModel: BoxNestingViewModel,
+    ngeViewModel: NgeViewModel,
     onBack: () -> Unit
 ) {
     BackHandler {
@@ -55,8 +55,8 @@ fun BoxNestingScreen(
     }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val boxNestingUiState by boxNestingViewModel.boxNestingUiState.collectAsState()
-    val boxSizesList = boxNestingUiState.boxSizesList
+    val boxNestingUiState by ngeViewModel.ngeUiState.collectAsState()
+    val boxSizesList = boxNestingUiState.inputList
 
     val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
@@ -87,7 +87,7 @@ fun BoxNestingScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    boxNestingViewModel.onEvent(BoxNestingEvent.AddBoxSize(input))
+                    ngeViewModel.onEvent(NgeEvent.AddItem(input))
                     input = ""
                 },
                 enabled = enableAddButton
@@ -113,11 +113,11 @@ fun BoxNestingScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = {
                 enableAddButton = false
-                boxNestingViewModel.onEvent(BoxNestingEvent.ComputeBoxNesting)
+                ngeViewModel.onEvent(NgeEvent.ComputeNge)
             }, enabled = enableAddButton) {
                 Text(text = stringResource(R.string.button_find_auto_nest_boxes))
             }
-            boxNestingUiState.boxNestingOrder?.let {
+            boxNestingUiState.ngeResult?.let {
 
                 val maxOfDigits =
                     boxSizesList.maxOfOrNull { boxSize -> boxSize.toString().length } ?: 0
@@ -133,7 +133,7 @@ fun BoxNestingScreen(
 
                         append(" cc -> Next: ")
 
-                        val nextIdx = it.boxNestingOrderList[idx]
+                        val nextIdx = it.resultList[idx]
 
                         if (nextIdx == -1) {
                             append("None")
@@ -154,7 +154,7 @@ fun BoxNestingScreen(
         Spacer(modifier = Modifier.height(40.dp))
         Button(onClick = {
             enableAddButton = true
-            boxNestingViewModel.onEvent(BoxNestingEvent.Reset)
+            ngeViewModel.onEvent(NgeEvent.Reset)
         }) {
             Text(stringResource(R.string.button_reset))
         }
@@ -186,7 +186,7 @@ fun InputTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    boxNestingUiState: BoxNestingUiState
+    ngeUiState: NgeUiState
 ) {
     OutlinedTextField(
         value = value,
@@ -194,7 +194,7 @@ fun InputTextField(
         label = { Text(stringResource(R.string.label_box_size_input)) },
         placeholder = { Text(stringResource(R.string.placeholder_box_size_volume)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        isError = boxNestingUiState.errorMessage.isNotEmpty(),
+        isError = ngeUiState.errorMessage.isNotEmpty(),
         modifier = modifier
     )
 }
@@ -202,5 +202,5 @@ fun InputTextField(
 @AllVariantsPreview
 @Composable
 private fun BalancedEnergyScreenPreview() {
-    BoxNestingScreen(boxNestingViewModel = viewModel<BoxNestingViewModel>(), onBack = {})
+    NgeScreenWrapper(ngeViewModel = viewModel<NgeViewModel>(), onBack = {})
 }
