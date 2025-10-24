@@ -10,19 +10,19 @@
     <string name="button_find_longest_stretch">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
     <!--    Budget Stay-->
-    <string name="text_budget_stay_title">Family Vacation – Hotel Bookings</string>
-    <string name="text_budget_stay_content">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>
-    <string name="label_budget">Add Budget</string>
-    <string name="placeholder_budget">Add Budget</string>
-    <string name="button_add_budget">Add Budget</string>
-    <string name="label_stay_input">Hotel Stay Cost</string>
-    <string name="placeholder_stay_input">10000</string>
-    <string name="button_add_hotel_cost">Add Hotel Cost</string>
-    <string name="text_no_hotel_cost_added">No Hotel Cost Added</string>
-    <string name="button_find_longest_nights">Find Longest Night Stay</string>
-    <string name="text_added_budget">The Budget is %1$d</string>
-    <string name="text_stay_result">The Longest Stretch Hotel Starts from %1$d to %2$d and total nights are %3$s </string>
-    <plurals name="nights">
+    <string name="vsw_budget_title">Family Vacation – Hotel Bookings</string>
+    <string name="vsw_budget_body">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>
+    <string name="vsw_budget_capacity_label">Add Budget</string>
+    <string name="vsw_capacity_budget_placeholder">1000</string>
+    <string name="vsw_budget_button_add">Add Budget</string>
+    <string name="vsw_budget_label_input">Hotel Stay Cost</string>
+    <string name="vsw_budget_placeholder_input">10000</string>
+    <string name="vsw_budget_button_add_hotel_cost">Add Hotel Cost</string>
+    <string name="vsw_budget_no_items_info">No Hotel Cost Added</string>
+    <string name="vsw_budget_button_compute">Find Longest Night Stay</string>
+    <string name="vsw_budget_capacity_added">Added Budget: %1$d</string>
+    <string name="vsw_budget_result">The Longest Stretch Hotel Starts from %1$d to %2$d and total nights are %3$s </string>
+    <plurals name="vsw_budget_nights">
         <item quantity="one">%d night</item>
         <item quantity="other">%d nights</item>
     </plurals>
