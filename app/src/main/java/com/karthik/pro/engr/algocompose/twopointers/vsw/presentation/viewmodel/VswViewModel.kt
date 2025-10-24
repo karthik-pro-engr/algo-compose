@@ -2,21 +2,23 @@ package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveStretchCalculator
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VarSlidingWindowEvent
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VarSlidingWindowUiState
+import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveSubArrayAndSize
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswEvent
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class VarSlidingWindowViewModel : ViewModel() {
-    private var _uiState = MutableStateFlow(VarSlidingWindowUiState())
+class VswViewModel(
+    private val vswCalculator: (Int, List<Int>) -> ConsecutiveSubArrayAndSize
+) : ViewModel() {
+    private var _uiState = MutableStateFlow(VswUiState())
     val uiState = _uiState
 
-    fun onEvent(event: VarSlidingWindowEvent) {
+    fun onEvent(event: VswEvent) {
 
         when (event) {
-            is VarSlidingWindowEvent.AddRange -> {
+            is VswEvent.AddRange -> {
                 viewModelScope.launch {
                     _uiState.update {
                         var rangeOrMaxCapacity = 0
@@ -39,7 +41,7 @@ class VarSlidingWindowViewModel : ViewModel() {
                             }
                         }
                         it.copy(
-                            rangeOrMaxCapacity = rangeOrMaxCapacity, rangeErrorMessage = error,
+                            capacity = rangeOrMaxCapacity, rangeErrorMessage = error,
                             showRangeInput = showRangeInput,
                             showArrayItemInput = showArrayItemInput
                         )
@@ -47,7 +49,7 @@ class VarSlidingWindowViewModel : ViewModel() {
                 }
             }
 
-            is VarSlidingWindowEvent.AddInputForArray -> {
+            is VswEvent.AddInputForArray -> {
                 viewModelScope.launch {
                     _uiState.update {
                         when {
@@ -69,23 +71,25 @@ class VarSlidingWindowViewModel : ViewModel() {
                 }
             }
 
-            VarSlidingWindowEvent.ComputeVarSlidingWindow -> {
+            VswEvent.ComputeVsw -> {
                 viewModelScope.launch {
+                    val results =
+                        vswCalculator(
+                            _uiState.value.capacity,
+                            _uiState.value.list
+                        )
                     _uiState.update {
                         it.copy(
-                            result = ConsecutiveStretchCalculator.computeResult(
-                                _uiState.value.rangeOrMaxCapacity,
-                                _uiState.value.list
-                            )
+                            result = results
                         )
                     }
                 }
             }
 
-            VarSlidingWindowEvent.Reset -> {
+            VswEvent.Reset -> {
                 viewModelScope.launch {
                     _uiState.update {
-                        VarSlidingWindowUiState()
+                        VswUiState()
                     }
                 }
 

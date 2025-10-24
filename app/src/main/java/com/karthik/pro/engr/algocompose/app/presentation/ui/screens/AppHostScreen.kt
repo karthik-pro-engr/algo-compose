@@ -8,16 +8,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.components.atoms.AppButton
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VariableSlidingWindowScreen
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.BoxNestingScreen
 import com.karthik.pro.engr.algocompose.app.presentation.model.AppEvent
 import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
 import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
-import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.BoxNestingViewModel
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
 
 @Composable
 fun AppHostScreen(
@@ -55,25 +54,10 @@ fun AppHostScreen(
                 * ___________________________________
                 *
                 */
-                val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
-                VariableSlidingWindowScreen(
+
+                BudgetStayScreen(
                     modifier = modifier,
-                    vm = varSlidingWindowViewModel,
-                    title = R.string.text_budget_stay_title,
-                    body = R.string.text_budget_stay_content,
-                    lblRangeOrMaxCapacity = R.string.label_budget,
-                    phRangeOrMaxCapacity = R.string.placeholder_budget,
-                    btnRangeOrMaxCapacity = R.string.button_add_budget,
-                    lblInputForArr = R.string.label_stay_input,
-                    phInputForArr = R.string.placeholder_stay_input,
-                    btnInputForArr = R.string.button_add_hotel_cost,
-                    txtInputArrInfo = R.string.text_no_hotel_cost_added,
-                    btnComputeResult = R.string.button_find_longest_nights,
-                    strPlural = R.plurals.nights,
-                    txtMaxCapacity = R.string.text_added_budget,
-                    txtResult = R.string.text_stay_result,
-                    onBack = { vm.onEvent(AppEvent.OnBack) },
-                )
+                    onBack = { vm.onEvent(AppEvent.OnBack) })
             }
 
             ScreenId.VIDEO_PLAY_REQUESTS -> {
@@ -84,25 +68,9 @@ fun AppHostScreen(
                   *
                   *
                   * */
-                val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
-                VariableSlidingWindowScreen(
+                VideoRequestsScreen(
                     modifier = modifier,
-                    vm = varSlidingWindowViewModel,
-                    title = R.string.text_video_play_requests_title,
-                    body = R.string.text_video_play_requests_content,
-                    lblRangeOrMaxCapacity = R.string.label_add_request_capacity,
-                    phRangeOrMaxCapacity = R.string.placeholder_request_capacity,
-                    btnRangeOrMaxCapacity = R.string.button_add_requests_capacity,
-                    lblInputForArr = R.string.label_data_request,
-                    phInputForArr = R.string.placeholder_input_request,
-                    btnInputForArr = R.string.button_add_requests,
-                    txtInputArrInfo = R.string.text_no_request_added,
-                    btnComputeResult = R.string.button_find_longest_seconds,
-                    strPlural = R.plurals.seconds,
-                    txtMaxCapacity = R.string.text_added_max_requests,
-                    txtResult = R.string.text_request_result,
-                    onBack = { vm.onEvent(AppEvent.OnBack) }
-                )
+                    onBack = { vm.onEvent(AppEvent.OnBack) })
             }
             /**
              * A regional fulfillment warehouse receives mixed batches of empty shipping cartons on a conveyor belt.

@@ -1,7 +1,7 @@
 package com.karthik.pro.engr.algocompose.domain.vsw
 
 object ConsecutiveStretchCalculator {
-    fun computeResult(maxCapacity: Int, inputList: List<Int>): ConsecutiveSubArrayAndSize {
+    fun computeResult(capacity: Int, inputList: List<Int>): ConsecutiveSubArrayAndSize {
         var prefixSum = 0
         var left = 0
         var maxNights = 0
@@ -10,7 +10,7 @@ object ConsecutiveStretchCalculator {
         for (i in 0 until inputList.size) {
             val current = inputList[i]
             prefixSum += current
-            while (prefixSum > maxCapacity) {
+            while (prefixSum > capacity) {
                 prefixSum = prefixSum - inputList[left]
                 left++
             }

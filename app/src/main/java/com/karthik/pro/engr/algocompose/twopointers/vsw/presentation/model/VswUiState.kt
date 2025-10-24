@@ -2,9 +2,9 @@ package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model
 
 import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveSubArrayAndSize
 
-data class VarSlidingWindowUiState(
+data class VswUiState(
     val list: List<Int> = emptyList(),
-    var rangeOrMaxCapacity: Int = 0,
+    var capacity: Int = 0,
     var result: ConsecutiveSubArrayAndSize? = null,
     var errorMessage: String = "",
     var rangeErrorMessage: String = "",
