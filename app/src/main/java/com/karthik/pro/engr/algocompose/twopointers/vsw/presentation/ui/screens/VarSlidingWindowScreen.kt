@@ -1,8 +1,6 @@
 package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.annotation.PluralsRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,25 +31,14 @@ import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VarSlidingWindowEvent
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
 
 @Composable
 fun VariableSlidingWindowScreen(
     modifier: Modifier = Modifier,
     vm: VarSlidingWindowViewModel,
-    @StringRes title:Int,
-    @StringRes body:Int,
-    @StringRes lblRangeOrMaxCapacity: Int,
-    @StringRes phRangeOrMaxCapacity: Int,
-    @StringRes btnRangeOrMaxCapacity: Int,
-    @StringRes lblInputForArr: Int,
-    @StringRes phInputForArr: Int,
-    @StringRes btnInputForArr: Int,
-    @StringRes txtInputArrInfo: Int,
-    @StringRes btnComputeResult: Int,
-    @PluralsRes strPlural: Int,
-    @StringRes txtResult: Int,
-    @StringRes txtMaxCapacity: Int,
+    vswStrings: VswStrings,
     onBack: () -> Unit,
 ) {
     BackHandler {
@@ -64,122 +51,130 @@ fun VariableSlidingWindowScreen(
     val uiState by vm.uiState.collectAsState()
     val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState)
-    ) {
-        ScreenHeader(
-            title = title,
-            body = body
-        )
-        if (uiState.showRangeInput) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
+    with(vswStrings) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(scrollState)
+        ) {
+            ScreenHeader(
+                title = titleRes,
+                body = bodyRes
+            )
+            if (uiState.showRangeInput) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
 
-            ) {
-                OutlinedTextField(
-                    value = rangeOrMaxCapacityInput,
-                    onValueChange = { newValue ->
-                        if (newValue.all { it.isDigit() }) {
-                            rangeOrMaxCapacityInput = newValue
-                        }
-                    },
-                    label = { Text(stringResource(lblRangeOrMaxCapacity)) },
-                    placeholder = { Text(stringResource(phRangeOrMaxCapacity)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    isError = uiState.rangeErrorMessage.isNotEmpty(),
-                    modifier = Modifier.weight(1f)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Button(
-                    onClick = {
-                        vm.onEvent(VarSlidingWindowEvent.AddRange(rangeOrMaxCapacityInput))
-                        rangeOrMaxCapacityInput = ""
-                    },
-                    enabled = enableAddButton
                 ) {
-                    Text(stringResource(btnRangeOrMaxCapacity))
+                    OutlinedTextField(
+                        value = rangeOrMaxCapacityInput,
+                        onValueChange = { newValue ->
+                            if (newValue.all { it.isDigit() }) {
+                                rangeOrMaxCapacityInput = newValue
+                            }
+                        },
+                        label = { Text(stringResource(capacityLabelRes)) },
+                        placeholder = { Text(stringResource(capacityPlaceholderRes)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        isError = uiState.rangeErrorMessage.isNotEmpty(),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = {
+                            vm.onEvent(VarSlidingWindowEvent.AddRange(rangeOrMaxCapacityInput))
+                            rangeOrMaxCapacityInput = ""
+                        },
+                        enabled = enableAddButton
+                    ) {
+                        Text(stringResource(capacityButtonRes))
+                    }
+                }
+            } else {
+                Text(
+                    stringResource(capacityAddedTextRes, uiState.rangeOrMaxCapacity)
+                )
+
+            }
+            if (uiState.showArrayItemInput) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+
+                ) {
+                    OutlinedTextField(
+                        value = input,
+                        onValueChange = { newValue ->
+                            if (newValue.all { it.isDigit() }) {
+                                input = newValue
+                            }
+                        },
+                        label = { Text(stringResource(itemLabelRes)) },
+                        placeholder = { Text(stringResource(itemPlaceholderRes)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        isError = uiState.errorMessage.isNotEmpty(),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = {
+                            vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
+                            input = ""
+                        },
+                        enabled = enableAddButton
+                    ) {
+                        Text(stringResource(itemButtonRes))
+                    }
                 }
             }
-        } else {
-            Text(
-                stringResource(txtMaxCapacity, uiState.rangeOrMaxCapacity)
+
+            StatusText(
+                errorMessage = uiState.errorMessage, inputMessage = when {
+                    uiState.list.isNotEmpty() -> {
+                        "[ ${uiState.list.joinToString(", ")} ]"
+                    }
+
+                    uiState.showArrayItemInput -> stringResource(
+                        noItemsInfoRes
+                    )
+
+                    else -> ""
+                }
             )
 
-        }
-        if (uiState.showArrayItemInput) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-
-            ) {
-                OutlinedTextField(
-                    value = input,
-                    onValueChange = { newValue ->
-                        if (newValue.all { it.isDigit() }) {
-                            input = newValue
-                        }
-                    },
-                    label = { Text(stringResource(lblInputForArr)) },
-                    placeholder = { Text(stringResource(phInputForArr)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    isError = uiState.errorMessage.isNotEmpty(),
-                    modifier = Modifier.weight(1f)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Button(
-                    onClick = {
-                        vm.onEvent(VarSlidingWindowEvent.AddInputForArray(input))
-                        input = ""
-                    },
-                    enabled = enableAddButton
-                ) {
-                    Text(stringResource(btnInputForArr))
+            if (uiState.list.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = {
+                    enableAddButton = false
+                    vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
+                }, enabled = enableAddButton) {
+                    Text(text = stringResource(computeButtonRes))
+                }
+                uiState.result?.let {
+                    val longestStretch =
+                        pluralStringResource(unitPluralRes, it.maxStretch, it.maxStretch)
+                    Text(
+                        stringResource(
+                            resultTextRes,
+                            it.startIndex + 1,
+                            it.endIndex + 1,
+                            longestStretch
+                        )
+                    )
                 }
             }
-        }
-
-        StatusText(
-            errorMessage = uiState.errorMessage, inputMessage = when {
-                uiState.list.isNotEmpty() -> {
-                    "[ ${uiState.list.joinToString(", ")} ]"
-                }
-
-                uiState.showArrayItemInput -> stringResource(
-                    txtInputArrInfo
-                )
-
-                else -> ""
-            }
-        )
-
-        if (uiState.list.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             Button(onClick = {
-                enableAddButton = false
-                vm.onEvent(VarSlidingWindowEvent.ComputeVarSlidingWindow)
-            }, enabled = enableAddButton) {
-                Text(text = stringResource(btnComputeResult))
+                enableAddButton = true
+                vm.onEvent(VarSlidingWindowEvent.Reset)
+            }) {
+                Text(stringResource(R.string.button_reset))
             }
-            uiState.result?.let {
-                val longestStretch = pluralStringResource(strPlural, it.maxStretch, it.maxStretch)
-                Text(
-                    stringResource(txtResult, it.startIndex + 1, it.endIndex + 1, longestStretch)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(80.dp))
-        Button(onClick = {
-            enableAddButton = true
-            vm.onEvent(VarSlidingWindowEvent.Reset)
-        }) {
-            Text(stringResource(R.string.button_reset))
-        }
 
+        }
     }
 }

@@ -18,6 +18,7 @@ import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
 import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VarSlidingWindowViewModel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.BoxNestingViewModel
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
 
 @Composable
 fun AppHostScreen(
@@ -56,22 +57,25 @@ fun AppHostScreen(
                 *
                 */
                 val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
+                val vswStrings = VswStrings(
+                    titleRes = R.string.vsw_budget_title,
+                    bodyRes = R.string.vsw_budget_body,
+                    capacityLabelRes = R.string.vsw_budget_capacity_label,
+                    capacityPlaceholderRes = R.string.vsw_budget_capacity_placeholder,
+                    capacityButtonRes = R.string.vsw_budget_button_add,
+                    itemLabelRes = R.string.vsw_budget_label_input,
+                    itemPlaceholderRes = R.string.vsw_budget_placeholder_input,
+                    itemButtonRes = R.string.vsw_budget_button_add_hotel_cost,
+                    noItemsInfoRes = R.string.vsw_budget_no_items_info,
+                    computeButtonRes = R.string.vsw_budget_button_compute,
+                    unitPluralRes = R.plurals.vsw_budget_nights,
+                    capacityAddedTextRes = R.string.vsw_budget_capacity_added,
+                    resultTextRes = R.string.vsw_budget_result,
+                )
                 VariableSlidingWindowScreen(
                     modifier = modifier,
                     vm = varSlidingWindowViewModel,
-                    title = R.string.vsw_budget_title,
-                    body = R.string.vsw_budget_body,
-                    lblRangeOrMaxCapacity = R.string.vsw_budget_capacity_label,
-                    phRangeOrMaxCapacity = R.string.vsw_capacity_budget_placeholder,
-                    btnRangeOrMaxCapacity = R.string.vsw_budget_button_add,
-                    lblInputForArr = R.string.vsw_budget_label_input,
-                    phInputForArr = R.string.vsw_budget_placeholder_input,
-                    btnInputForArr = R.string.vsw_budget_button_add_hotel_cost,
-                    txtInputArrInfo = R.string.vsw_budget_no_items_info,
-                    btnComputeResult = R.string.vsw_budget_button_compute,
-                    strPlural = R.plurals.vsw_budget_nights,
-                    txtMaxCapacity = R.string.vsw_budget_capacity_added,
-                    txtResult = R.string.vsw_budget_result,
+                    vswStrings = vswStrings,
                     onBack = { vm.onEvent(AppEvent.OnBack) },
                 )
             }
@@ -85,22 +89,27 @@ fun AppHostScreen(
                   *
                   * */
                 val varSlidingWindowViewModel: VarSlidingWindowViewModel = viewModel()
+
+                val vswStrings = VswStrings(
+                    titleRes = R.string.vsw_video_title,
+                    bodyRes = R.string.vsw_video_body,
+                    capacityLabelRes = R.string.vsw_video_capacity_label_add,
+                    capacityPlaceholderRes = R.string.vsw_video_capacity_placeholder,
+                    capacityButtonRes = R.string.vsw_video_capacity_button_add,
+                    itemLabelRes = R.string.vsw_video_label_input,
+                    itemPlaceholderRes = R.string.vsw_video_placeholder_input,
+                    itemButtonRes = R.string.vsw_video_button_add_input,
+                    noItemsInfoRes = R.string.vsw_video_no_input_infos,
+                    computeButtonRes = R.string.vsw_video_button_compute,
+                    unitPluralRes = R.plurals.vsw_video_seconds,
+                    capacityAddedTextRes = R.string.vsw_video_capacity_added,
+                    resultTextRes = R.string.vsw_video_result,
+                )
+
                 VariableSlidingWindowScreen(
                     modifier = modifier,
                     vm = varSlidingWindowViewModel,
-                    title = R.string.text_video_play_requests_title,
-                    body = R.string.text_video_play_requests_content,
-                    lblRangeOrMaxCapacity = R.string.label_add_request_capacity,
-                    phRangeOrMaxCapacity = R.string.placeholder_request_capacity,
-                    btnRangeOrMaxCapacity = R.string.button_add_requests_capacity,
-                    lblInputForArr = R.string.label_data_request,
-                    phInputForArr = R.string.placeholder_input_request,
-                    btnInputForArr = R.string.button_add_requests,
-                    txtInputArrInfo = R.string.text_no_request_added,
-                    btnComputeResult = R.string.button_find_longest_seconds,
-                    strPlural = R.plurals.seconds,
-                    txtMaxCapacity = R.string.text_added_max_requests,
-                    txtResult = R.string.text_request_result,
+                    vswStrings = vswStrings,
                     onBack = { vm.onEvent(AppEvent.OnBack) }
                 )
             }
