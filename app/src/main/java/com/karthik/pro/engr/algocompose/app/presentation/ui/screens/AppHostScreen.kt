@@ -12,8 +12,7 @@ import com.karthik.pro.engr.algocompose.app.presentation.model.AppEvent
 import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
 import com.karthik.pro.engr.algocompose.app.presentation.ui.components.atoms.AppButton
 import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.BoxNestingScreen
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModel
+import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.BoxNestingScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
