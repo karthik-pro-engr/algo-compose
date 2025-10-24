@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens
+package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
@@ -29,7 +29,7 @@ import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.V
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 
 @Composable
-fun VariableSlidingWindowScreenWrapper(
+fun VswScreenWrapper(
     modifier: Modifier = Modifier,
     vm: VarSlidingWindowViewModel,
     vswStrings: VswStrings,
