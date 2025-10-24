@@ -1,9 +1,6 @@
 package com.karthik.pro.engr.algocompose.stack.nge.presentation.ui
 
-/***
- * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
- * You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).
- */
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
@@ -60,14 +57,12 @@ fun NgeScreenWrapper(
     val ngeUiState by ngeViewModel.ngeUiState.collectAsState()
     val boxSizesList = ngeUiState.inputList
 
-    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
     with(ngeScreenConfig) {
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState)
         ) {
             ScreenHeader(
                 title = titleRes,
@@ -131,7 +126,7 @@ fun NgeScreenWrapper(
 
                 ngeUiState.ngeResult?.let { result ->
                     Spacer(modifier = Modifier.height(8.dp))
-                    LazyColumn {
+                    LazyColumn(modifier= Modifier.weight(1f)) {
                         itemsIndexed(boxSizesList) { idx, value ->
                             val nextIdx = result.resultList[idx]
                             val line = ngeScreenConfig.formatResultLine(
