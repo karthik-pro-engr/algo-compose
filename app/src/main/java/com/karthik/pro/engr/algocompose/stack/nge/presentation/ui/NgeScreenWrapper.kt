@@ -57,7 +57,7 @@ fun NgeScreenWrapper(
     }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val ngeUiState by ngeViewModel.ngeUiState.collectAsState(initial = ngeViewModel.ngeUiState.value)
+    val ngeUiState by ngeViewModel.ngeUiState.collectAsState()
     val boxSizesList = ngeUiState.inputList
 
     val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
