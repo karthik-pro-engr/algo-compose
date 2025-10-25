@@ -61,8 +61,6 @@ fun VswScreenWrapper(
                 body = bodyRes
             )
 
-            val focusManager = LocalFocusManager.current
-            val keyboardController = LocalSoftwareKeyboardController.current
 
             if (uiState.showRangeInput) {
                 InputWithButtonRes(
