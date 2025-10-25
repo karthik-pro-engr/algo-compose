@@ -13,6 +13,7 @@ import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
 import com.karthik.pro.engr.algocompose.app.presentation.ui.components.atoms.AppButton
 import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.BoxNestingScreen
+import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.WindGustsScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
@@ -41,17 +42,17 @@ fun AppHostScreen(
                 modifier = modifier,
                 onBack = { vm.onEvent(AppEvent.OnBack) })
 
-              /*
-              * Budget Stay
-              * ______________
+            /*
+            * Budget Stay
+            * ______________
 
-              * Family Vacation – Hotel Bookings
-              * You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location.
-              * You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.
-              *
-              * ___________________________________
-              *
-              */
+            * Family Vacation – Hotel Bookings
+            * You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location.
+            * You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.
+            *
+            * ___________________________________
+            *
+            */
 
             ScreenId.BUDGET_STAY -> {
 
@@ -86,6 +87,17 @@ fun AppHostScreen(
                 BoxNestingScreen(
                     modifier = modifier,
                     onBack = { vm.onEvent(AppEvent.OnBack) })
+            }
+
+            /*
+            * Weather Station — Wind Gusts: Minutes Until Next Stronger Gust
+            * Your weather station samples wind gust speed in kilometers per hour (km/h) once every minute.
+            * For each recorded gust, determine how many minutes you must wait until a later gust is strictly stronger than the current one.
+            * If there is no later gust that is strictly stronger, return 0 for that reading.
+            * */
+
+            ScreenId.WIND_GUSTS -> {
+                WindGustsScreen(modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
             }
 
             else -> vm.onEvent(AppEvent.OnBack)

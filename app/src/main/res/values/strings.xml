@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AlgoCompose</string>
-<!--    Energy Screen-->
+    <!--    Energy Screen-->
     <string name="text_energy_screen_title">Producer House and Consumer House</string>
     <string name="text_energy_screen_content">In a town, each house either produces electricity (producer house) or consumes electricity (consumer house). You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).</string>
     <string name="placeholder_input">P or C</string>
@@ -52,6 +52,21 @@
     <string name="nge_box_nesting_button_compute">Auto-Nest Boxes</string>
     <string name="nge_box_nesting_title">Find the next larger box for each box in the incoming conveyor (Warehouse Delivery Boxes)</string>
     <string name="nge_box_nesting_body">A regional fulfillment warehouse receives mixed batches of empty shipping cartons on a conveyor belt. To reduce pallet height, protect fragile items, and speed up downstream packing, staff want to automatically identify opportunities to nest smaller cartons into the next larger carton that appears later on the conveyor. This matching is used by the packing robot and operators to decide whether to nest, hold for a different shipment, or mark for repack.</string>
+
+    <!--    Wind Gusts-->
+    <string name="nge_wind_gusts_title">Weather Station — Wind Gusts: Minutes Until Next Stronger Gust</string>
+    <string name="nge_wind_gusts_body">Your weather station samples wind gust speed in kilometers per hour (km/h) once every minute. For each recorded gust, determine how many minutes you must wait until a later gust is strictly stronger than the current one. If there is no later gust that is strictly stronger, return 0 for that reading.</string>
+    <string name="nge_wind_gusts_label_input">Enter Gust speed(km/h) in numeric</string>
+    <string name="nge_wind_gusts_placeholder_input">125</string>
+    <string name="nge_wind_gusts_button_add_speed">Add Gust Speed</string>
+    <string name="nge_wind_gusts_no_items_info">No Gust speed added</string>
+    <string name="nge_wind_gusts_button_compute">Compute Wait Times</string>
+
+    <!-- accessibility / UX strings -->
+    <string name="nge_wind_gusts_button_add_speed_cd">Add a gust speed to the list</string>
+    <string name="nge_wind_gusts_button_compute_cd">Compute how many minutes until a stronger gust</string>
+    <string name="nge_wind_gusts_input_error_non_numeric">Please enter a numeric gust speed</string>
+    <string name="nge_wind_gusts_input_error_range">Enter a gust speed between 0 and 1000</string>
 
 
     <!--    Feedback-->
