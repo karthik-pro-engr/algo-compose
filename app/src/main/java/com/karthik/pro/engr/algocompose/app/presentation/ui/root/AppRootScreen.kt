@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
  *
  * @param useTapToClear whether tapping empty space hides keyboard/focus (default true).
  * @param contentPadding outer padding (default 16.dp).
- * @param clickableIndication when false we disable ripple (default null-style behavior).
+ * @param clickableIndicationEnabled when false we disable ripple (default null-style behavior).
  * @param content slot that receives a `hideKeyboardAndClearFocus` lambda.
  */
 

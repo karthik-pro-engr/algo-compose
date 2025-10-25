@@ -5,6 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
 import com.karthik.pro.engr.algocompose.domain.stack.NextGreaterElementCalculator
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenConfig
@@ -40,12 +41,14 @@ fun BoxNestingScreen(modifier: Modifier, onBack: () -> Unit) {
         }
     )
 
-    NgeScreenWrapper(
-        modifier = modifier,
-        ngeViewModel = ngeViewModel,
-        ngeScreenConfig = ngeScreenConfig,
-        onBack = onBack
-    )
+    AppRootScreen(modifier = modifier) { hideKeyboard->
+        NgeScreenWrapper(
+            ngeViewModel = ngeViewModel,
+            ngeScreenConfig = ngeScreenConfig,
+            hideKeyboard = hideKeyboard,
+            onBack = onBack
+        )
+    }
 
     DisposableEffect(Unit) {
         onDispose {
