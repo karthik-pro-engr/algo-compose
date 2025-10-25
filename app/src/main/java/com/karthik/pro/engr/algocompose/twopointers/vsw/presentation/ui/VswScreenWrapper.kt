@@ -36,6 +36,7 @@ fun VswScreenWrapper(
     modifier: Modifier = Modifier,
     vm: VswViewModel,
     vswStrings: VswStrings,
+    hideKeyboard: () -> Unit,
     onBack: () -> Unit,
 ) {
     BackHandler {
@@ -74,8 +75,7 @@ fun VswScreenWrapper(
                     keyboardActions = KeyboardActions(onDone = {
                         vm.onEvent(VswEvent.AddRange(capacityInput))
                         capacityInput = ""
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
+                        hideKeyboard()
                     }),
                     onValueChange = { newValue ->
                         if (newValue.all { it.isDigit() }) {
@@ -85,8 +85,7 @@ fun VswScreenWrapper(
                     onButtonClick = {
                         vm.onEvent(VswEvent.AddRange(capacityInput))
                         capacityInput = ""
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
+                        hideKeyboard()
                     },
                 )
             } else {
@@ -148,8 +147,7 @@ fun VswScreenWrapper(
                     result = uiState.result,
                     onButtonClicked = {
                         enableAddButton = false
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
+                        hideKeyboard()
                         vm.onEvent(VswEvent.ComputeVsw)
                     }
                 )
@@ -161,8 +159,7 @@ fun VswScreenWrapper(
                 buttonRes = R.string.button_reset,
                 onButtonClick = {
                     enableAddButton = true
-                    focusManager.clearFocus()
-                    keyboardController?.hide()
+                    hideKeyboard()
                     vm.onEvent(VswEvent.Reset)
                 }
             )

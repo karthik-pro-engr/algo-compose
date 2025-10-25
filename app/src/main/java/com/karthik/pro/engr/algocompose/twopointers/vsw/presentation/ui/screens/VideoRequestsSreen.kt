@@ -5,6 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
 import com.karthik.pro.engr.algocompose.domain.vsw.ConsecutiveStretchCalculator
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswEvent
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
@@ -35,16 +36,17 @@ fun VideoRequestsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
         capacityAddedTextRes = R.string.vsw_video_capacity_added,
         resultTextRes = R.string.vsw_video_result,
     )
-
-    VswScreenWrapper(
-        modifier = modifier,
-        vm = vswViewModel,
-        vswStrings = vswStrings,
-        onBack = {
+    AppRootScreen(modifier = modifier) { hideKeyboard ->
+        VswScreenWrapper(
+            modifier = modifier,
+            vm = vswViewModel,
+            vswStrings = vswStrings,
+            hideKeyboard = hideKeyboard,
+        ) {
             vswViewModel.onEvent(VswEvent.Reset)
             onBack()
         }
-    )
+    }
 
     DisposableEffect(Unit) {
         onDispose {

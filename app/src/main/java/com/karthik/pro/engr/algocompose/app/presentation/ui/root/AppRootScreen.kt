@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 fun AppRootScreen(
     modifier: Modifier = Modifier,
     useTapToClear: Boolean = true,
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     clickableIndicationEnabled: Boolean = false,
     content: @Composable BoxScope.(hideKeyboardAndClearFocus: () -> Unit) -> Unit
 ) {
