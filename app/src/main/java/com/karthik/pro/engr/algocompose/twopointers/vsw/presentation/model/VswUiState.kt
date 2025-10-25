@@ -7,7 +7,7 @@ data class VswUiState(
     var capacity: Int = 0,
     var result: ConsecutiveSubArrayAndSize? = null,
     var errorMessage: String = "",
-    var rangeErrorMessage: String = "",
+    var capacityErrorMessage: String = "",
     var showRangeInput: Boolean = true,
     var showArrayItemInput: Boolean = false
 )
