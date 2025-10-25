@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,17 +17,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
-import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswEvent
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.model.VswStrings
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.ComputeAndResultSection
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.InputWithButtonRes
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.VswViewModel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
+import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
+import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 
 @Composable
 fun VswScreenWrapper(
@@ -57,6 +60,9 @@ fun VswScreenWrapper(
                 body = bodyRes
             )
 
+            val focusManager = LocalFocusManager.current
+            val keyboardController = LocalSoftwareKeyboardController.current
+
             if (uiState.showRangeInput) {
                 InputWithButtonRes(
                     value = capacityInput,
@@ -64,7 +70,13 @@ fun VswScreenWrapper(
                     placeholderRes = capacityPlaceholderRes,
                     buttonRes = capacityButtonRes,
                     enabled = enableAddButton,
-                    isError = uiState.rangeErrorMessage.isNotEmpty(),
+                    isError = uiState.capacityErrorMessage.isNotEmpty(),
+                    keyboardActions = KeyboardActions(onDone = {
+                        vm.onEvent(VswEvent.AddRange(capacityInput))
+                        capacityInput = ""
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                    }),
                     onValueChange = { newValue ->
                         if (newValue.all { it.isDigit() }) {
                             capacityInput = newValue
@@ -73,7 +85,9 @@ fun VswScreenWrapper(
                     onButtonClick = {
                         vm.onEvent(VswEvent.AddRange(capacityInput))
                         capacityInput = ""
-                    }
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                    },
                 )
             } else {
                 Text(
@@ -90,16 +104,20 @@ fun VswScreenWrapper(
                     placeholderRes = itemPlaceholderRes,
                     buttonRes = itemButtonRes,
                     enabled = enableAddButton,
-                    isError = uiState.rangeErrorMessage.isNotEmpty(),
+                    isError = uiState.errorMessage.isNotEmpty(),
                     onValueChange = { newValue ->
                         if (newValue.all { it.isDigit() }) {
                             input = newValue
                         }
                     },
+                    keyboardActions = KeyboardActions(onDone = {
+                        vm.onEvent(VswEvent.AddInputForArray(input))
+                        input = ""
+                    }),
                     onButtonClick = {
                         vm.onEvent(VswEvent.AddInputForArray(input))
                         input = ""
-                    }
+                    },
                 )
             }
 
@@ -130,6 +148,8 @@ fun VswScreenWrapper(
                     result = uiState.result,
                     onButtonClicked = {
                         enableAddButton = false
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
                         vm.onEvent(VswEvent.ComputeVsw)
                     }
                 )
@@ -141,6 +161,8 @@ fun VswScreenWrapper(
                 buttonRes = R.string.button_reset,
                 onButtonClick = {
                     enableAddButton = true
+                    focusManager.clearFocus()
+                    keyboardController?.hide()
                     vm.onEvent(VswEvent.Reset)
                 }
             )

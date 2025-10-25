@@ -41,7 +41,7 @@ class VswViewModel(
                             }
                         }
                         it.copy(
-                            capacity = rangeOrMaxCapacity, rangeErrorMessage = error,
+                            capacity = rangeOrMaxCapacity, capacityErrorMessage = error,
                             showRangeInput = showRangeInput,
                             showArrayItemInput = showArrayItemInput
                         )

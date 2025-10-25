@@ -9,13 +9,15 @@ import androidx.compose.ui.Modifier
 fun StatusText(
     modifier: Modifier = Modifier,
     errorMessage: String = "",
-    inputMessage:String = ""
+    inputMessage: String = ""
 ) {
 
     if (inputMessage.isNotEmpty()) {
         Text(
-            text = inputMessage)
-    } else if(errorMessage.isNotEmpty()){
+            text = inputMessage,
+            style = MaterialTheme.typography.bodySmall
+        )
+    } else if (errorMessage.isNotEmpty()) {
         Text(
             text = errorMessage,
             color = MaterialTheme.colorScheme.error,
