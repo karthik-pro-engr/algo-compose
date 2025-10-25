@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
@@ -54,78 +55,81 @@ fun BalancedEnergyScreen(
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
     val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState)
-    ) {
-        ScreenHeader(
-            title = R.string.text_energy_screen_title,
-            body = R.string.text_energy_screen_content
-        )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-
+    AppRootScreen { hideAndClear ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(scrollState)
         ) {
-            InputTextField(
-                Modifier
-                    .weight(1f)
-                    .padding(end = 10.dp),
-                input,
-                onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
-                balancedEnergyViewmodel
+            ScreenHeader(
+                title = R.string.text_energy_screen_title,
+                body = R.string.text_energy_screen_content
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = {
-                    balancedEnergyViewmodel.addHouseType(input)
-                    input = ""
-                },
-                enabled = enableAddButton
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+
             ) {
-                Text(stringResource(R.string.button_add_house_type))
-            }
-        }
-
-        StatusText(
-            errorMessage = balancedEnergyViewmodel.errorMessage,
-            inputMessage = when {
-                houseTypes.isNotEmpty() -> {
-                    "[ ${houseTypes.joinToString(", ")} ]"
+                InputTextField(
+                    Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    input,
+                    onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
+                    balancedEnergyViewmodel
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        balancedEnergyViewmodel.addHouseType(input)
+                        input = ""
+                    },
+                    enabled = enableAddButton
+                ) {
+                    Text(stringResource(R.string.button_add_house_type))
                 }
-
-                else -> stringResource(
-                    R.string.text_no_house_types_added
-                )
             }
-        )
 
-        if (houseTypes.size > 1) {
-            Spacer(modifier = Modifier.height(8.dp))
+            StatusText(
+                errorMessage = balancedEnergyViewmodel.errorMessage,
+                inputMessage = when {
+                    houseTypes.isNotEmpty() -> {
+                        "[ ${houseTypes.joinToString(", ")} ]"
+                    }
+
+                    else -> stringResource(
+                        R.string.text_no_house_types_added
+                    )
+                }
+            )
+
+            if (houseTypes.size > 1) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = {
+                    enableAddButton = false
+                    hideAndClear()
+                    balancedEnergyViewmodel.calculateBalancedEnergy()
+                }, enabled = enableAddButton) {
+                    Text(text = stringResource(R.string.button_find_longest_stretch))
+                }
+                balancedEnergyViewmodel.stretchResult?.let {
+                    Text(
+                        "The Longest Stretch Houses Starts from" +
+                                " ${it.startIndex + 1} to ${it.endIndex + 1}"
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(80.dp))
             Button(onClick = {
-                enableAddButton = false
-                balancedEnergyViewmodel.calculateBalancedEnergy()
-            }, enabled = enableAddButton) {
-                Text(text = stringResource(R.string.button_find_longest_stretch))
+                enableAddButton = true
+                hideAndClear()
+                balancedEnergyViewmodel.reset()
+            }) {
+                Text(stringResource(R.string.button_reset))
             }
-            balancedEnergyViewmodel.stretchResult?.let {
-                Text(
-                    "The Longest Stretch Houses Starts from" +
-                            " ${it.startIndex + 1} to ${it.endIndex + 1}"
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(80.dp))
-        Button(onClick = {
-            enableAddButton = true
-            balancedEnergyViewmodel.reset()
-        }) {
-            Text(stringResource(R.string.button_reset))
         }
     }
 }
