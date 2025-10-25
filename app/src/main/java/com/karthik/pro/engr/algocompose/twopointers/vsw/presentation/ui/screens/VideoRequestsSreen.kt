@@ -38,7 +38,6 @@ fun VideoRequestsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
     )
     AppRootScreen(modifier = modifier) { hideKeyboard ->
         VswScreenWrapper(
-            modifier = modifier,
             vm = vswViewModel,
             vswStrings = vswStrings,
             hideKeyboard = hideKeyboard,

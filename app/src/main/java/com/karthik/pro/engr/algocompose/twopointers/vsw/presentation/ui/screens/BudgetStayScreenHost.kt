@@ -40,7 +40,6 @@ fun BudgetStayScreen(
 
     AppRootScreen(modifier = modifier) { hideKeyboard ->
         VswScreenWrapper(
-            modifier = modifier,
             vm = vswViewModel,
             vswStrings = vswStrings,
             hideKeyboard = hideKeyboard,
