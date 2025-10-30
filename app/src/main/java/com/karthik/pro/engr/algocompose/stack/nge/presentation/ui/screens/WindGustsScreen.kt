@@ -14,7 +14,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModelFactory
 
 @Composable
-fun WindGustsScreen(modifier: Modifier, onBack: () -> Unit) {
+fun WindGustsScreen(modifier: Modifier= Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
         NgeViewModelFactory(NextGreaterElementCalculator::computeNextGreaterElement)

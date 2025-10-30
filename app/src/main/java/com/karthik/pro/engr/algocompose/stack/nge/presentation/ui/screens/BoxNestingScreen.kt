@@ -15,7 +15,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 
 
 @Composable
-fun BoxNestingScreen(modifier: Modifier, onBack: () -> Unit) {
+fun BoxNestingScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
         NgeViewModelFactory(NextGreaterElementCalculator::computeNextGreaterElement)

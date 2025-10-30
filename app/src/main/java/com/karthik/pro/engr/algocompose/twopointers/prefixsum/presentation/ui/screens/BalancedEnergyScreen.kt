@@ -6,7 +6,6 @@ package com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.s
  */
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -37,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
@@ -54,13 +52,11 @@ fun BalancedEnergyScreen(
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
-    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
-    AppRootScreen { hideAndClear ->
+    AppRootScreen(modifier=modifier) { hideAndClear ->
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState)
         ) {
             ScreenHeader(
                 title = R.string.text_energy_screen_title,
@@ -134,25 +130,6 @@ fun BalancedEnergyScreen(
     }
 }
 
-private fun Modifier.debugOverlay(color: Color, tag: String, show: Boolean): Modifier {
-    return if (!show) this else {
-        this
-            .drawBehind {
-                // draw translucent rectangle filling the composable bounds
-                drawRect(color = color)
-                // optional cross hair to see origin
-                drawCircle(color = Color.White, radius = 2f, center = Offset(2f, 2f))
-            }
-            .onGloballyPositioned { coordinates ->
-                val size = coordinates.size
-                // Log size & position; check Logcat under "LayoutDebug"
-                Log.d(
-                    "LayoutDebug",
-                    "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}"
-                )
-            }
-    }
-}
 
 @Composable
 fun InputTextField(

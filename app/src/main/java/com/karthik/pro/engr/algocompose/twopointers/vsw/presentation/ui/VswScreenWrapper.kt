@@ -1,14 +1,12 @@
 package com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,8 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
@@ -47,14 +43,12 @@ fun VswScreenWrapper(
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
 
     val uiState by vm.uiState.collectAsState()
-    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
 
     with(vswStrings) {
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState)
         ) {
             ScreenHeader(
                 title = titleRes,

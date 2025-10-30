@@ -7,15 +7,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,20 +28,20 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.karthik.pro.engr.algocompose.feedback.AppFeedbackController
-import com.karthik.pro.engr.algocompose.feedback.FeedbackBinder.provideAppFeedbackController
-import com.karthik.pro.engr.algocompose.app.presentation.ui.screens.AppHostScreen
-import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
 import com.karthik.pro.engr.algocompose.app.presentation.model.AppEvent
 import com.karthik.pro.engr.algocompose.app.presentation.model.AppUiState
-import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
 import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
+import com.karthik.pro.engr.algocompose.app.presentation.ui.screens.AppHostScreen
+import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
+import com.karthik.pro.engr.algocompose.feedback.AppFeedbackController
+import com.karthik.pro.engr.algocompose.feedback.FeedbackBinder.provideAppFeedbackController
+import com.karthik.pro.engr.algocompose.ui.theme.AlgoComposeTheme
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackFab
 import com.karthik.pro.engr.feedback.api.ui.screens.FeedbackStateText
 import com.karthik.pro.engr.feedback.api.ui.viewmodel.FeedbackEvent
 import com.karthik.pro.engr.feedback.api.ui.viewmodel.FeedbackUiEffect
-
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
@@ -47,6 +50,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         feedbackController = provideAppFeedbackController(this)
         enableEdgeToEdge()
         setContent {
@@ -91,6 +95,10 @@ fun SetContent(
                 uiState.selectedScreenId?.let { selectedId ->
                     TopAppBar(
                         title = { Text(getTitleForScreenId(selectedId, uiState)) },
+                        colors = TopAppBarDefaults.mediumTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            titleContentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
                         navigationIcon = {
                             IconButton({ vm.onEvent(AppEvent.OnBack) }) {
                                 Icon(
@@ -103,7 +111,7 @@ fun SetContent(
                 }
             },
             bottomBar = {
-                FeedbackStateText(modifier, feedbackUiState)
+                FeedbackStateText(modifier = Modifier.fillMaxWidth(), feedbackUiState)
             },
             floatingActionButton = {
                 FeedbackFab(

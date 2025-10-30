@@ -3,17 +3,20 @@ package com.karthik.pro.engr.algocompose.app.presentation.ui.root
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import com.karthik.pro.engr.algocompose.presentation.ui.util.imePaddingScrollModifier
 
 /**
  * Top-level root wrapper used by screens.
@@ -33,8 +36,11 @@ fun AppRootScreen(
     useTapToClear: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     clickableIndicationEnabled: Boolean = false,
-    content: @Composable BoxScope.(hideKeyboardAndClearFocus: () -> Unit) -> Unit
+    content: @Composable ColumnScope.(hideKeyboardAndClearFocus: () -> Unit) -> Unit
 ) {
+
+    val scrollState = rememberScrollState()
+
 
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -47,10 +53,9 @@ fun AppRootScreen(
             focusManager.clearFocus()
         }
     }
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(contentPadding)
             .then(
                 if (useTapToClear) {
                     Modifier.clickable(
@@ -62,7 +67,14 @@ fun AppRootScreen(
                 } else Modifier
             )
     ) {
-        content(hideKeyboardAndClearFocus)
-    }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .imePaddingScrollModifier(scrollState)
+        ) {
+            content(hideKeyboardAndClearFocus)
+        }
 
+    }
 }
