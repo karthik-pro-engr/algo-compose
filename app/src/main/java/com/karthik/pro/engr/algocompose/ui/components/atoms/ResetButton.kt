@@ -14,7 +14,7 @@ fun ResetButton(
     @StringRes buttonRes: Int = R.string.button_reset,
     onButtonClick: () -> Unit,
 ) {
-    Button(onClick = onButtonClick) {
+    Button(onClick = onButtonClick, modifier = modifier) {
         Text(stringResource(buttonRes))
     }
 }

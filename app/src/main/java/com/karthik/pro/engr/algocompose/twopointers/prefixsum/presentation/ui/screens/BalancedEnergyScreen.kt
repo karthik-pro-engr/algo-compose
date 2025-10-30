@@ -6,7 +6,6 @@ package com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.s
  */
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -36,9 +34,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
@@ -53,102 +52,84 @@ fun BalancedEnergyScreen(
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
     val houseTypes = balancedEnergyViewmodel.houseTypes
-    val scrollState = rememberSaveable(saver = ScrollState.Saver) { ScrollState(0) }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState)
-    ) {
-        ScreenHeader(
-            title = R.string.text_energy_screen_title,
-            body = R.string.text_energy_screen_content
-        )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+    AppRootScreen(modifier=modifier) { hideAndClear ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            InputTextField(
-                Modifier
-                    .weight(1f)
-                    .padding(end = 10.dp),
-                input,
-                onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
-                balancedEnergyViewmodel
+            ScreenHeader(
+                title = R.string.text_energy_screen_title,
+                body = R.string.text_energy_screen_content
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = {
-                    balancedEnergyViewmodel.addHouseType(input)
-                    input = ""
-                },
-                enabled = enableAddButton
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+
             ) {
-                Text(stringResource(R.string.button_add_house_type))
-            }
-        }
-
-        StatusText(
-            errorMessage = balancedEnergyViewmodel.errorMessage,
-            inputMessage = when {
-                houseTypes.isNotEmpty() -> {
-                    "[ ${houseTypes.joinToString(", ")} ]"
+                InputTextField(
+                    Modifier
+                        .weight(1f)
+                        .padding(end = 10.dp),
+                    input,
+                    onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
+                    balancedEnergyViewmodel
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        balancedEnergyViewmodel.addHouseType(input)
+                        input = ""
+                    },
+                    enabled = enableAddButton
+                ) {
+                    Text(stringResource(R.string.button_add_house_type))
                 }
-
-                else -> stringResource(
-                    R.string.text_no_house_types_added
-                )
             }
-        )
 
-        if (houseTypes.size > 1) {
-            Spacer(modifier = Modifier.height(8.dp))
+            StatusText(
+                errorMessage = balancedEnergyViewmodel.errorMessage,
+                inputMessage = when {
+                    houseTypes.isNotEmpty() -> {
+                        "[ ${houseTypes.joinToString(", ")} ]"
+                    }
+
+                    else -> stringResource(
+                        R.string.text_no_house_types_added
+                    )
+                }
+            )
+
+            if (houseTypes.size > 1) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = {
+                    enableAddButton = false
+                    hideAndClear()
+                    balancedEnergyViewmodel.calculateBalancedEnergy()
+                }, enabled = enableAddButton) {
+                    Text(text = stringResource(R.string.button_find_longest_stretch))
+                }
+                balancedEnergyViewmodel.stretchResult?.let {
+                    Text(
+                        "The Longest Stretch Houses Starts from" +
+                                " ${it.startIndex + 1} to ${it.endIndex + 1}"
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(80.dp))
             Button(onClick = {
-                enableAddButton = false
-                balancedEnergyViewmodel.calculateBalancedEnergy()
-            }, enabled = enableAddButton) {
-                Text(text = stringResource(R.string.button_find_longest_stretch))
+                enableAddButton = true
+                hideAndClear()
+                balancedEnergyViewmodel.reset()
+            }) {
+                Text(stringResource(R.string.button_reset))
             }
-            balancedEnergyViewmodel.stretchResult?.let {
-                Text(
-                    "The Longest Stretch Houses Starts from" +
-                            " ${it.startIndex + 1} to ${it.endIndex + 1}"
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(80.dp))
-        Button(onClick = {
-            enableAddButton = true
-            balancedEnergyViewmodel.reset()
-        }) {
-            Text(stringResource(R.string.button_reset))
         }
     }
 }
 
-private fun Modifier.debugOverlay(color: Color, tag: String, show: Boolean): Modifier {
-    return if (!show) this else {
-        this
-            .drawBehind {
-                // draw translucent rectangle filling the composable bounds
-                drawRect(color = color)
-                // optional cross hair to see origin
-                drawCircle(color = Color.White, radius = 2f, center = Offset(2f, 2f))
-            }
-            .onGloballyPositioned { coordinates ->
-                val size = coordinates.size
-                // Log size & position; check Logcat under "LayoutDebug"
-                Log.d(
-                    "LayoutDebug",
-                    "$tag bounds: ${coordinates.boundsInWindow()} size=${size.width}x${size.height}"
-                )
-            }
-    }
-}
 
 @Composable
 fun InputTextField(

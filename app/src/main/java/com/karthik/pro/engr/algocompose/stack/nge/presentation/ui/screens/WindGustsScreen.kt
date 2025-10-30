@@ -5,6 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
+import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
 import com.karthik.pro.engr.algocompose.domain.stack.NextGreaterElementCalculator
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenConfig
@@ -13,7 +14,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModelFactory
 
 @Composable
-fun WindGustsScreen(modifier: Modifier, onBack: () -> Unit) {
+fun WindGustsScreen(modifier: Modifier= Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
         NgeViewModelFactory(NextGreaterElementCalculator::computeNextGreaterElement)
@@ -34,17 +35,19 @@ fun WindGustsScreen(modifier: Modifier, onBack: () -> Unit) {
             with(resultFormat) {
                 "Minute $actualIndex — ${
                     actualValue.toString().padStart(maxOfDigits, ' ')
-                } $unitSuffix -> Wait ${if (nextGreaterIndex == -1) "0 Minutes " else "${nextGreaterIndex-actualIndex} Minutes (next at minute $nextGreaterIndex: $nextGreaterValue $unitSuffix)"}"
+                } $unitSuffix -> Wait ${if (nextGreaterIndex == -1) "0 Minutes " else "${nextGreaterIndex - actualIndex} Minutes (next at minute $nextGreaterIndex: $nextGreaterValue $unitSuffix)"}"
             }
         }
     )
 
-    NgeScreenWrapper(
-        modifier = modifier,
-        ngeViewModel = ngeViewModel,
-        ngeScreenConfig = ngeScreenConfig,
-        onBack = onBack
-    )
+    AppRootScreen(modifier = modifier) { hideKeyboard ->
+        NgeScreenWrapper(
+            ngeViewModel = ngeViewModel,
+            ngeScreenConfig = ngeScreenConfig,
+            hideKeyboard = hideKeyboard,
+            onBack = onBack,
+        )
+    }
 
     DisposableEffect(Unit) {
         onDispose {
