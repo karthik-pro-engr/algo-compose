@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ fun AppRootScreen(
     useTapToClear: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     clickableIndicationEnabled: Boolean = false,
+    contentScrollable: Boolean = true,
     content: @Composable ColumnScope.(hideKeyboardAndClearFocus: () -> Unit) -> Unit
 ) {
 
@@ -53,6 +55,7 @@ fun AppRootScreen(
             focusManager.clearFocus()
         }
     }
+    val rootScroll = if (contentScrollable) rememberScrollState() else null
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -67,10 +70,12 @@ fun AppRootScreen(
                 } else Modifier
             )
     ) {
+
         Column(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
+                .then(if (rootScroll == null) Modifier else Modifier.verticalScroll(scrollState))
                 .imePaddingScrollModifier(scrollState)
         ) {
             content(hideKeyboardAndClearFocus)

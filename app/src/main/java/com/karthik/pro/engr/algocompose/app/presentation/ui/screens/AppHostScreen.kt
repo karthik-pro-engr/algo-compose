@@ -1,12 +1,15 @@
 package com.karthik.pro.engr.algocompose.app.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.app.presentation.model.AppEvent
 import com.karthik.pro.engr.algocompose.app.presentation.model.ScreenId
@@ -26,7 +29,10 @@ fun AppHostScreen(
     val collectAsState by vm.appUiState.collectAsState()
 
     if (collectAsState.selectedScreenId == null) {
-        Column(modifier = modifier) {
+        Column(
+            modifier = modifier.padding(61.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             LazyColumn(
             ) {
                 items(items = vm.appUiState.value.list) {
