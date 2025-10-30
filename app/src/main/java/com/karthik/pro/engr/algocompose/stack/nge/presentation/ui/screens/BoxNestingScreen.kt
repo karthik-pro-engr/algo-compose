@@ -41,7 +41,7 @@ fun BoxNestingScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
         }
     )
 
-    AppRootScreen(modifier = modifier) { hideKeyboard->
+    AppRootScreen(modifier = modifier, contentScrollable = false) { hideKeyboard->
         NgeScreenWrapper(
             ngeViewModel = ngeViewModel,
             ngeScreenConfig = ngeScreenConfig,

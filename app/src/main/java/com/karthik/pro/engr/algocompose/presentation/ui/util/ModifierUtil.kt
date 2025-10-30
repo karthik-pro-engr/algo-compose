@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun Modifier.imePaddingScrollModifier(scrollState: ScrollState): Modifier {
     return this
-        .verticalScroll(scrollState)
         .imePadding()
 
 }

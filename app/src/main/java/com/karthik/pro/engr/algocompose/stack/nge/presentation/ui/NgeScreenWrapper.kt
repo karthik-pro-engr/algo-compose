@@ -3,11 +3,11 @@ package com.karthik.pro.engr.algocompose.stack.nge.presentation.ui
 
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
@@ -51,90 +51,98 @@ fun NgeScreenWrapper(
 
 
     with(ngeScreenConfig) {
-        Column(
+        LazyColumn(
             modifier = modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(16.dp)
         ) {
-            ScreenHeader(
-                title = titleRes,
-                body = bodyRes
-            )
+            item {
+                ScreenHeader(
+                    title = titleRes,
+                    body = bodyRes
+                )
+            }
 
-            InputWithButtonRes(
-                value = input,
-                labelRes = inputLabelRes,
-                placeholderRes = inputPlaceholderRes,
-                buttonRes = inputButtonRes,
-                enabled = enableAddButton,
-                isError = ngeUiState.errorMessage.isNotEmpty(),
-                keyboardActions = KeyboardActions(onDone = {
-                    Log.d("Click", "NgeScreenWrapper: keyboard action done")
-                    ngeViewModel.onEvent(NgeEvent.AddItem(input))
-                    input = ""
-                }),
-                onValueChange = { value -> if (value.all { it.isDigit() }) input = value },
-                onButtonClick = {
-                    ngeViewModel.onEvent(NgeEvent.AddItem(input))
-                    input = ""
-                },
-            )
+            item {
+                InputWithButtonRes(
+                    value = input,
+                    labelRes = inputLabelRes,
+                    placeholderRes = inputPlaceholderRes,
+                    buttonRes = inputButtonRes,
+                    enabled = enableAddButton,
+                    isError = ngeUiState.errorMessage.isNotEmpty(),
+                    keyboardActions = KeyboardActions(onDone = {
+                        Log.d("Click", "NgeScreenWrapper: keyboard action done")
+                        ngeViewModel.onEvent(NgeEvent.AddItem(input))
+                        input = ""
+                    }),
+                    onValueChange = { value -> if (value.all { it.isDigit() }) input = value },
+                    onButtonClick = {
+                        ngeViewModel.onEvent(NgeEvent.AddItem(input))
+                        input = ""
+                    },
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+            }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            item {
 
-            StatusText(
-                errorMessage = ngeUiState.errorMessage,
-                inputMessage = when {
-                    boxSizesList.isNotEmpty() -> {
-                        "[ ${boxSizesList.joinToString(", ") { "$it $unitSuffix" }} ]"
+                StatusText(
+                    errorMessage = ngeUiState.errorMessage,
+                    inputMessage = when {
+                        boxSizesList.isNotEmpty() -> {
+                            "[ ${boxSizesList.joinToString(", ") { "$it $unitSuffix" }} ]"
+                        }
+
+                        else -> stringResource(
+                            noItemInfosRes
+                        )
                     }
-
-                    else -> stringResource(
-                        noItemInfosRes
-                    )
-                }
-            )
+                )
+            }
 
             if (boxSizesList.size > 1) {
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(onClick = {
-                    enableAddButton = false
-                    hideKeyboard()
-                    ngeViewModel.onEvent(NgeEvent.ComputeNge)
-                }, enabled = enableAddButton) {
-                    Text(text = stringResource(computeButtonRes))
-                }
-
-                ngeUiState.ngeResult?.let { result ->
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    LazyColumn(modifier = Modifier.weight(1f)) {
-                        itemsIndexed(boxSizesList) { idx, value ->
-                            val nextIdx = result.resultList[idx]
-                            val line = ngeScreenConfig.formatResultLine(
-                                NgeResultFormat(
-                                    maxOfDigits = boxSizesList.maxOfOrNull { it.toString().length }
-                                        ?: 0,
-                                    sbCapacityEstimate = 0,
-                                    actualIndex = idx,
-                                    nextGreaterIndex = nextIdx,
-                                    actualValue = value,
-                                    nextGreaterValue = boxSizesList.getOrNull(nextIdx) ?: 0,
-                                    unitSuffix = ngeScreenConfig.unitSuffix
-                                )
+
+                    Button(onClick = {
+                        enableAddButton = false
+                        hideKeyboard()
+                        ngeViewModel.onEvent(NgeEvent.ComputeNge)
+                    }, enabled = enableAddButton) {
+                        Text(text = stringResource(computeButtonRes))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                ngeUiState.ngeResult?.let { result ->
+                    itemsIndexed(boxSizesList) { idx, value ->
+                        val nextIdx = result.resultList[idx]
+                        val line = ngeScreenConfig.formatResultLine(
+                            NgeResultFormat(
+                                maxOfDigits = boxSizesList.maxOfOrNull { it.toString().length }
+                                    ?: 0,
+                                sbCapacityEstimate = 0,
+                                actualIndex = idx,
+                                nextGreaterIndex = nextIdx,
+                                actualValue = value,
+                                nextGreaterValue = boxSizesList.getOrNull(nextIdx) ?: 0,
+                                unitSuffix = ngeScreenConfig.unitSuffix
                             )
-                            Text(line, modifier = Modifier.padding(vertical = 2.dp))
-                        }
+                        )
+                        Text(line, modifier = Modifier.padding(vertical = 2.dp))
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            item {
+                Spacer(modifier = Modifier.height(40.dp))
 
-            ResetButton {
-                enableAddButton = true
-                hideKeyboard()
-                ngeViewModel.onEvent(NgeEvent.Reset)
+                ResetButton {
+                    enableAddButton = true
+                    hideKeyboard()
+                    ngeViewModel.onEvent(NgeEvent.Reset)
+                }
             }
         }
     }
