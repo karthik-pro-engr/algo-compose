@@ -38,7 +38,7 @@ android {
 
     buildTypes {
         getByName("debug") {
-            buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "true")
+            buildConfigField("boolean", "ENABLE_APP_DISTRIBUTION", "false")
         }
         release {
             signingConfig = signingConfigs.getByName("release")
