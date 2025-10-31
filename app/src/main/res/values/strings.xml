@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AlgoCompose</string>
+    <string name="app_name">DSACompose</string>
     <!--    Energy Screen-->
     <string name="text_energy_screen_title">Producer House and Consumer House</string>
     <string name="text_energy_screen_content">In a town, each house either produces electricity (producer house) or consumes electricity (consumer house). You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).</string>
