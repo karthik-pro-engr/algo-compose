@@ -1,6 +1,6 @@
 package com.karthik.pro.engr.algocompose.domain.stack
 
-object NextGreaterElementCalculator {
+object MonotonicStackProcessor {
     fun computeNextGreaterElement(inputList: List<Int>): NgeResult? {
         val size = inputList.size
         val output: MutableList<Int> = MutableList(size) { -1 }
