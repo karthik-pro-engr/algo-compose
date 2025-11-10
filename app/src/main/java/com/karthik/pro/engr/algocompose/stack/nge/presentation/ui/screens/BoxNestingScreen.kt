@@ -18,12 +18,15 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 fun BoxNestingScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
-        NgeViewModelFactory(MonotonicStackProcessor::computeNextGreaterElement)
+        NgeViewModelFactory(
+            MonotonicStackProcessor::computeNextGreaterElement,
+            parser = { s -> s.toIntOrNull() }
+        )
 
-    val ngeViewModel: NgeViewModel =
+    val ngeViewModel: NgeViewModel<Int> =
         viewModel(key = "BoxNestingScreen", factory = ngeViewModelFactory)
 
-    val ngeScreenConfig = NgeScreenConfig(
+    val ngeScreenConfig = NgeScreenConfig<Int>(
         titleRes = R.string.nge_box_nesting_title,
         bodyRes = R.string.nge_box_nesting_body,
         inputLabelRes = R.string.nge_box_nesting_label_input,
@@ -41,7 +44,7 @@ fun BoxNestingScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
         }
     )
 
-    AppRootScreen(modifier = modifier, contentScrollable = false) { hideKeyboard->
+    AppRootScreen(modifier = modifier, contentScrollable = false) { hideKeyboard ->
         NgeScreenWrapper(
             ngeViewModel = ngeViewModel,
             ngeScreenConfig = ngeScreenConfig,

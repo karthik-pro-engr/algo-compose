@@ -12,9 +12,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NgeViewModel(private val ngeCalculator: (List<Int>) -> NgeResult?) : ViewModel() {
+class NgeViewModel<T : Comparable<T>>(
+    private val ngeCalculator: (List<T>) -> NgeResult<T>?,
+    private val parser: (String) -> T?
+) : ViewModel() {
 
-    private var _ngeUiState = MutableStateFlow(NgeUiState())
+    private var _ngeUiState = MutableStateFlow(NgeUiState<T>())
     val ngeUiState = _ngeUiState.asStateFlow()
 
 
@@ -52,11 +55,10 @@ class NgeViewModel(private val ngeCalculator: (List<Int>) -> NgeResult?) : ViewM
     private fun addItem(input: String) {
         viewModelScope.launch {
             val trimmed = input.trim()
-            val value = trimmed.toIntOrNull()
+            val value =   parser(trimmed)
             val error = when {
                 trimmed.isEmpty() -> "Input cannot be empty"
-                value == null -> "Invalid number"
-                value == 0 -> "Input cannot be zero"
+                value == null -> "Invalid input for the selected type"
                 else -> null
             }
             if (error != null) {

@@ -1,7 +1,7 @@
 package com.karthik.pro.engr.algocompose.domain.stack
 
 object MonotonicStackProcessor {
-    fun computeNextGreaterElement(inputList: List<Int>): NgeResult? {
+    fun <T: Comparable<T>> computeNextGreaterElement(inputList: List<T>): NgeResult<T>? {
         val size = inputList.size
         val output: MutableList<Int> = MutableList(size) { -1 }
         val stack = ArrayDeque<Int>(size)
@@ -20,4 +20,4 @@ object MonotonicStackProcessor {
     }
 }
 
-data class NgeResult(val resultList: List<Int> = emptyList())
+data class NgeResult<T>(val resultList: List<Int> = emptyList())

@@ -17,12 +17,14 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 fun WindGustsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
-        NgeViewModelFactory(MonotonicStackProcessor::computeNextGreaterElement)
+        NgeViewModelFactory(
+            MonotonicStackProcessor::computeNextGreaterElement,
+            parser = { s -> s.toIntOrNull() })
 
-    val ngeViewModel: NgeViewModel =
+    val ngeViewModel: NgeViewModel<Int> =
         viewModel(key = "WindGustsScreen", factory = ngeViewModelFactory)
 
-    val ngeScreenConfig = NgeScreenConfig(
+    val ngeScreenConfig = NgeScreenConfig<Int>(
         titleRes = R.string.nge_wind_gusts_title,
         bodyRes = R.string.nge_wind_gusts_body,
         inputLabelRes = R.string.nge_wind_gusts_label_input,

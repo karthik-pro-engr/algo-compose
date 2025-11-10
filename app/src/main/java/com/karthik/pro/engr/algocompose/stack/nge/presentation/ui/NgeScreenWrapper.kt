@@ -34,10 +34,10 @@ import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
-fun NgeScreenWrapper(
+fun <T:Comparable<T>> NgeScreenWrapper(
     modifier: Modifier = Modifier,
-    ngeViewModel: NgeViewModel,
-    ngeScreenConfig: NgeScreenConfig,
+    ngeViewModel: NgeViewModel<T>,
+    ngeScreenConfig: NgeScreenConfig<T>,
     hideKeyboard: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -126,7 +126,7 @@ fun NgeScreenWrapper(
                                 actualIndex = idx,
                                 nextGreaterIndex = nextIdx,
                                 actualValue = value,
-                                nextGreaterValue = boxSizesList.getOrNull(nextIdx) ?: 0,
+                                nextGreaterValue = boxSizesList.getOrNull(nextIdx),
                                 unitSuffix = ngeScreenConfig.unitSuffix
                             )
                         )
@@ -149,6 +149,7 @@ fun NgeScreenWrapper(
 }
 
 
+/*
 @AllVariantsPreview
 @Composable
 private fun BalancedEnergyScreenPreview() {
@@ -157,4 +158,4 @@ private fun BalancedEnergyScreenPreview() {
         ngeScreenConfig = NgeScreenConfig(),
         hideKeyboard = {},
     ) {}
-}
+}*/
