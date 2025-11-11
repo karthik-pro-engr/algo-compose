@@ -12,6 +12,8 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenCo
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.NgeScreenWrapper
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModelFactory
+import com.karthik.pro.engr.algocompose.util.intValidator
+import com.karthik.pro.engr.algocompose.util.numberKeyboardOption
 
 
 @Composable
@@ -35,11 +37,13 @@ fun BoxNestingScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
         noItemInfosRes = R.string.nge_box_nesting_no_items_info,
         computeButtonRes = R.string.nge_box_nesting_button_compute,
         unitSuffix = "cc",
+        inputValidator = intValidator,
+        keyboardOptionsProvider = numberKeyboardOption,
         formatResultLine = { resultFormat ->
             with(resultFormat) {
                 "B$actualIndex — ${
                     actualValue.toString().padStart(maxOfDigits, ' ')
-                } $unitSuffix -> Next: ${if (nextGreaterIndex == -1) " None" else "B$nextGreaterIndex ($nextGreaterValue $unitSuffix)"}"
+                } $unitSuffix -> Next: ${if (computedIndex == -1) " None" else "B$computedIndex ($computedValue $unitSuffix)"}"
             }
         }
     )

@@ -62,6 +62,15 @@
     <string name="nge_wind_gusts_no_items_info">No Gust speed added</string>
     <string name="nge_wind_gusts_button_compute">Compute Wait Times</string>
 
+<!--    River Gauge-->
+    <string name="nge_river_gauge_title">River Gauge — Nearest Previous Higher Water Level</string>
+    <string name="nge_river_gauge_body">For a given river gauge, a stream of water-level readings arrives every minute. For each new reading, output the most recent earlier reading that was strictly higher; if none exists, output none. Process the stream online — produce the answer as each reading arrives.</string>
+    <string name="nge_river_gauge_label_input">Enter Water Level(meters)</string>
+    <string name="nge_river_gauge_placeholder_input">3.20</string>
+    <string name="nge_river_gauge_button_add_water_level">Add Water Level</string>
+    <string name="nge_river_gauge_no_items_info">No Water level added</string>
+    <string name="nge_river_gauge_button_compute">Compute Previous Peak</string>
+
     <!-- accessibility / UX strings -->
     <string name="nge_wind_gusts_button_add_speed_cd">Add a gust speed to the list</string>
     <string name="nge_wind_gusts_button_compute_cd">Compute how many minutes until a stronger gust</string>

@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeResultFormat
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenConfig
@@ -31,10 +30,9 @@ import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.componen
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
-fun <T:Comparable<T>> NgeScreenWrapper(
+fun <T : Comparable<T>> NgeScreenWrapper(
     modifier: Modifier = Modifier,
     ngeViewModel: NgeViewModel<T>,
     ngeScreenConfig: NgeScreenConfig<T>,
@@ -77,7 +75,8 @@ fun <T:Comparable<T>> NgeScreenWrapper(
                         ngeViewModel.onEvent(NgeEvent.AddItem(input))
                         input = ""
                     }),
-                    onValueChange = { value -> if (value.all { it.isDigit() }) input = value },
+                    keyboardOptions = keyboardOptionsProvider,
+                    onValueChange = { value -> if (inputValidator(value)) input = value },
                     onButtonClick = {
                         ngeViewModel.onEvent(NgeEvent.AddItem(input))
                         input = ""
@@ -124,9 +123,9 @@ fun <T:Comparable<T>> NgeScreenWrapper(
                                     ?: 0,
                                 sbCapacityEstimate = 0,
                                 actualIndex = idx,
-                                nextGreaterIndex = nextIdx,
+                                computedIndex = nextIdx,
                                 actualValue = value,
-                                nextGreaterValue = boxSizesList.getOrNull(nextIdx),
+                                computedValue = boxSizesList.getOrNull(nextIdx),
                                 unitSuffix = ngeScreenConfig.unitSuffix
                             )
                         )

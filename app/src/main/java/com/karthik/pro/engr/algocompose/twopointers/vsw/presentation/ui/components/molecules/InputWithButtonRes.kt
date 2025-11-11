@@ -33,6 +33,7 @@ fun InputWithButtonRes(
     onValueChange: (String) -> Unit,
     onButtonClick: () -> Unit,
     keyboardActions: KeyboardActions,
+    keyboardOptions: () -> KeyboardOptions = { KeyboardOptions.Default }
 ) {
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
@@ -48,7 +49,7 @@ fun InputWithButtonRes(
             label = { Text(stringResource(labelRes)) },
             placeholder = { Text(stringResource(placeholderRes)) },
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
+                keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = keyboardActions,
