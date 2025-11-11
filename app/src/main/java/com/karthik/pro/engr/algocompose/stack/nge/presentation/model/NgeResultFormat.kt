@@ -4,8 +4,8 @@ data class NgeResultFormat<T>(
     val maxOfDigits: Int,
     val sbCapacityEstimate: Int,
     val actualIndex: Int,
-    val nextGreaterIndex: Int,
+    val computedIndex: Int,
     val actualValue: T,
-    val nextGreaterValue: T?,
+    val computedValue: T?,
     val unitSuffix:String
 )

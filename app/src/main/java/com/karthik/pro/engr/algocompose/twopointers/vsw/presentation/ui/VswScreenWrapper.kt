@@ -26,6 +26,7 @@ import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.viewmodel.V
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
+import com.karthik.pro.engr.algocompose.util.numberKeyboardOption
 
 @Composable
 fun VswScreenWrapper(
@@ -64,6 +65,7 @@ fun VswScreenWrapper(
                     buttonRes = capacityButtonRes,
                     enabled = enableAddButton,
                     isError = uiState.capacityErrorMessage.isNotEmpty(),
+                    keyboardOptions = numberKeyboardOption,
                     keyboardActions = KeyboardActions(onDone = {
                         vm.onEvent(VswEvent.AddRange(capacityInput))
                         capacityInput = ""
@@ -101,6 +103,7 @@ fun VswScreenWrapper(
                             input = newValue
                         }
                     },
+                    keyboardOptions = numberKeyboardOption,
                     keyboardActions = KeyboardActions(onDone = {
                         vm.onEvent(VswEvent.AddInputForArray(input))
                         input = ""

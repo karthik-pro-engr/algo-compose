@@ -12,36 +12,35 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenCo
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.NgeScreenWrapper
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModel
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModelFactory
-import com.karthik.pro.engr.algocompose.util.intValidator
+import com.karthik.pro.engr.algocompose.util.doubleValidator
+import com.karthik.pro.engr.algocompose.util.indexToTime
 import com.karthik.pro.engr.algocompose.util.numberKeyboardOption
 
 @Composable
-fun WindGustsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
+fun RiverGaugeScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
         NgeViewModelFactory(
-            MonotonicStackProcessor::computeNextGreaterElement,
-            parser = { s -> s.toIntOrNull() })
+            MonotonicStackProcessor::computePreviousGreaterElement,
+            parser = { s -> s.toDoubleOrNull() })
 
-    val ngeViewModel: NgeViewModel<Int> =
-        viewModel(key = "WindGustsScreen", factory = ngeViewModelFactory)
+    val ngeViewModel: NgeViewModel<Double> =
+        viewModel(key = "RiverGaugeScreen", factory = ngeViewModelFactory)
 
-    val ngeScreenConfig = NgeScreenConfig<Int>(
-        titleRes = R.string.nge_wind_gusts_title,
-        bodyRes = R.string.nge_wind_gusts_body,
-        inputLabelRes = R.string.nge_wind_gusts_label_input,
-        inputPlaceholderRes = R.string.nge_wind_gusts_placeholder_input,
-        inputButtonRes = R.string.nge_wind_gusts_button_add_speed,
-        noItemInfosRes = R.string.nge_wind_gusts_no_items_info,
-        computeButtonRes = R.string.nge_wind_gusts_button_compute,
-        unitSuffix = "km/h",
-        inputValidator = intValidator,
+    val ngeScreenConfig = NgeScreenConfig<Double>(
+        titleRes = R.string.nge_river_gauge_title,
+        bodyRes = R.string.nge_river_gauge_body,
+        inputLabelRes = R.string.nge_river_gauge_label_input,
+        inputPlaceholderRes = R.string.nge_river_gauge_placeholder_input,
+        inputButtonRes = R.string.nge_river_gauge_button_add_water_level,
+        noItemInfosRes = R.string.nge_river_gauge_no_items_info,
+        computeButtonRes = R.string.nge_river_gauge_button_compute,
+        unitSuffix = "m",
+        inputValidator = doubleValidator,
         keyboardOptionsProvider = numberKeyboardOption,
         formatResultLine = { resultFormat ->
             with(resultFormat) {
-                "Minute $actualIndex — ${
-                    actualValue.toString().padStart(maxOfDigits, ' ')
-                } $unitSuffix -> Wait ${if (computedIndex == -1) "0 Minutes " else "${computedIndex - actualIndex} Minutes (next at minute $computedIndex: $computedValue $unitSuffix)"}"
+                "${indexToTime(actualIndex)} —> current level: $actualValue $unitSuffix - previous peak: ${if (computedIndex == -1) "None " else "$computedValue $unitSuffix"}"
             }
         }
     )

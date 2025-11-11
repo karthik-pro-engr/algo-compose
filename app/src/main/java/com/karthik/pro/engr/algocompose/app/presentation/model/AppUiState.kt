@@ -8,7 +8,9 @@ data class AppUiState(
         AppScreenModel(ScreenId.BUDGET_STAY, "Budget Stay"),
         AppScreenModel(ScreenId.VIDEO_PLAY_REQUESTS, "Video Play Request"),
         AppScreenModel(ScreenId.BOX_NESTING, "Box Nesting"),
-        AppScreenModel(ScreenId.WIND_GUSTS, "Wind Gusts")
+        AppScreenModel(ScreenId.WIND_GUSTS, "Wind Gusts"),
+        AppScreenModel(ScreenId.RIVER_GAUGE, "River Gauge"),
+
     ),
     var selectedScreenId: ScreenId? = null,
     var isAppDistributingEnabled: Boolean = BuildConfig.ENABLE_APP_DISTRIBUTION
@@ -20,5 +22,7 @@ enum class ScreenId {
     BUDGET_STAY,
     VIDEO_PLAY_REQUESTS,
     BOX_NESTING,
-    WIND_GUSTS
+    WIND_GUSTS,
+
+    RIVER_GAUGE
 }
