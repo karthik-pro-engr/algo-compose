@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
-import com.karthik.pro.engr.algocompose.domain.stack.NextGreaterElementCalculator
+import com.karthik.pro.engr.algocompose.domain.stack.MonotonicStackProcessor
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenConfig
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.NgeScreenWrapper
@@ -17,12 +17,14 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeView
 fun WindGustsScreen(modifier: Modifier = Modifier, onBack: () -> Unit) {
 
     val ngeViewModelFactory =
-        NgeViewModelFactory(NextGreaterElementCalculator::computeNextGreaterElement)
+        NgeViewModelFactory(
+            MonotonicStackProcessor::computeNextGreaterElement,
+            parser = { s -> s.toIntOrNull() })
 
-    val ngeViewModel: NgeViewModel =
+    val ngeViewModel: NgeViewModel<Int> =
         viewModel(key = "WindGustsScreen", factory = ngeViewModelFactory)
 
-    val ngeScreenConfig = NgeScreenConfig(
+    val ngeScreenConfig = NgeScreenConfig<Int>(
         titleRes = R.string.nge_wind_gusts_title,
         bodyRes = R.string.nge_wind_gusts_body,
         inputLabelRes = R.string.nge_wind_gusts_label_input,
