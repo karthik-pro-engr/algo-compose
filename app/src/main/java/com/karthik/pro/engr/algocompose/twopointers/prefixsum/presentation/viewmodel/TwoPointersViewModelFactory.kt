@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
 
-class TwoPointersViewModelFactory<T>(private val calculator: (List<String>) -> StretchResult) :
+class TwoPointersViewModelFactory<T>(private val calculator: (List<T>) -> StretchResult) :
     ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(BalancedEnergyViewmodel::class.java)) {
-            return BalancedEnergyViewmodel(calculator) as T
+        if (modelClass.isAssignableFrom(TwoPointersViewmodel::class.java)) {
+            return TwoPointersViewmodel(calculator) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

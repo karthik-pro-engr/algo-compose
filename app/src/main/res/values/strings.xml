@@ -9,6 +9,18 @@
     <string name="tp_energy_no_items_info">No House Types Added</string>
     <string name="tp_energy_button_compute">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
+<!--    Fuel Tank Balancer-->
+    <string name="tp_fuel_title">Fuel Tank Balancer</string>
+    <string name="tp_fuel_body">You are given a sequence of fuel events along a straight highway. Each event is an integer: a positive number means fuel is added at that station (refill), and a negative number means fuel is consumed to travel that segment (cost). Starting with 0 fuel at the first station of a considered stretch, the running fuel balance after visiting each successive station in the stretch must never become negative. \n\n
+        Find the longest contiguous stretch (subarray) of stations such that, if you start at the first station of that stretch with zero fuel, the cumulative fuel balance remains ≥ 0 at every step inside the stretch. \n \n
+        Return the length of that longest stretch and the positions (indices) of its first and last stations using 1-based indexing. If there is no non-empty valid stretch (i.e., every single-station start leads to immediate negative balance), return 0 -1 -1
+    </string>
+    <string name="tp_fuel_placeholder_input">2 or -1</string>
+    <string name="tp_fuel_label_input">Enter Fuel fill or consume</string>
+    <string name="tp_fuel_button_add">Add Fuel use</string>
+    <string name="tp_fuel_no_items_info">No Fuel usage Added</string>
+    <string name="tp_fuel_button_compute">Find Longest Stretch</string>
+
 
     <!--    Budget Stay-->
     <string name="vsw_budget_title">Family Vacation – Hotel Bookings</string>

@@ -10,6 +10,7 @@ data class AppUiState(
         AppScreenModel(ScreenId.BOX_NESTING, "Box Nesting"),
         AppScreenModel(ScreenId.WIND_GUSTS, "Wind Gusts"),
         AppScreenModel(ScreenId.RIVER_GAUGE, "River Gauge"),
+        AppScreenModel(ScreenId.FUEL_TANK_BALANCER, "Fuel Tank Balancer"),
 
     ),
     var selectedScreenId: ScreenId? = null,
@@ -24,5 +25,6 @@ enum class ScreenId {
     BOX_NESTING,
     WIND_GUSTS,
 
-    RIVER_GAUGE
+    RIVER_GAUGE,
+    FUEL_TANK_BALANCER
 }

@@ -26,11 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.devtools.AllVariantsPreview
@@ -39,7 +38,7 @@ import com.karthik.pro.engr.devtools.AllVariantsPreview
 fun <T> TwoPointersScreenWrapper(
     modifier: Modifier = Modifier,
     screenConfig: TwoPointersConfig<T>,
-    viewModel: BalancedEnergyViewmodel<T> = viewModel(),
+    viewModel: TwoPointersViewmodel<T>,
     onBack: () -> Unit
 ) {
     BackHandler {
@@ -47,7 +46,7 @@ fun <T> TwoPointersScreenWrapper(
     }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val houseTypes = viewModel.inputList
+    val inputList = viewModel.inputList
     with(screenConfig) {
         AppRootScreen(modifier = modifier) { hideAndClear ->
             Column(
@@ -71,6 +70,7 @@ fun <T> TwoPointersScreenWrapper(
                             .padding(end = 10.dp),
                         input,
                         onValueChange = { value -> if (inputTypeValidator(value)) input = value },
+                        this@with,
                         viewModel
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -88,8 +88,8 @@ fun <T> TwoPointersScreenWrapper(
                 StatusText(
                     errorMessage = viewModel.errorMessage,
                     inputMessage = when {
-                        houseTypes.isNotEmpty() -> {
-                            "[ ${houseTypes.joinToString(", ")} ]"
+                        inputList.isNotEmpty() -> {
+                            "[ ${inputList.joinToString(", ")} ]"
                         }
 
                         else -> stringResource(
@@ -98,7 +98,7 @@ fun <T> TwoPointersScreenWrapper(
                     }
                 )
 
-                if (houseTypes.size > 1) {
+                if (inputList.size > 1) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(onClick = {
                         enableAddButton = false
@@ -133,15 +133,16 @@ fun <T> InputTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel<T>
+    screenConfig: TwoPointersConfig<T>,
+    twoPointersViewmodel: TwoPointersViewmodel<T>
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.tp_energy_label_input)) },
-        placeholder = { Text(stringResource(R.string.tp_energy_placeholder_input)) },
+        label = { Text(stringResource(screenConfig.inputLabelRes)) },
+        placeholder = { Text(stringResource(screenConfig.inputPlaceholderRes)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        isError = balancedEnergyViewmodel.errorMessage.isNotEmpty(),
+        isError = twoPointersViewmodel.errorMessage.isNotEmpty(),
         modifier = modifier
     )
 }
