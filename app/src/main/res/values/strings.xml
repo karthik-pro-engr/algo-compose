@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">DSACompose</string>
     <!--    Energy Screen-->
-    <string name="text_energy_screen_title">Producer House and Consumer House</string>
-    <string name="text_energy_screen_content">In a town, each house either produces electricity (producer house) or consumes electricity (consumer house). You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).</string>
-    <string name="placeholder_input">P or C</string>
-    <string name="label_house_type">Enter House Type</string>
-    <string name="button_add_house_type">Add House type</string>
-    <string name="text_no_house_types_added">No House Types Added</string>
-    <string name="button_find_longest_stretch">Find Longest Stretch</string>
+    <string name="tp_energy_title">Producer House and Consumer House</string>
+    <string name="tp_energy_screen_body">In a town, each house either produces electricity (producer house) or consumes electricity (consumer house). You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).</string>
+    <string name="tp_energy_placeholder_input">P or C</string>
+    <string name="tp_energy_label_input">Enter House Type</string>
+    <string name="tp_energy_button_add">Add House type</string>
+    <string name="tp_energy_no_items_info">No House Types Added</string>
+    <string name="tp_energy_button_compute">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
+
     <!--    Budget Stay-->
     <string name="vsw_budget_title">Family Vacation – Hotel Bookings</string>
     <string name="vsw_budget_body">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>

@@ -1,150 +1,70 @@
 package com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens
 
-/***
- * In a town, each house either produces electricity (producer house) or consumes electricity (consumer house).
- * You want to find the longest continuous stretch of houses where the total electricity balances out (no surplus, no deficit).
- */
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
+import com.karthik.pro.engr.algocompose.domain.energy.EnergyAnalyzer
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.BalancedEnergyViewmodel
-import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
-import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
-import com.karthik.pro.engr.devtools.AllVariantsPreview
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
+import com.karthik.pro.engr.algocompose.util.stringValidator
 
 @Composable
-fun BalancedEnergyScreen(
+fun  BalancedEnergyScreen(
     modifier: Modifier = Modifier,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel = viewModel(),
     onBack: () -> Unit
 ) {
-    BackHandler {
-        onBack()
-    }
-    var input by rememberSaveable { mutableStateOf("") }
-    var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val houseTypes = balancedEnergyViewmodel.houseTypes
-    AppRootScreen(modifier=modifier) { hideAndClear ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            ScreenHeader(
-                title = R.string.text_energy_screen_title,
-                body = R.string.text_energy_screen_content
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
 
-            ) {
-                InputTextField(
-                    Modifier
-                        .weight(1f)
-                        .padding(end = 10.dp),
-                    input,
-                    onValueChange = { value -> if (value.all { it.isLetter() }) input = value },
-                    balancedEnergyViewmodel
+    val twoPointersViewModelFactory =
+        TwoPointersViewModelFactory<String>(EnergyAnalyzer::findLongestStretch)
+    val balancedEnergyViewModel: BalancedEnergyViewmodel<String> =
+        viewModel(key = "Balanced Energy", factory = twoPointersViewModelFactory)
+
+    val twoPointersConfig = TwoPointersConfig<String>(
+        R.string.tp_energy_title,
+        R.string.tp_energy_screen_body,
+        R.string.tp_energy_label_input,
+        R.string.tp_energy_placeholder_input,
+        R.string.tp_energy_button_add,
+        R.string.tp_energy_no_items_info,
+        R.string.tp_energy_button_compute,
+        inputTypeValidator = stringValidator,
+        inputValueValidator = { type ->
+            val trimmed = type.trim()
+            when {
+                trimmed.isEmpty() -> balancedEnergyViewModel.setErrorMessage("Input cannot be empty")
+                trimmed.lowercase() !in listOf("p", "c") -> balancedEnergyViewModel.setErrorMessage(
+                    "Input must be either 'p' or 'c'"
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        balancedEnergyViewmodel.addHouseType(input)
-                        input = ""
-                    },
-                    enabled = enableAddButton
-                ) {
-                    Text(stringResource(R.string.button_add_house_type))
+
+                else -> {
+                    balancedEnergyViewModel.addInput(trimmed)
+                    balancedEnergyViewModel.setErrorMessage("")
                 }
             }
+        },
+        formatResultLine = { result ->
+            "The Longest Stretch Houses Starts from" +
+                    " ${result.startIndex + 1} to ${result.endIndex + 1}"
+        }
+    )
 
-            StatusText(
-                errorMessage = balancedEnergyViewmodel.errorMessage,
-                inputMessage = when {
-                    houseTypes.isNotEmpty() -> {
-                        "[ ${houseTypes.joinToString(", ")} ]"
-                    }
 
-                    else -> stringResource(
-                        R.string.text_no_house_types_added
-                    )
-                }
-            )
 
-            if (houseTypes.size > 1) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = {
-                    enableAddButton = false
-                    hideAndClear()
-                    balancedEnergyViewmodel.calculateBalancedEnergy()
-                }, enabled = enableAddButton) {
-                    Text(text = stringResource(R.string.button_find_longest_stretch))
-                }
-                balancedEnergyViewmodel.stretchResult?.let {
-                    Text(
-                        "The Longest Stretch Houses Starts from" +
-                                " ${it.startIndex + 1} to ${it.endIndex + 1}"
-                    )
-                }
-            }
+    TwoPointersScreenWrapper(
+        modifier = modifier,
+        screenConfig = twoPointersConfig,
+        viewModel = balancedEnergyViewModel,
+        onBack = onBack
+    )
 
-            Spacer(modifier = Modifier.height(80.dp))
-            Button(onClick = {
-                enableAddButton = true
-                hideAndClear()
-                balancedEnergyViewmodel.reset()
-            }) {
-                Text(stringResource(R.string.button_reset))
-            }
+    DisposableEffect(Unit) {
+        onDispose {
+            balancedEnergyViewModel.reset()
         }
     }
-}
 
 
-@Composable
-fun InputTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    balancedEnergyViewmodel: BalancedEnergyViewmodel
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.label_house_type)) },
-        placeholder = { Text(stringResource(R.string.placeholder_input)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        isError = balancedEnergyViewmodel.errorMessage.isNotEmpty(),
-        modifier = modifier
-    )
-}
-
-@AllVariantsPreview
-@Composable
-private fun BalancedEnergyScreenPreview() {
-    BalancedEnergyScreen(onBack = {})
 }
