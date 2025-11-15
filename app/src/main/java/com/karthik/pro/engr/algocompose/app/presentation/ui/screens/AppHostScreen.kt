@@ -19,6 +19,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.BoxNes
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.RiverGaugeScreen
 import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.WindGustsScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.FuelTankBalancerScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
 
@@ -110,6 +111,10 @@ fun AppHostScreen(
             ScreenId.RIVER_GAUGE -> {
                 RiverGaugeScreen (modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
             }
+
+            ScreenId.FUEL_TANK_BALANCER -> FuelTankBalancerScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
 
 
 

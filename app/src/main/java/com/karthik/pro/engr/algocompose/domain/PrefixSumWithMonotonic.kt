@@ -3,7 +3,7 @@ package com.karthik.pro.engr.algocompose.domain
 import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
 
 object PrefixSumWithMonotonic {
-    fun findLongestFuelStretch(events: LongArray): StretchResult {
+    fun findLongestFuelStretch(events: List<Long>): StretchResult {
         val n = events.size
         // Build prefix sums P[0..n]
         val P = LongArray(n + 1)

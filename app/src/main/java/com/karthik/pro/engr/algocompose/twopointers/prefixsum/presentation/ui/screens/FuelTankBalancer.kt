@@ -5,49 +5,45 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.domain.energy.EnergyAnalyzer
+import com.karthik.pro.engr.algocompose.domain.PrefixSumWithMonotonic
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
-import com.karthik.pro.engr.algocompose.util.stringValidator
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
+import com.karthik.pro.engr.algocompose.util.longValidator
 
 @Composable
-fun  BalancedEnergyScreen(
+fun FuelTankBalancerScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit
 ) {
 
     val twoPointersViewModelFactory =
-        TwoPointersViewModelFactory(EnergyAnalyzer::findLongestStretch)
-    val twoPointersViewModel: TwoPointersViewmodel<String> =
-        viewModel(key = "Balanced Energy", factory = twoPointersViewModelFactory)
+        TwoPointersViewModelFactory(PrefixSumWithMonotonic::findLongestFuelStretch)
+    val twoPointersViewModel: TwoPointersViewmodel<Long> =
+        viewModel(key = "Fuel Tank Balancer", factory = twoPointersViewModelFactory)
 
-    val twoPointersConfig = TwoPointersConfig<String>(
-        R.string.tp_energy_title,
-        R.string.tp_energy_screen_body,
-        R.string.tp_energy_label_input,
-        R.string.tp_energy_placeholder_input,
-        R.string.tp_energy_button_add,
-        R.string.tp_energy_no_items_info,
-        R.string.tp_energy_button_compute,
-        inputTypeValidator = stringValidator,
+    val twoPointersConfig = TwoPointersConfig<Long>(
+        R.string.tp_fuel_title,
+        R.string.tp_fuel_body,
+        R.string.tp_fuel_label_input,
+        R.string.tp_fuel_placeholder_input,
+        R.string.tp_fuel_button_add,
+        R.string.tp_fuel_no_items_info,
+        R.string.tp_fuel_button_compute,
+        inputTypeValidator = longValidator,
         inputValueValidator = { type ->
             val trimmed = type.trim()
             when {
                 trimmed.isEmpty() -> twoPointersViewModel.setErrorMessage("Input cannot be empty")
-                trimmed.lowercase() !in listOf("p", "c") -> twoPointersViewModel.setErrorMessage(
-                    "Input must be either 'p' or 'c'"
-                )
-
                 else -> {
-                    twoPointersViewModel.addInput(trimmed)
+                    twoPointersViewModel.addInput(trimmed.toLong())
                     twoPointersViewModel.setErrorMessage("")
                 }
             }
         },
         formatResultLine = { result ->
-            "The Longest Stretch Houses Starts from" +
-                    " ${result.startIndex + 1} to ${result.endIndex + 1}"
+            "The Longest Stretch Fuel Running Balance Starts from" +
+                    " ${result.startIndex} to ${result.endIndex}, so length is ${result.length}"
         }
     )
 

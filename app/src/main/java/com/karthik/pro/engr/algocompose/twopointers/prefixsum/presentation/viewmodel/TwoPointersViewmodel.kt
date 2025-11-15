@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
 
-class BalancedEnergyViewmodel<T>(val calculator: (List<T>) -> StretchResult) : ViewModel() {
+class TwoPointersViewmodel<T>(val calculator: (List<T>) -> StretchResult) : ViewModel() {
     private val _inputList = mutableStateListOf<T>()
     val inputList: List<T> get() = _inputList
 
@@ -21,8 +21,8 @@ class BalancedEnergyViewmodel<T>(val calculator: (List<T>) -> StretchResult) : V
 
 
 
-    fun addInput(type: T) {
-        _inputList.add(type)
+    fun addInput(value: T) {
+        _inputList.add(value)
     }
 
     fun setErrorMessage(error: String) {
