@@ -1,7 +1,9 @@
 package com.karthik.pro.engr.algocompose.domain
 
+import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
+
 object PrefixSumWithMonotonic {
-    fun findLongestFuelStretch(events: LongArray): Result {
+    fun findLongestFuelStretch(events: LongArray): StretchResult {
         val n = events.size
         // Build prefix sums P[0..n]
         val P = LongArray(n + 1)
@@ -36,11 +38,9 @@ object PrefixSumWithMonotonic {
             // Tie-breaking: we keep the earliest start because we only update when len > maxLen
         }
 
-        if (maxLen == 0) return Result(0, -1, -1)
-        return Result(maxLen, bestStart, bestEnd)
+        if (maxLen == 0) return StretchResult(-1, -1, 0)
+        return StretchResult(bestStart, bestEnd, maxLen)
     }
-
 
 }
 
-data class Result(val length: Int, val start: Int, val end: Int)
