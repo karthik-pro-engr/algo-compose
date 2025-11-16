@@ -10,6 +10,7 @@ import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
 import com.karthik.pro.engr.algocompose.util.stringValidator
+import com.karthik.pro.engr.algocompose.util.textKeyboardOption
 
 @Composable
 fun  BalancedEnergyScreen(
@@ -30,8 +31,9 @@ fun  BalancedEnergyScreen(
         R.string.tp_energy_button_add,
         R.string.tp_energy_no_items_info,
         R.string.tp_energy_button_compute,
+        keyboardOptionsProvider = textKeyboardOption,
         inputTypeValidator = stringValidator,
-        inputValueValidator = { type ->
+        inputValueValidateAndAdd = { type ->
             val trimmed = type.trim()
             when {
                 trimmed.isEmpty() -> twoPointersViewModel.setErrorMessage("Input cannot be empty")

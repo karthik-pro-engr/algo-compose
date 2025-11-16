@@ -10,6 +10,8 @@ import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
 import com.karthik.pro.engr.algocompose.util.longValidator
+import com.karthik.pro.engr.algocompose.util.numberKeyboardOption
+import com.karthik.pro.engr.algocompose.util.textKeyboardOption
 
 @Composable
 fun FuelTankBalancerScreen(
@@ -30,8 +32,9 @@ fun FuelTankBalancerScreen(
         R.string.tp_fuel_button_add,
         R.string.tp_fuel_no_items_info,
         R.string.tp_fuel_button_compute,
+        keyboardOptionsProvider = textKeyboardOption,
         inputTypeValidator = longValidator,
-        inputValueValidator = { type ->
+        inputValueValidateAndAdd = { type ->
             val trimmed = type.trim()
             when {
                 trimmed.isEmpty() -> twoPointersViewModel.setErrorMessage("Input cannot be empty")

@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
@@ -70,13 +69,17 @@ fun <T> TwoPointersScreenWrapper(
                             .padding(end = 10.dp),
                         input,
                         onValueChange = { value -> if (inputTypeValidator(value)) input = value },
-                        this@with,
-                        viewModel
+                        screenConfig = this@with,
+                        twoPointersViewmodel = viewModel,
+                        keyboardActionsProvider = KeyboardActions(onDone = {
+                            inputValueValidateAndAdd(input)
+                            input = ""
+                        }),
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                            inputValueValidator(input)
+                            inputValueValidateAndAdd(input)
                             input = ""
                         },
                         enabled = enableAddButton
@@ -134,14 +137,16 @@ fun <T> InputTextField(
     value: String,
     onValueChange: (String) -> Unit,
     screenConfig: TwoPointersConfig<T>,
-    twoPointersViewmodel: TwoPointersViewmodel<T>
+    twoPointersViewmodel: TwoPointersViewmodel<T>,
+    keyboardActionsProvider: KeyboardActions
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(stringResource(screenConfig.inputLabelRes)) },
         placeholder = { Text(stringResource(screenConfig.inputPlaceholderRes)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        keyboardActions = keyboardActionsProvider,
+        keyboardOptions = screenConfig.keyboardOptionsProvider,
         isError = twoPointersViewmodel.errorMessage.isNotEmpty(),
         modifier = modifier
     )

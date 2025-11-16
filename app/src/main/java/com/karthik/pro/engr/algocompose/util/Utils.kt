@@ -23,10 +23,16 @@ val doubleValidator: (String) -> Boolean = { s ->
 val longValidator: (String) -> Boolean =
     { s -> s.isEmpty() || Regex("^[-+]?[0-9]*\$").matches(s) }
 
-val numberKeyboardOption = {
+val numberKeyboardOption =
     KeyboardOptions(
         keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Done
     )
-}
+
+val textKeyboardOption =
+    KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done
+    )
+
 
