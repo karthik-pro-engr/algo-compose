@@ -2,6 +2,8 @@ package com.karthik.pro.engr.algocompose.stack.nge.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
 data class NgeScreenConfig<T>(
     @param:StringRes val titleRes: Int = 0,
@@ -13,6 +15,9 @@ data class NgeScreenConfig<T>(
     @param:StringRes val computeButtonRes: Int = 0,
     val unitSuffix: String = "",
     val inputValidator: (String) -> Boolean = { true },
-    val keyboardOptionsProvider: () -> KeyboardOptions = { KeyboardOptions.Default },
+    val keyboardOptionsProvider: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done
+    ),
     var formatResultLine: (resultFormat: NgeResultFormat<T>) -> String = { value -> "" }
 )
