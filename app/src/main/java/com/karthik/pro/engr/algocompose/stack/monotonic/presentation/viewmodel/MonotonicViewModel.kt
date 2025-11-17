@@ -1,10 +1,10 @@
-package com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel
+package com.karthik.pro.engr.algocompose.stack.monotonic.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.karthik.pro.engr.algocompose.domain.stack.NgeResult
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeUiState
+import com.karthik.pro.engr.algocompose.domain.stack.MonotonicResult
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model.MonotonicEvent
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model.MonotonicUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,40 +12,40 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NgeViewModel<T : Comparable<T>>(
-    private val ngeCalculator: (List<T>) -> NgeResult<T>?,
+class MonotonicViewModel<T : Comparable<T>>(
+    private val ngeCalculator: (List<T>) -> MonotonicResult<T>?,
     private val parser: (String) -> T?
 ) : ViewModel() {
 
-    private var _ngeUiState = MutableStateFlow(NgeUiState<T>())
-    val ngeUiState = _ngeUiState.asStateFlow()
+    private var _monotonicUiState = MutableStateFlow(MonotonicUiState<T>())
+    val monotonicUiState = _monotonicUiState.asStateFlow()
 
 
-    fun onEvent(event: NgeEvent) {
+    fun onEvent(event: MonotonicEvent) {
         when (event) {
-            is NgeEvent.AddItem -> {
+            is MonotonicEvent.AddItem -> {
                 addItem(event.input)
             }
 
-            NgeEvent.ComputeNge -> {
+            MonotonicEvent.ComputeMonotonic -> {
                 viewModelScope.launch {
-                    val inputList = _ngeUiState.value.inputList
+                    val inputList = _monotonicUiState.value.inputList
                     if (inputList.size < 2) {
-                        _ngeUiState.update { it.copy(errorMessage = "Need at least two items to compute") }
+                        _monotonicUiState.update { it.copy(errorMessage = "Need at least two items to compute") }
                         return@launch
                     }
                     val result = withContext(Dispatchers.Default) { ngeCalculator(inputList) }
-                    _ngeUiState.update {
+                    _monotonicUiState.update {
                         it.copy(
-                            ngeResult = result
+                            monotonicResult = result
                         )
                     }
                 }
             }
 
-            NgeEvent.Reset -> {
+            MonotonicEvent.Reset -> {
                 viewModelScope.launch {
-                    _ngeUiState.value = NgeUiState()
+                    _monotonicUiState.value = MonotonicUiState()
                 }
             }
         }
@@ -62,10 +62,10 @@ class NgeViewModel<T : Comparable<T>>(
                 else -> null
             }
             if (error != null) {
-                _ngeUiState.update { it.copy(errorMessage = error) }
+                _monotonicUiState.update { it.copy(errorMessage = error) }
                 return@launch
             }
-            _ngeUiState.update { it.copy(inputList = it.inputList + value!!, errorMessage = "") }
+            _monotonicUiState.update { it.copy(inputList = it.inputList + value!!, errorMessage = "") }
         }
     }
 }

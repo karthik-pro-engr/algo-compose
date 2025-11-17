@@ -1,4 +1,4 @@
-package com.karthik.pro.engr.algocompose.stack.nge.presentation.ui
+package com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui
 
 
 import android.util.Log
@@ -22,20 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeEvent
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeResultFormat
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.model.NgeScreenConfig
-import com.karthik.pro.engr.algocompose.stack.nge.presentation.viewmodel.NgeViewModel
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model.MonotonicEvent
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model.MonotonicResultFormat
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model.MonotonicScreenConfig
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.viewmodel.MonotonicViewModel
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.components.molecules.InputWithButtonRes
 import com.karthik.pro.engr.algocompose.ui.components.atoms.ResetButton
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 
 @Composable
-fun <T : Comparable<T>> NgeScreenWrapper(
+fun <T : Comparable<T>> MonotonicScreenWrapper(
     modifier: Modifier = Modifier,
-    ngeViewModel: NgeViewModel<T>,
-    ngeScreenConfig: NgeScreenConfig<T>,
+    monotonicViewModel: MonotonicViewModel<T>,
+    monotonicScreenConfig: MonotonicScreenConfig<T>,
     hideKeyboard: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -44,11 +44,11 @@ fun <T : Comparable<T>> NgeScreenWrapper(
     }
     var input by rememberSaveable { mutableStateOf("") }
     var enableAddButton by rememberSaveable { mutableStateOf(true) }
-    val ngeUiState by ngeViewModel.ngeUiState.collectAsState()
-    val boxSizesList = ngeUiState.inputList
+    val monotonicUiState by monotonicViewModel.monotonicUiState.collectAsState()
+    val boxSizesList = monotonicUiState.inputList
 
 
-    with(ngeScreenConfig) {
+    with(monotonicScreenConfig) {
         LazyColumn(
             modifier = modifier
                 .fillMaxWidth()
@@ -69,16 +69,16 @@ fun <T : Comparable<T>> NgeScreenWrapper(
                     placeholderRes = inputPlaceholderRes,
                     buttonRes = inputButtonRes,
                     enabled = enableAddButton,
-                    isError = ngeUiState.errorMessage.isNotEmpty(),
+                    isError = monotonicUiState.errorMessage.isNotEmpty(),
                     keyboardActions = KeyboardActions(onDone = {
-                        Log.d("Click", "NgeScreenWrapper: keyboard action done")
-                        ngeViewModel.onEvent(NgeEvent.AddItem(input))
+                        Log.d("Click", "MonotonicScreenWrapper: keyboard action done")
+                        monotonicViewModel.onEvent(MonotonicEvent.AddItem(input))
                         input = ""
                     }),
                     keyboardOptions = keyboardOptionsProvider,
                     onValueChange = { value -> if (inputValidator(value)) input = value },
                     onButtonClick = {
-                        ngeViewModel.onEvent(NgeEvent.AddItem(input))
+                        monotonicViewModel.onEvent(MonotonicEvent.AddItem(input))
                         input = ""
                     },
                 )
@@ -88,7 +88,7 @@ fun <T : Comparable<T>> NgeScreenWrapper(
             item {
 
                 StatusText(
-                    errorMessage = ngeUiState.errorMessage,
+                    errorMessage = monotonicUiState.errorMessage,
                     inputMessage = when {
                         boxSizesList.isNotEmpty() -> {
                             "[ ${boxSizesList.joinToString(", ") { "$it $unitSuffix" }} ]"
@@ -108,17 +108,17 @@ fun <T : Comparable<T>> NgeScreenWrapper(
                     Button(onClick = {
                         enableAddButton = false
                         hideKeyboard()
-                        ngeViewModel.onEvent(NgeEvent.ComputeNge)
+                        monotonicViewModel.onEvent(MonotonicEvent.ComputeMonotonic)
                     }, enabled = enableAddButton) {
                         Text(text = stringResource(computeButtonRes))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-                ngeUiState.ngeResult?.let { result ->
+                monotonicUiState.monotonicResult?.let { result ->
                     itemsIndexed(boxSizesList) { idx, value ->
                         val nextIdx = result.resultList[idx]
-                        val line = ngeScreenConfig.formatResultLine(
-                            NgeResultFormat(
+                        val line = monotonicScreenConfig.formatResultLine(
+                            MonotonicResultFormat(
                                 maxOfDigits = boxSizesList.maxOfOrNull { it.toString().length }
                                     ?: 0,
                                 sbCapacityEstimate = 0,
@@ -126,7 +126,7 @@ fun <T : Comparable<T>> NgeScreenWrapper(
                                 computedIndex = nextIdx,
                                 actualValue = value,
                                 computedValue = boxSizesList.getOrNull(nextIdx),
-                                unitSuffix = ngeScreenConfig.unitSuffix
+                                unitSuffix = monotonicScreenConfig.unitSuffix
                             )
                         )
                         Text(line, modifier = Modifier.padding(vertical = 2.dp))
@@ -140,7 +140,7 @@ fun <T : Comparable<T>> NgeScreenWrapper(
                 ResetButton {
                     enableAddButton = true
                     hideKeyboard()
-                    ngeViewModel.onEvent(NgeEvent.Reset)
+                    monotonicViewModel.onEvent(MonotonicEvent.Reset)
                 }
             }
         }
