@@ -1,11 +1,11 @@
-package com.karthik.pro.engr.algocompose.stack.nge.presentation.model
+package com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 
-data class NgeScreenConfig<T>(
+data class MonotonicScreenConfig<T>(
     @param:StringRes val titleRes: Int = 0,
     @param:StringRes val bodyRes: Int = 0,
     @param:StringRes val inputLabelRes: Int = 0,
@@ -19,5 +19,5 @@ data class NgeScreenConfig<T>(
         keyboardType = KeyboardType.Text,
         imeAction = ImeAction.Done
     ),
-    var formatResultLine: (resultFormat: NgeResultFormat<T>) -> String = { value -> "" }
+    var formatResultLine: (resultFormat: MonotonicResultFormat<T>) -> String = { value -> "" }
 )

@@ -1,6 +1,6 @@
-package com.karthik.pro.engr.algocompose.stack.nge.presentation.model
+package com.karthik.pro.engr.algocompose.stack.monotonic.presentation.model
 
-data class NgeResultFormat<T>(
+data class MonotonicResultFormat<T>(
     val maxOfDigits: Int,
     val sbCapacityEstimate: Int,
     val actualIndex: Int,
