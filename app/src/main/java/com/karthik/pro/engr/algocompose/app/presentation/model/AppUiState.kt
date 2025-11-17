@@ -11,6 +11,7 @@ data class AppUiState(
         AppScreenModel(ScreenId.WIND_GUSTS, "Wind Gusts"),
         AppScreenModel(ScreenId.RIVER_GAUGE, "River Gauge"),
         AppScreenModel(ScreenId.FUEL_TANK_BALANCER, "Fuel Tank Balancer"),
+        AppScreenModel(ScreenId.MUSIC_PLAYLIST_VARIETY, "Music Playlist Variety"),
 
     ),
     var selectedScreenId: ScreenId? = null,
@@ -26,5 +27,6 @@ enum class ScreenId {
     WIND_GUSTS,
 
     RIVER_GAUGE,
-    FUEL_TANK_BALANCER
+    FUEL_TANK_BALANCER,
+    MUSIC_PLAYLIST_VARIETY
 }

@@ -21,6 +21,7 @@ import com.karthik.pro.engr.algocompose.stack.nge.presentation.ui.screens.WindGu
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.FuelTankBalancerScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
+import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.MusicPlaylistScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
 
 @Composable
@@ -109,13 +110,16 @@ fun AppHostScreen(
             }
 
             ScreenId.RIVER_GAUGE -> {
-                RiverGaugeScreen (modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
+                RiverGaugeScreen(modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
             }
 
             ScreenId.FUEL_TANK_BALANCER -> FuelTankBalancerScreen(
                 modifier = modifier,
                 onBack = { vm.onEvent(AppEvent.OnBack) })
 
+            ScreenId.MUSIC_PLAYLIST_VARIETY -> MusicPlaylistScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
 
 
             else -> vm.onEvent(AppEvent.OnBack)

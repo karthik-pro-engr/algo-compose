@@ -3,7 +3,7 @@ package com.karthik.pro.engr.algocompose.domain.vsw
 import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
 
 object VswCalculation {
-    fun <T> longestUniqueSegment(input: List<T>): StretchResult {
+    fun <T> findLongestUniqueSegment(input: List<T>): StretchResult {
         val lastSeen = mutableMapOf<T, Int>() // song -> last index where it appeared
         var left = 0
         var bestLen = 0
