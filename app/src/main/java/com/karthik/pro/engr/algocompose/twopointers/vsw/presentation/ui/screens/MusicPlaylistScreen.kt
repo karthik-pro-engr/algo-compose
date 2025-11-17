@@ -10,7 +10,6 @@ import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.TwoPointersScreenWrapper
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
-import com.karthik.pro.engr.algocompose.util.stringValidator
 import com.karthik.pro.engr.algocompose.util.textKeyboardOption
 
 @Composable
