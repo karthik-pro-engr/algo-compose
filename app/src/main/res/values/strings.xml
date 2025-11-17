@@ -22,6 +22,8 @@
     <string name="tp_fuel_button_compute">Find Longest Stretch</string>
 
 
+
+
     <!--    Budget Stay-->
     <string name="vsw_budget_title">Family Vacation – Hotel Bookings</string>
     <string name="vsw_budget_body">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>
@@ -83,6 +85,16 @@
     <string name="nge_river_gauge_button_add_water_level">Add Water Level</string>
     <string name="nge_river_gauge_no_items_info">No Water level added</string>
     <string name="nge_river_gauge_button_compute">Compute Previous Peak</string>
+
+    <!--    Music Playlist Variety-->
+    <string name="vsw_music_title">Music Playlist Variety</string>
+    <string name="vsw_music_body">Given a playlist (an ordered list of songs), find the longest continuous segment (contiguous subsequence) of the playlist that contains no duplicate songs. A duplicate means the same song identifier appears more than once inside the considered segment.
+    </string>
+    <string name="vsw_music_placeholder_input">Jazz</string>
+    <string name="vsw_music_label_input">Enter Song genre</string>
+    <string name="vsw_music_button_add">Add Song</string>
+    <string name="vsw_music_no_items_info">No Song Added</string>
+    <string name="vsw_music_button_compute">Find Longest Segment</string>
 
     <!-- accessibility / UX strings -->
     <string name="nge_wind_gusts_button_add_speed_cd">Add a gust speed to the list</string>
