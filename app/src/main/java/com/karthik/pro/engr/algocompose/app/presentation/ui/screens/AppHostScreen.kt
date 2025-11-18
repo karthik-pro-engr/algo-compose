@@ -17,6 +17,7 @@ import com.karthik.pro.engr.algocompose.app.presentation.ui.components.atoms.App
 import com.karthik.pro.engr.algocompose.app.presentation.viewmodel.AppViewmodel
 import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.BoxNestingScreen
 import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.RiverGaugeScreen
+import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.StockPriceWatcherScreen
 import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.WindGustsScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.FuelTankBalancerScreen
@@ -120,6 +121,15 @@ fun AppHostScreen(
             ScreenId.MUSIC_PLAYLIST_VARIETY -> MusicPlaylistScreen(
                 modifier = modifier,
                 onBack = { vm.onEvent(AppEvent.OnBack) })
+
+            /*Stock Price Watcher:
+            A trader tracks daily stock prices. For each day, compute the number of consecutive days immediately before that day whose prices were lower than or equal to that day’s price.
+             The count excludes the current day. Input: an ordered list of prices; Output: for each day, an integer count. Example: prices = [5, 1, 1, 1, 1, 2] → counts = [0, 0, 1, 2, 3, 4].
+            *
+            * */
+            ScreenId.STOCK_PRICE_WATCHER -> {
+                StockPriceWatcherScreen(modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
+            }
 
 
             else -> vm.onEvent(AppEvent.OnBack)
