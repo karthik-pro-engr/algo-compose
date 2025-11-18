@@ -23,6 +23,11 @@ val doubleValidator: (String) -> Boolean = { s ->
 val longValidator: (String) -> Boolean =
     { s -> s.isEmpty() || Regex("^[-+]?[0-9]*\$").matches(s) }
 
+val bigDecimalValidator: (String) -> Boolean = { s ->
+    s.isEmpty() || Regex("^[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?$").matches(s)
+}
+
+
 val numberKeyboardOption =
     KeyboardOptions(
         keyboardType = KeyboardType.Number,

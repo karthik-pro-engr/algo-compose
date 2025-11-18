@@ -12,7 +12,7 @@ data class AppUiState(
         AppScreenModel(ScreenId.RIVER_GAUGE, "River Gauge"),
         AppScreenModel(ScreenId.FUEL_TANK_BALANCER, "Fuel Tank Balancer"),
         AppScreenModel(ScreenId.MUSIC_PLAYLIST_VARIETY, "Music Playlist Variety"),
-
+        AppScreenModel(ScreenId.STOCK_PRICE_WATCHER, "Stock Price Watcher"),
     ),
     var selectedScreenId: ScreenId? = null,
     var isAppDistributingEnabled: Boolean = BuildConfig.ENABLE_APP_DISTRIBUTION
@@ -28,5 +28,6 @@ enum class ScreenId {
 
     RIVER_GAUGE,
     FUEL_TANK_BALANCER,
-    MUSIC_PLAYLIST_VARIETY
+    MUSIC_PLAYLIST_VARIETY,
+    STOCK_PRICE_WATCHER
 }
