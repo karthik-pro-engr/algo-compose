@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "lint": "ktlint --android '**/*.kt'",
-    "lint:fix": "ktlint --format \"**/*.kt\"",
+    "lint": "ktlint --android \"**/*.kt\"",
+    "lint:fix": "ktlint -F \"**/*.kt\"",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged": {
+    "*.kt": [
+      "ktlint -F"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "husky": "^9.1.7",
-    "ktlint": "^0.0.5"
+    "ktlint": "^0.0.5",
+    "lint-staged": "^14.0.0"
   }
 }
