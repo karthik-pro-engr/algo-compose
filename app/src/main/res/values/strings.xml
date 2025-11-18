@@ -9,7 +9,7 @@
     <string name="tp_energy_no_items_info">No House Types Added</string>
     <string name="tp_energy_button_compute">Find Longest Stretch</string>
     <string name="button_reset">Reset</string>
-<!--    Fuel Tank Balancer-->
+    <!--    Fuel Tank Balancer-->
     <string name="tp_fuel_title">Fuel Tank Balancer</string>
     <string name="tp_fuel_body">You are given a sequence of fuel events along a straight highway. Each event is an integer: a positive number means fuel is added at that station (refill), and a negative number means fuel is consumed to travel that segment (cost). Starting with 0 fuel at the first station of a considered stretch, the running fuel balance after visiting each successive station in the stretch must never become negative. \n\n
         Find the longest contiguous stretch (subarray) of stations such that, if you start at the first station of that stretch with zero fuel, the cumulative fuel balance remains ≥ 0 at every step inside the stretch. \n \n
@@ -20,8 +20,6 @@
     <string name="tp_fuel_button_add">Add Fuel use</string>
     <string name="tp_fuel_no_items_info">No Fuel usage Added</string>
     <string name="tp_fuel_button_compute">Find Longest Stretch</string>
-
-
 
 
     <!--    Budget Stay-->
@@ -77,7 +75,7 @@
     <string name="monotonic_wind_gusts_no_items_info">No Gust speed added</string>
     <string name="monotonic_wind_gusts_button_compute">Compute Wait Times</string>
 
-<!--    River Gauge-->
+    <!--    River Gauge-->
     <string name="monotonic_river_gauge_title">River Gauge — Nearest Previous Higher Water Level</string>
     <string name="monotonic_river_gauge_body">For a given river gauge, a stream of water-level readings arrives every minute. For each new reading, output the most recent earlier reading that was strictly higher; if none exists, output none. Process the stream online — produce the answer as each reading arrives.</string>
     <string name="monotonic_river_gauge_label_input">Enter Water Level(meters)</string>
@@ -96,6 +94,15 @@
     <string name="vsw_music_no_items_info">No Song Added</string>
     <string name="vsw_music_button_compute">Find Longest Segment</string>
 
+
+    <!--    Stock Price Watcher-->
+    <string name="monotonic_stock_title">Stock Price Watcher</string>
+    <string name="monotonic_stock_body">A trader tracks daily stock prices. For each day, compute the number of consecutive days immediately before that day whose prices were lower than or equal to that day’s price. The count excludes the current day. Input: an ordered list of prices; Output: for each day, an integer count. Example: prices = [5, 1, 1, 1, 1, 2] → counts = [0, 0, 1, 2, 3, 4].</string>
+    <string name="monotonic_stock_label_input">Enter Stock Price</string>
+    <string name="monotonic_stock_placeholder_input">E.g 3000.20</string>
+    <string name="monotonic_stock_button_add_input">Add Stock Price</string>
+    <string name="monotonic_stock_no_items_info">No Stock Price added</string>
+    <string name="monotonic_stock_button_compute">Compute Consecutive Days</string>
 
 
     <!--    Feedback-->
