@@ -132,6 +132,10 @@ fun AppHostScreen(
             }
 
 
+            ScreenId.SATELLITE_SIGNAL_BALANCE -> BalancedEnergyScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
+
             else -> vm.onEvent(AppEvent.OnBack)
 
 
