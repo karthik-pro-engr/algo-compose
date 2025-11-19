@@ -30,7 +30,7 @@ class TwoPointersViewmodel<T>(val calculator: (List<T>) -> StretchResult) : View
     }
 
     override fun compute(parser: ((T) -> Int)?) {
-        calculator(_inputList)
+        stretchResult = calculator(_inputList)
     }
 
     fun calculateBalancedEnergy() {
