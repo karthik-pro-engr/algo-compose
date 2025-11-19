@@ -1,20 +1,17 @@
 package com.karthik.pro.engr.algocompose.domain.energy
 
 object EnergyAnalyzer {
-    fun findLongestStretch(houseTypes: List<String>): StretchResult {
+    fun <T : Comparable<T>> findLongestStretch(
+        houseTypes: List<T>,
+        parser: (T) -> Int = { value -> value as Int }
+    ): StretchResult {
         val result = IntArray(2)
         val map = HashMap<Int, Int>()
         map[0] = -1
         var prefixSum = 0
         var maxLen = 0
         houseTypes.forEachIndexed { index, element ->
-            prefixSum += when (element.lowercase()) {
-                "p" -> 1
-
-                "c" -> -1
-
-                else -> 0
-            }
+            prefixSum += parser(element)
             if (map.containsKey(prefixSum)) {
                 val len = index - map[prefixSum]!!
                 if (len > maxLen) {

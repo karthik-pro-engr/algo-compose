@@ -50,6 +50,7 @@ fun MusicPlaylistScreen(
         modifier = modifier,
         screenConfig = twoPointersConfig,
         viewModel = twoPointersViewmodel,
+        parser = null,
         onBack = onBack
     )
     DisposableEffect(Unit) {

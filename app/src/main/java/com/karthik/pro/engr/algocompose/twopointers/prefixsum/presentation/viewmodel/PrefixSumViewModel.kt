@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModel
 import com.karthik.pro.engr.algocompose.domain.energy.StretchResult
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.contract.TwoPointersContract
 
-class TwoPointersViewmodel<T>(val calculator: (List<T>) -> StretchResult) : ViewModel(), TwoPointersContract<T> {
+class PrefixSumViewModel<T>(val calculator: (List<T>, ((T) -> Int)) -> StretchResult) :
+    ViewModel(), TwoPointersContract<T> {
     private val _inputList = mutableStateListOf<T>()
     override val inputList: List<T> get() = _inputList
 
@@ -30,11 +31,8 @@ class TwoPointersViewmodel<T>(val calculator: (List<T>) -> StretchResult) : View
     }
 
     override fun compute(parser: ((T) -> Int)?) {
-        calculator(_inputList)
-    }
-
-    fun calculateBalancedEnergy() {
-        stretchResult = calculator(_inputList)
+        val p = parser ?: throw IllegalArgumentException("Parser required for PrefixSumViewModel")
+        stretchResult = calculator(_inputList, p)
     }
 
     override fun reset() {

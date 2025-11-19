@@ -55,6 +55,7 @@ fun FuelTankBalancerScreen(
         modifier = modifier,
         screenConfig = twoPointersConfig,
         viewModel = twoPointersViewModel,
+        parser = null,
         onBack = onBack
     )
 
