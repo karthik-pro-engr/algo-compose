@@ -21,6 +21,7 @@ import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.
 import com.karthik.pro.engr.algocompose.stack.monotonic.presentation.ui.screens.WindGustsScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.BalancedEnergyScreen
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.FuelTankBalancerScreen
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.ui.screens.SatelliteSignalBalancerScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.BudgetStayScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.MusicPlaylistScreen
 import com.karthik.pro.engr.algocompose.twopointers.vsw.presentation.ui.screens.VideoRequestsScreen
@@ -131,6 +132,10 @@ fun AppHostScreen(
                 StockPriceWatcherScreen(modifier = modifier) { vm.onEvent(AppEvent.OnBack) }
             }
 
+
+            ScreenId.SATELLITE_SIGNAL_BALANCE -> SatelliteSignalBalancerScreen(
+                modifier = modifier,
+                onBack = { vm.onEvent(AppEvent.OnBack) })
 
             else -> vm.onEvent(AppEvent.OnBack)
 

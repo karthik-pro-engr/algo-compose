@@ -22,6 +22,20 @@
     <string name="tp_fuel_button_compute">Find Longest Stretch</string>
 
 
+    <!--    Satellite Signal Balancer-->
+    <string name="tp_satellite_title">Satellite Signal Balancer</string>
+    <string name="tp_satellite_body">A satellite transmits a sequence of discrete signal indicators over time.
+        Each time step is recorded as either +1 (strong) or -1 (weak).
+        Identify the longest contiguous time interval (subarray) during which the signal strength is exactly balanced: the number of +1 entries equals the number of -1 entries.
+\n\n
+If more than one longest interval exists, return the earliest one (the one with the smallest starting index). If no balanced contiguous interval exists, indicate that explicitly.    </string>
+    <string name="tp_satellite_placeholder_input">-1 or 1</string>
+    <string name="tp_satellite_label_input">Enter Satellite Signal</string>
+    <string name="tp_satellite_button_add">Add Signal</string>
+    <string name="tp_satellite_no_items_info">No Signals Added</string>
+    <string name="tp_satellite_button_compute">Find Longest Stretch</string>
+
+
     <!--    Budget Stay-->
     <string name="vsw_budget_title">Family Vacation – Hotel Bookings</string>
     <string name="vsw_budget_body">You’re planning a road trip with your family. Along the highway, there are hotels in sequence, and each hotel has a different nightly rate depending on amenities, demand, and location. You want to book a stretch of consecutive nights (one hotel per night) such that the total stay cost fits within your travel budget, while maximizing the number of nights.</string>

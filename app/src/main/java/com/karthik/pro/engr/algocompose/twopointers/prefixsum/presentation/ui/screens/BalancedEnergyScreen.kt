@@ -5,7 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
-import com.karthik.pro.engr.algocompose.domain.energy.EnergyAnalyzer
+import com.karthik.pro.engr.algocompose.domain.energy.PrefixsumCalculator
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.PrefixSumViewModel
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.PrefixSumViewModelFactory
@@ -19,8 +19,8 @@ fun BalancedEnergyScreen(
 ) {
 
     val prefixSumViewModelFactory =
-        PrefixSumViewModelFactory<Int> { houseTypes, parser ->
-            EnergyAnalyzer.findLongestStretch(
+        PrefixSumViewModelFactory<String> { houseTypes, parser ->
+            PrefixsumCalculator.findLongestStretch(
                 houseTypes,
                 parser
             )

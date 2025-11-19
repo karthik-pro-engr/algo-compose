@@ -1,6 +1,6 @@
 package com.karthik.pro.engr.algocompose.domain.energy
 
-object EnergyAnalyzer {
+object PrefixsumCalculator {
     fun <T : Comparable<T>> findLongestStretch(
         houseTypes: List<T>,
         parser: (T) -> Int = { value -> value as Int }
