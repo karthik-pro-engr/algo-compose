@@ -7,21 +7,26 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.domain.energy.EnergyAnalyzer
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewModelFactory
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.PrefixSumViewModel
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.PrefixSumViewModelFactory
 import com.karthik.pro.engr.algocompose.util.stringValidator
 import com.karthik.pro.engr.algocompose.util.textKeyboardOption
 
 @Composable
-fun  BalancedEnergyScreen(
+fun BalancedEnergyScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit
 ) {
 
-    val twoPointersViewModelFactory =
-        TwoPointersViewModelFactory(EnergyAnalyzer::findLongestStretch)
-    val twoPointersViewModel: TwoPointersViewmodel<String> =
-        viewModel(key = "Balanced Energy", factory = twoPointersViewModelFactory)
+    val prefixSumViewModelFactory =
+        PrefixSumViewModelFactory<Int> { houseTypes, parser ->
+            EnergyAnalyzer.findLongestStretch(
+                houseTypes,
+                parser
+            )
+        }
+    val prefixSumScreenViewModel: PrefixSumViewModel<String> =
+        viewModel(key = "Balanced Energy", factory = prefixSumViewModelFactory)
 
     val twoPointersConfig = TwoPointersConfig<String>(
         R.string.tp_energy_title,
@@ -36,14 +41,17 @@ fun  BalancedEnergyScreen(
         inputValueValidateAndAdd = { type ->
             val trimmed = type.trim()
             when {
-                trimmed.isEmpty() -> twoPointersViewModel.setErrorMessage("Input cannot be empty")
-                trimmed.lowercase() !in listOf("p", "c") -> twoPointersViewModel.setErrorMessage(
+                trimmed.isEmpty() -> prefixSumScreenViewModel.setErrorMessage("Input cannot be empty")
+                trimmed.lowercase() !in listOf(
+                    "p",
+                    "c"
+                ) -> prefixSumScreenViewModel.setErrorMessage(
                     "Input must be either 'p' or 'c'"
                 )
 
                 else -> {
-                    twoPointersViewModel.addInput(trimmed)
-                    twoPointersViewModel.setErrorMessage("")
+                    prefixSumScreenViewModel.addInput(trimmed)
+                    prefixSumScreenViewModel.setErrorMessage("")
                 }
             }
         },
@@ -58,13 +66,22 @@ fun  BalancedEnergyScreen(
     TwoPointersScreenWrapper(
         modifier = modifier,
         screenConfig = twoPointersConfig,
-        viewModel = twoPointersViewModel,
+        viewModel = prefixSumScreenViewModel,
+        parser = { element ->
+            when (element.lowercase()) {
+                "p" -> 1
+
+                "c" -> -1
+
+                else -> 0
+            }
+        },
         onBack = onBack
     )
 
     DisposableEffect(Unit) {
         onDispose {
-            twoPointersViewModel.reset()
+            prefixSumScreenViewModel.reset()
         }
     }
 

@@ -40,7 +40,7 @@ fun MusicPlaylistScreen(
             }
         },
         formatResultLine = { result ->
-            "Longest unique playlist segment has length ${result.length}, starts from ${result.startIndex} to ${result.endIndex}: ${
+            "Longest unique playlist segment has length ${result.length}, starts from ${result.startIndex+1} to ${result.endIndex+1}: ${
                 twoPointersViewmodel.inputList.slice(result.startIndex..result.endIndex)
             }"
         }
@@ -50,6 +50,7 @@ fun MusicPlaylistScreen(
         modifier = modifier,
         screenConfig = twoPointersConfig,
         viewModel = twoPointersViewmodel,
+        parser = null,
         onBack = onBack
     )
     DisposableEffect(Unit) {

@@ -25,21 +25,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.karthik.pro.engr.algocompose.R
 import com.karthik.pro.engr.algocompose.app.presentation.ui.root.AppRootScreen
+import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.contract.TwoPointersContract
 import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.model.TwoPointersConfig
-import com.karthik.pro.engr.algocompose.twopointers.prefixsum.presentation.viewmodel.TwoPointersViewmodel
 import com.karthik.pro.engr.algocompose.ui.components.atoms.StatusText
 import com.karthik.pro.engr.algocompose.ui.components.molecules.ScreenHeader
 import com.karthik.pro.engr.devtools.AllVariantsPreview
 
 @Composable
-fun <T> TwoPointersScreenWrapper(
+fun <T, VM> TwoPointersScreenWrapper(
     modifier: Modifier = Modifier,
     screenConfig: TwoPointersConfig<T>,
-    viewModel: TwoPointersViewmodel<T>,
+    viewModel: VM,
+    parser: ((T) -> Int)? = null,
     onBack: () -> Unit
-) {
+) where VM : ViewModel, VM : TwoPointersContract<T> {
     BackHandler {
         onBack()
     }
@@ -106,7 +108,7 @@ fun <T> TwoPointersScreenWrapper(
                     Button(onClick = {
                         enableAddButton = false
                         hideAndClear()
-                        viewModel.calculateBalancedEnergy()
+                        viewModel.compute(parser)
                     }, enabled = enableAddButton) {
                         Text(text = stringResource(computeButtonRes))
                     }
@@ -132,14 +134,14 @@ fun <T> TwoPointersScreenWrapper(
 
 
 @Composable
-fun <T> InputTextField(
+fun <T, VM> InputTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     screenConfig: TwoPointersConfig<T>,
-    twoPointersViewmodel: TwoPointersViewmodel<T>,
+    twoPointersViewmodel: VM,
     keyboardActionsProvider: KeyboardActions
-) {
+) where VM : ViewModel, VM : TwoPointersContract<T> {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
